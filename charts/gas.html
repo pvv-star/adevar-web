@@ -2,7 +2,6 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gaze Naturale — adevar.ai</title>
 <link rel="stylesheet" href="./engine.css">
 </head>
@@ -13,22 +12,17 @@
 const DATA = {
   id: 'gas',
   title: { ro: 'Gaze Naturale', en: 'Natural Gas', ru: 'Природный газ' },
-  subtitle: {
-    ro: 'Tariful reglementat pentru consumatorii casnici (MDL/m³) conform ANRE',
-    en: 'Regulated tariff for household consumers (MDL/m³) per ANRE',
-    ru: 'Регулируемый тариф для бытовых потребителей (лей/м³) согласно ANRE'
-  },
   unit: 'MDL/m³',
   source: 'ANRE',
   series: [
-    { date: '2017-01-01', value: 4.42, event: { ro: 'Tarif inițial', en: 'Initial tariff', ru: 'Начальный тариф' } },
+    { date: '2017-01-01', value: 4.42 },
     { date: '2018-07-01', value: 4.62 },
     { date: '2019-10-01', value: 5.10 },
-    { date: '2021-01-01', value: 5.42, event: { ro: 'Ajustare ANRE', en: 'ANRE adjustment', ru: 'Корректировка ANRE' } },
-    { date: '2022-01-01', value: 6.80, event: { ro: 'Criză gaze', en: 'Gas crisis', ru: 'Газовый кризис' } },
-    { date: '2022-05-01', value: 9.27, event: { ro: 'Varf prețuri gaze', en: 'Gas price peak', ru: 'Пик цен на газ' } },
+    { date: '2021-01-01', value: 5.42 },
+    { date: '2022-01-01', value: 6.80 },
+    { date: '2022-05-01', value: 9.27 },
     { date: '2023-01-01', value: 9.27 },
-    { date: '2024-01-01', value: 8.90, event: { ro: 'Reducere tarif', en: 'Tariff reduction', ru: 'Снижение тарифа' } },
+    { date: '2024-01-01', value: 8.90 },
     { date: '2025-01-01', value: 8.90 },
   ]
 };

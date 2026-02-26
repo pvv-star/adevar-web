@@ -2,7 +2,6 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inflația — adevar.ai</title>
 <link rel="stylesheet" href="./engine.css">
 </head>
@@ -13,11 +12,6 @@
 const DATA = {
   id: 'inflation',
   title: { ro: 'Inflația', en: 'Inflation', ru: 'Инфляция' },
-  subtitle: {
-    ro: 'Rata anuală a inflației (IPC, %) conform Biroului Național de Statistică',
-    en: 'Annual inflation rate (CPI, %) as reported by the National Bureau of Statistics',
-    ru: 'Годовой уровень инфляции (ИПЦ, %) по данным Национального бюро статистики'
-  },
   unit: '%',
   source: 'BNS',
   series: [
@@ -26,9 +20,9 @@ const DATA = {
     { date: '2019-01-01', value: 4.8 },
     { date: '2020-01-01', value: 3.8 },
     { date: '2021-01-01', value: 5.2 },
-    { date: '2022-01-01', value: 13.4, event: { ro: 'Criză inflaționistă', en: 'Inflationary crisis', ru: 'Инфляционный кризис' } },
-    { date: '2023-01-01', value: 30.2, event: { ro: 'Vârf inflație', en: 'Inflation peak', ru: 'Пик инфляции' } },
-    { date: '2024-01-01', value: 8.5, event: { ro: 'Normalizare', en: 'Normalization', ru: 'Нормализация' } },
+    { date: '2022-01-01', value: 13.4 },
+    { date: '2023-01-01', value: 30.2 },
+    { date: '2024-01-01', value: 8.5 },
     { date: '2024-11-01', value: 5.2 },
   ]
 };
