@@ -1,0 +1,27 @@
+{
+  "id": "electricity",
+  "titleRo": "Prețul la electricitate",
+  "titleEn": "Electricity Price",
+  "titleRu": "Цена на электроэнергию",
+  "descriptionRo": "Evoluția tarifelor la energie electrică pentru consumatorii casnici din Moldova",
+  "descriptionEn": "Evolution of electricity tariffs for household consumers in Moldova",
+  "descriptionRu": "Динамика тарифов на электроэнергию для бытовых потребителей Молдовы",
+  "unit": "lei/kWh",
+  "source": "ANRE Moldova",
+  "data": [
+    { "label": "2016", "value": 1.58 },
+    { "label": "2017", "value": 1.58 },
+    { "label": "2018", "value": 1.68 },
+    { "label": "2019", "value": 1.68 },
+    { "label": "2020", "value": 1.68 },
+    { "label": "2021 Q1", "value": 1.68 },
+    { "label": "2021 Q3", "value": 1.98 },
+    { "label": "2022 Q1", "value": 2.28 },
+    { "label": "2022 Q3", "value": 2.98 },
+    { "label": "2023 Q1", "value": 3.08 },
+    { "label": "2023 Q3", "value": 3.09 },
+    { "label": "2024 Q1", "value": 3.09 },
+    { "label": "2024 Q3", "value": 3.21 },
+    { "label": "2025 Q1", "value": 3.45 }
+  ]
+}
