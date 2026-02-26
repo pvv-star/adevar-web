@@ -1,1 +1,35 @@
-hello world test
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electricitate - adevar.ai</title>
+<link rel="stylesheet" href="./engine.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="./engine.js"></script>
+<script>
+const DATA = {
+  id: 'electricity',
+  title: { ro: 'Electricitate', en: 'Electricity', ru: 'Electricitate' },
+  subtitle: { ro: 'Tariful reglementat pentru consumatorii casnici (MDL/kWh) conform ANRE', en: 'Regulated tariff for household consumers (MDL/kWh) per ANRE', ru: 'Tarif reglementat MDL/kWh per ANRE' },
+  unit: 'MDL/kWh',
+  source: 'ANRE',
+  series: [
+    { date: '2017-01-01', value: 1.58, event: { ro: 'Tarif initial', en: 'Initial tariff', ru: 'Initial tariff' } },
+    { date: '2019-01-01', value: 1.68 },
+    { date: '2020-01-01', value: 1.76 },
+    { date: '2021-07-01', value: 1.85, event: { ro: 'Crestere dupa audit ANRE', en: 'Increase after ANRE audit', ru: 'Increase after ANRE audit' } },
+    { date: '2022-03-01', value: 2.18, event: { ro: 'Criza energetica', en: 'Energy crisis', ru: 'Energy crisis' } },
+    { date: '2022-10-01', value: 2.30 },
+    { date: '2023-01-01', value: 2.56, event: { ro: 'Consolidare tarife', en: 'Tariff consolidation', ru: 'Tariff consolidation' } },
+    { date: '2023-07-01', value: 2.46 },
+    { date: '2024-01-01', value: 2.46 },
+    { date: '2025-01-01', value: 2.46 }
+  ]
+};
+renderChart(DATA);
+</script>
+</body>
+</html>
