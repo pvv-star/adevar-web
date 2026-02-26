@@ -1,21 +1,9 @@
+import './globals.css';
 import ClientLayout from './ClientLayout';
 
 export const metadata = {
-  title: 'adevar.ai — Date Publice Moldova',
-  description: 'Transparență prin date. Tarife, inflație și indicatori economici din Republica Moldova.',
-  openGraph: {
-    title: 'adevar.ai — Date Publice Moldova',
-    description: 'Transparență prin date. Tarife, inflație și indicatori economici din Republica Moldova.',
-    images: [{ url: 'https://adevar.ai/og-image.png' }],
-    type: 'website',
-    locale: 'ro_MD',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'adevar.ai',
-    description: 'Date publice Moldova',
-    images: ['https://adevar.ai/og-image.png'],
-  },
+  title: 'Adevăr.md — Moldova Political Data Tracker',
+  description: 'Tracking key economic and political indicators for Moldova. Data-driven insights on inflation, wages, energy prices, and more.',
   icons: {
     icon: '/favicon.svg',
   },
@@ -24,8 +12,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ro" suppressHydrationWarning>
-      <body>
-        <ClientLayout>{children}</ClientLayout>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      </head>
+      <body suppressHydrationWarning>
+        <ClientLayout>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );
