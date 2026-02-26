@@ -1,0 +1,72 @@
+{
+  "config": {
+    "unit": "%",
+    "yMax": 36,
+    "gridSteps": 9,
+    "decimals": 1,
+    "timeRange": "2014 — 2026",
+    "data": [
+      { "label": "Q1 2014", "value": 5.0,  "era": "PDM",  "pm": "Iurie Leană" },
+      { "label": "Q3 2014", "value": 4.8,  "era": "PDM",  "pm": "Iurie Leană" },
+      { "label": "Q1 2015", "value": 4.7,  "era": "PDM",  "pm": "Chiril Gaburici" },
+      { "label": "Q3 2015", "value": 12.5, "era": "PDM",  "pm": "Valeriu Streleț" },
+      { "label": "Q4 2015", "value": 13.5, "era": "PDM",  "pm": "Gheorghe Brega" },
+      { "label": "Q2 2016", "value": 9.4,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q4 2016", "value": 2.3,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q2 2017", "value": 5.7,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q4 2017", "value": 7.3,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q2 2018", "value": 3.1,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q4 2018", "value": 0.9,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q2 2019", "value": 3.8,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q3 2019", "value": 4.9,  "era": "ACUM", "pm": "Maia Sandu" },
+      { "label": "Q4 2019", "value": 7.5,  "era": "PSRM", "pm": "Ion Chicu" },
+      { "label": "Q2 2020", "value": 5.0,  "era": "PSRM", "pm": "Ion Chicu" },
+      { "label": "Q4 2020", "value": 0.4,  "era": "PSRM", "pm": "Ion Chicu" },
+      { "label": "Q2 2021", "value": 3.1,  "era": "PSRM", "pm": "Aureliu Ciocoi" },
+      { "label": "Q3 2021", "value": 5.1,  "era": "PAS",  "pm": "Natalia Gavrilța" },
+      { "label": "Q4 2021", "value": 13.9, "era": "PAS",  "pm": "Natalia Gavrilța" },
+      { "label": "Q2 2022", "value": 29.0, "era": "PAS",  "pm": "Natalia Gavrilța" },
+      { "label": "Q4 2022", "value": 30.2, "era": "PAS",  "pm": "Natalia Gavrilța" },
+      { "label": "Q2 2023", "value": 15.4, "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q4 2023", "value": 4.2,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q2 2024", "value": 4.0,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q4 2024", "value": 4.7,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q2 2025", "value": 8.2,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q4 2025", "value": 6.8,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q1 2026", "value": 4.8,  "era": "PAS",  "pm": "Alexandru Munteanu" }
+    ],
+    "stats": { "current": 4.8, "lowest": 0.4, "peak": 30.2, "change": "-0.2 p.p." },
+    "events": [
+      { "idx": 0,  "en": "CPI ~5%, within NBM target range",                    "ro": "2014: IPC ~5%, în intervalul țintit de BNM",              "ru": "2014: ИПЦ ~5%, в целевом коридоре НБМ" },
+      { "idx": 2,  "en": "Leu devaluation begins amid bank fraud",              "ro": "2015: Devalorizarea leului pe fondul fraudei bancare",      "ru": "2015: Девальвация лея на фоне банковского мошенничества" },
+      { "idx": 3,  "en": "Inflation spikes to 12.5% — $1B theft fallout",       "ro": "2015: Inflația sare la 12.5% — efectul furtului de $1 mld","ru": "2015: Инфляция подскакивает до 12.5% — последствия кражи $1 млрд" },
+      { "idx": 4,  "en": "Annual peak: 13.5% — currency crisis",                "ro": "2015: Vârf anual: 13.5% — criză valutară",                 "ru": "2015: Годовой максимум: 13.5% — валютный кризис" },
+      { "idx": 6,  "en": "Inflation drops to 2.3% — base effect + leu stabilizes","ro": "2016: Inflația scade la 2.3% — efect de bază + leu stabil","ru": "2016: Инфляция падает до 2.3% — базовый эффект + стабилизация лея" },
+      { "idx": 8,  "en": "Rate climbs to 7.3% — food price pressure",           "ro": "2017: Rata creşte la 7.3% — presiune pe prețurile alimentare","ru": "2017: Ставка растёт до 7.3% — давление цен на продовольствие" },
+      { "idx": 10, "en": "Historic low: 0.9% — near-deflation",                 "ro": "2018: Minim istoric: 0.9% — aproape de deflație",          "ru": "2018: Исторический минимум: 0.9% — почти дефляция" },
+      { "idx": 12, "en": "ACUM coalition — price stability brief",               "ro": "2019: Coaliția ACUM — scurtă stabilitate a prețurilor",    "ru": "2019: Коалиция ACUM — короткая ценовая стабильность" },
+      { "idx": 13, "en": "PSRM takes power — inflation rises to 7.5%",          "ro": "2019: PSRM preia puterea — inflația creşte la 7.5%",       "ru": "2019: ПСРМ приходит к власти — инфляция растёт до 7.5%" },
+      { "idx": 14, "en": "COVID-19 pandemic — demand slump",                    "ro": "2020: Pandemia COVID-19 — scăderea cererii",               "ru": "2020: Пандемия COVID-19 — спад спроса" },
+      { "idx": 15, "en": "Deflation zone: 0.4% — pandemic impact",              "ro": "2020: Zona deflației: 0.4% — impactul pandemiei",          "ru": "2020: Зона дефляции: 0.4% — влияние пандемии" },
+      { "idx": 17, "en": "PAS wins supermajority",                               "ro": "2021: PAS câştigă supermajoritate",                        "ru": "2021: PAS получает супербольшинство" },
+      { "idx": 18, "en": "Energy crisis starts — inflation surges to 13.9%",    "ro": "2021: Începe criza energetică — inflația la 13.9%",        "ru": "2021: Начало энергокризиса — инфляция до 13.9%" },
+      { "idx": 19, "en": "Ukraine war — inflation near 29%",                     "ro": "2022: Războiul din Ucraina — inflația aproape de 29%",      "ru": "2022: Война в Украине — инфляция около 29%" },
+      { "idx": 20, "en": "All-time peak: 30.2% — worst since 1990s",            "ro": "2022: Vârf istoric: 30.2% — cel mai mare din anii '90",     "ru": "2022: Исторический максимум: 30.2% — худший с 1990-х" },
+      { "idx": 22, "en": "Disinflation: BNM tight policy works",                "ro": "2023: Dezinflație: politica restrictivă a BNM funcționează","ru": "2023: Дезинфляция: жёсткая политика НБМ работает" },
+      { "idx": 24, "en": "Inflation returns to target range: 4.7%",             "ro": "2024: Inflația revine în intervalul țintă: 4.7%",           "ru": "2024: Инфляция возвращается в целевой коридор: 4.7%" },
+      { "idx": 25, "en": "Energy tariff hike pushes inflation to 8.2%",         "ro": "2025: Majorarea tarifelor energetice urcă inflația la 8.2%","ru": "2025: Повышение энерготарифов толкает инфляцию до 8.2%" },
+      { "idx": 27, "en": "Current: 4.8% — 1½-year low",                         "ro": "2026: Actual: 4.8% — minim pe 1,5 ani",                    "ru": "2026: Текущий: 4.8% — минимум за 1,5 года" }
+    ],
+    "i18n": {
+      "ro": { "title": "Inflația în Moldova (IPC)", "subtitle": "Rata anuală a inflației, variația IPC față de anul precedent (%)", "current": "Actual", "lowest": "Minim", "peak": "Vârf", "change": "Variație", "events": "Evenimente cheie", "replay": "Reluare" },
+      "en": { "title": "Inflation in Moldova (CPI)", "subtitle": "Annual inflation rate, year-over-year CPI change (%)", "current": "Current", "lowest": "Lowest", "peak": "Peak", "change": "Change", "events": "Key Events", "replay": "Replay" },
+      "ru": { "title": "Инфляция в Молдове (ИПЦ)", "subtitle": "Годовой уровень инфляции, изменение ИПЦ к предыдущему году (%)", "current": "Текущий", "lowest": "Минимум", "peak": "Пик", "change": "Изменение", "events": "Ключевые события", "replay": "Воспроизвести" }
+    }
+  },
+  "eras": {
+    "PDM":  { "name": "PDM"  },
+    "ACUM": { "name": "ACUM" },
+    "PSRM": { "name": "PSRM" },
+    "PAS":  { "name": "PAS"  }
+  }
+}
