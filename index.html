@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>adevar.ai — National Data Intelligence</title>
+<meta name="description" content="Platform de analiză a datelor naționale — energie, economie, demografie și infrastructură în Republica Moldova.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ADEVAR.AI — Institutional Data Intelligence Platform
+   Design System: 8px grid, WCAG AA, no glow, no neon
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── TOKENS: LIGHT (default) ── */
+:root{
+  --bg-primary:#f5f6f8;
+  --bg-secondary:#ffffff;
+  --bg-tertiary:#eaecf1;
+  --border:#d2d6de;
+  --border-subtle:#e2e5eb;
+  --text-primary:#111318;
+  --text-secondary:#3d4354;
+  --text-tertiary:#5f6680;
+  --text-disabled:#8890a4;
+  --accent:#1e3f6e;
+  --accent-light:#2c5282;
+  --accent-subtle:rgba(30,63,110,0.07);
+  --accent-hover:rgba(30,63,110,0.11);
+  --nav-active-bg:rgba(30,63,110,0.06);
+  --nav-active-border:#1e3f6e;
+  --nav-active-text:#1a3a64;
+  --cat-heading:#3d4354;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:0 2px 8px rgba(0,0,0,0.07);
+  --shadow-overlay:0 4px 24px rgba(0,0,0,0.13);
+  --header-bg:rgba(255,255,255,0.94);
+  --sidebar-w-expanded:256px;
+  --sidebar-w-compact:64px;
+  --header-h:56px;
+  --transition-fast:150ms ease;
+  --transition-normal:200ms ease;
+  --radius-sm:4px;
+  --radius-md:6px;
+}
+
+/* ── TOKENS: DARK ── */
+[data-theme="dark"]{
+  --bg-primary:#121620;
+  --bg-secondary:#181d2c;
+  --bg-tertiary:#212738;
+  --border:#2e3548;
+  --border-subtle:#252b3c;
+  --text-primary:#e4e7ee;
+  --text-secondary:#a0a6b8;
+  --text-tertiary:#7b8298;
+  --text-disabled:#586074;
+  --accent:#7baade;
+  --accent-light:#8db8e8;
+  --accent-subtle:rgba(123,170,222,0.1);
+  --accent-hover:rgba(123,170,222,0.15);
+  --nav-active-bg:rgba(123,170,222,0.09);
+  --nav-active-border:#7baade;
+  --nav-active-text:#8db8e8;
+  --cat-heading:#a0a6b8;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.25);
+  --shadow-md:0 2px 8px rgba(0,0,0,0.25);
+  --shadow-overlay:0 4px 24px rgba(0,0,0,0.45);
+  --header-bg:rgba(18,22,32,0.95);
+}
+
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg-primary);color:var(--text-primary);
+  font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;height:var(--header-h);
+  border-bottom:1px solid var(--border);
+  background:var(--header-bg);backdrop-filter:blur(12px);
+  position:fixed;top:0;left:0;right:0;z-index:200;
+}
+.header-left{display:flex;align-items:center;gap:20px}
+.header-right{display:flex;align-items:center;gap:12px}
+
+/* Menu toggle */
+.nav-toggle{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border:none;border-radius:var(--radius-sm);
+  background:transparent;color:var(--text-secondary);cursor:pointer;
+  transition:background var(--transition-fast),color var(--transition-fast);
+}
+.nav-toggle:hover{background:var(--accent-subtle);color:var(--accent)}
+.nav-toggle svg{width:18px;height:18px}
+
+/* Brand */
+.brand{
+  font-weight:700;font-size:18px;letter-spacing:-0.025em;
+  color:var(--text-primary);text-decoration:none;
+  display:flex;align-items:baseline;gap:0;
+  padding-left:4px;
+}
+.brand-name{color:var(--text-primary);font-weight:800}
+.brand-dot{color:var(--accent);margin:0 1px;font-weight:800}
+.brand-ext{color:var(--text-secondary);font-weight:500;letter-spacing:0}
+
+/* Language selector */
+.lang-group{display:flex;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.lang-btn{
+  font-family:inherit;font-size:11px;font-weight:500;letter-spacing:0.03em;
+  padding:4px 10px;border:none;background:transparent;
+  color:var(--text-tertiary);cursor:pointer;
+  transition:all var(--transition-fast);
+}
+.lang-btn+.lang-btn{border-left:1px solid var(--border)}
+.lang-btn:hover{color:var(--text-primary);background:var(--accent-subtle)}
+.lang-btn.active{
+  background:var(--accent);color:#fff;font-weight:600;
+}
+
+/* Theme toggle */
+.theme-toggle{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:transparent;color:var(--text-secondary);cursor:pointer;
+  transition:all var(--transition-fast);
+}
+.theme-toggle:hover{background:var(--accent-subtle);color:var(--accent);border-color:var(--accent)}
+.theme-toggle svg{width:16px;height:16px}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.layout{display:flex;height:100vh;padding-top:var(--header-h)}
+
+/* ============================================================
+   SIDEBAR (adaptive)
+   ============================================================ */
+.sidebar{
+  width:var(--sidebar-w-expanded);min-width:var(--sidebar-w-expanded);
+  height:100%;background:var(--bg-secondary);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:width var(--transition-normal),min-width var(--transition-normal);
+  position:relative;z-index:100;
+}
+/* Compact mode */
+.sidebar.compact{width:var(--sidebar-w-compact);min-width:var(--sidebar-w-compact)}
+.sidebar.compact .nav-label,
+.sidebar.compact .nav-badge,
+.sidebar.compact .cat-label,
+.sidebar.compact .sidebar-footer-text{display:none}
+.sidebar.compact .nav-item{justify-content:center;padding:10px 0}
+.sidebar.compact .nav-item .nav-icon{margin:0}
+.sidebar.compact .cat-header{justify-content:center;padding:12px 0 4px}
+.sidebar.compact .sidebar-section-title{display:none}
+
+/* Collapsed (mobile off-screen) */
+.sidebar.off{
+  margin-left:calc(-1 * var(--sidebar-w-expanded));
+  opacity:0;pointer-events:none;
+}
+
+/* Sidebar scroll area */
+.sidebar-scroll{
+  flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 0;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.sidebar-scroll::-webkit-scrollbar{width:3px}
+.sidebar-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* Section title */
+.sidebar-section-title{
+  font-size:10px;font-weight:700;color:var(--text-tertiary);
+  text-transform:uppercase;letter-spacing:0.08em;
+  padding:16px 16px 8px;
+}
+
+/* Category header */
+.cat-header{
+  display:flex;align-items:center;gap:8px;
+  padding:20px 16px 6px;font-size:10px;font-weight:700;
+  color:var(--cat-heading);text-transform:uppercase;letter-spacing:0.08em;
+}
+.cat-header .cat-icon{font-size:13px;opacity:0.7}
+.cat-label{}
+
+/* Nav item */
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 16px;margin:1px 8px;
+  border-radius:var(--radius-sm);border-left:3px solid transparent;
+  cursor:pointer;font-size:13px;color:var(--text-secondary);
+  transition:all var(--transition-fast);text-decoration:none;
+}
+.nav-item:hover{
+  background:var(--accent-subtle);color:var(--text-primary);
+}
+.nav-item.active{
+  background:var(--nav-active-bg);color:var(--nav-active-text);
+  border-left-color:var(--nav-active-border);font-weight:600;
+}
+.nav-item .nav-icon{
+  font-size:14px;width:20px;text-align:center;flex-shrink:0;
+  opacity:0.7;
+}
+.nav-item.active .nav-icon{opacity:1}
+.nav-item .nav-label{
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  flex:1;
+}
+.nav-item .nav-badge{
+  font-size:10px;font-weight:500;
+  background:var(--bg-tertiary);color:var(--text-disabled);
+  padding:2px 8px;border-radius:10px;flex-shrink:0;
+}
+.nav-item.unavailable{opacity:0.50;pointer-events:none}
+
+/* Sidebar footer */
+.sidebar-footer{
+  padding:12px 16px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--text-disabled);flex-shrink:0;
+}
+.sidebar-footer a{color:var(--accent);text-decoration:none;font-weight:500}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.main{
+  flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;
+  background:var(--bg-primary);
+}
+
+/* Breadcrumb bar */
+.content-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 24px;border-bottom:1px solid var(--border-subtle);
+  background:var(--bg-secondary);flex-shrink:0;min-height:48px;
+}
+.content-title{
+  font-size:15px;font-weight:600;color:var(--text-primary);
+  display:flex;align-items:center;gap:8px;
+}
+.content-title .title-icon{font-size:16px;opacity:0.7}
+.breadcrumb{
+  font-size:12px;color:var(--text-tertiary);
+  display:flex;align-items:center;gap:4px;
+}
+.breadcrumb .sep{opacity:0.5}
+
+/* Chart iframe container */
+.chart-viewport{
+  flex:1;overflow:hidden;position:relative;
+}
+.chart-viewport iframe{
+  width:100%;height:100%;border:none;display:block;
+  background:var(--bg-primary);
+}
+
+/* Skeleton loader */
+.skeleton-overlay{
+  position:absolute;inset:0;background:var(--bg-primary);
+  display:flex;flex-direction:column;align-items:center;
+  padding:32px;gap:16px;z-index:5;
+  transition:opacity .3s ease;
+}
+.skeleton-overlay.hidden{opacity:0;pointer-events:none}
+.skel-bar{
+  background:var(--bg-tertiary);border-radius:var(--radius-sm);
+  animation:skel-pulse 1.5s ease-in-out infinite;
+}
+@keyframes skel-pulse{
+  0%,100%{opacity:0.5} 50%{opacity:1}
+}
+.skel-row{display:flex;gap:12px;width:100%;max-width:800px}
+.skel-stat{flex:1;height:72px}
+.skel-chart{width:100%;max-width:800px;height:320px;margin-top:8px}
+.skel-events{width:100%;max-width:800px;height:48px;margin-top:8px}
+
+/* ============================================================
+   OVERLAY (mobile sidebar)
+   ============================================================ */
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;top:var(--header-h);
+  background:rgba(0,0,0,0.3);z-index:90;
+  opacity:0;transition:opacity var(--transition-normal);
+}
+.sidebar-overlay.show{display:block;opacity:1}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+/* Tablet */
+@media(max-width:1024px) and (min-width:769px){
+  .sidebar{
+    position:fixed;top:var(--header-h);left:0;bottom:0;
+    z-index:150;box-shadow:var(--shadow-overlay);
+    width:var(--sidebar-w-expanded);min-width:var(--sidebar-w-expanded);
+    transform:translateX(calc(-1 * var(--sidebar-w-expanded)));
+    transition:transform var(--transition-normal);
+    margin-left:0;opacity:1;
+  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar.compact{width:var(--sidebar-w-expanded);min-width:var(--sidebar-w-expanded)}
+  .sidebar-overlay.show{display:block;opacity:1}
+}
+
+/* Mobile */
+@media(max-width:768px){
+  .header{padding:0 16px;height:48px}
+  :root{--header-h:48px}
+  .brand{font-size:15px}
+  .sidebar{
+    position:fixed;top:var(--header-h);left:0;bottom:0;
+    z-index:150;box-shadow:var(--shadow-overlay);
+    width:280px;min-width:280px;
+    transform:translateX(-280px);
+    transition:transform var(--transition-normal);
+    margin-left:0;opacity:1;
+  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar.compact{width:280px;min-width:280px}
+  .sidebar.compact .nav-label,
+  .sidebar.compact .nav-badge,
+  .sidebar.compact .cat-label,
+  .sidebar.compact .sidebar-footer-text{display:initial}
+  .sidebar.compact .nav-item{justify-content:flex-start;padding:8px 16px}
+  .sidebar.compact .cat-header{justify-content:flex-start;padding:12px 16px 4px}
+  .sidebar.compact .sidebar-section-title{display:block}
+  .content-header{padding:10px 16px}
+  .content-title{font-size:14px}
+  .breadcrumb{display:none}
+}
+
+@media(min-width:1025px){
+  .sidebar-overlay{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="header">
+  <div class="header-left">
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="15" y2="12"/>
+        <line x1="3" y1="18" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <a class="brand" href="./index.html">
+      <span class="brand-name">adevar</span><span class="brand-dot">.</span><span class="brand-ext">ai</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <div class="lang-group">
+      <button class="lang-btn active" data-lang="ro">RO</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ru">RU</button>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- ── LAYOUT ── -->
+<div class="layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar-scroll" id="sidebarScroll"></div>
+    <div class="sidebar-footer">
+      <span class="sidebar-footer-text" id="footerText">Surse publice: BNS, ANRE, BNM</span>
+    </div>
+  </nav>
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="content-header">
+      <div class="content-title" id="contentTitle">
+        <span class="title-icon" id="titleIcon"></span>
+        <span id="titleText">Natural Gas</span>
+      </div>
+      <div class="breadcrumb" id="breadcrumb">
+        <span id="bcCategory">Energy</span>
+        <span class="sep">/</span>
+        <span id="bcItem">Natural Gas</span>
+      </div>
+    </div>
+    <div class="chart-viewport">
+      <div class="skeleton-overlay" id="skeleton">
+        <div class="skel-row">
+          <div class="skel-bar skel-stat"></div>
+          <div class="skel-bar skel-stat"></div>
+          <div class="skel-bar skel-stat"></div>
+          <div class="skel-bar skel-stat"></div>
+        </div>
+        <div class="skel-bar skel-chart"></div>
+        <div class="skel-bar skel-events"></div>
+        <div class="skel-bar skel-events"></div>
+      </div>
+      <iframe id="chartFrame" src="./charts/gas.html?lang=ro&theme=light" title="Data visualization"></iframe>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ==================================================================
+   ADEVAR.AI — Application Controller
+   ================================================================== */
+
+// ── CHART CATALOG ──
+const CHARTS = [
+  { id:'gas',         file:'gas.html',         icon:'', category:'energy',
+    ro:'Gaze Naturale',         en:'Natural Gas',           ru:'Природный газ' },
+  { id:'electricity', file:'electricity.html',  icon:'', category:'energy',
+    ro:'Electricitate',         en:'Electricity',           ru:'Электричество' },
+  { id:'heating',     file:null,                icon:'', category:'energy',
+    ro:'Încălzire Centralizată',en:'District Heating',      ru:'Центральное отопление', soon:true },
+  { id:'inflation',   file:null, icon:'', category:'economy',
+    ro:'Inflația',              en:'Inflation',             ru:'Инфляция', soon:true },
+  { id:'salary',      file:null, icon:'', category:'economy',
+    ro:'Salariul Mediu',        en:'Average Salary',        ru:'Средняя зарплата', soon:true },
+  { id:'gdp',         file:null, icon:'', category:'economy',
+    ro:'PIB per Capita',        en:'GDP per Capita',        ru:'ВВП на душу населения', soon:true },
+  { id:'exchange',    file:null, icon:'', category:'economy',
+    ro:'Cursul Valutar MDL/EUR',en:'MDL/EUR Exchange Rate', ru:'Курс MDL/EUR', soon:true },
+  { id:'remittances', file:null, icon:'', category:'economy',
+    ro:'Remitențe',             en:'Remittances',           ru:'Денежные переводы', soon:true },
+  { id:'population',  file:null, icon:'', category:'demography',
+    ro:'Populația',             en:'Population',            ru:'Население', soon:true },
+  { id:'emigration',  file:null, icon:'', category:'demography',
+    ro:'Emigrarea',             en:'Emigration',            ru:'Эмиграция', soon:true },
+  { id:'urbanization',file:null, icon:'', category:'demography',
+    ro:'Urbanizarea',           en:'Urbanization',          ru:'Урбанизация', soon:true },
+  { id:'internet',    file:null, icon:'', category:'infrastructure',
+    ro:'Acces la Internet',     en:'Internet Access',       ru:'Доступ к интернету', soon:true },
+  { id:'roads',       file:null, icon:'', category:'infrastructure',
+    ro:'Starea Drumurilor',     en:'Road Quality',          ru:'Состояние дорог', soon:true },
+];
+
+const CATEGORIES = {
+  energy:         { ro:'Energie',        en:'Energy',          ru:'Энергетика' },
+  economy:        { ro:'Economie',       en:'Economy',         ru:'Экономика' },
+  demography:     { ro:'Demografie',     en:'Demographics',    ru:'Демография' },
+  infrastructure: { ro:'Infrastructură', en:'Infrastructure',  ru:'Инфраструктура' },
+};
+
+const I18N = {
+  ro:{ overview:'Date', footer:'Surse publice: BNS, ANRE, BNM', soon:'Planificat' },
+  en:{ overview:'Data', footer:'Public sources: NBS, ANRE, NBM', soon:'Planned' },
+  ru:{ overview:'Данные', footer:'Источники: НБС, ANRE, НБМ', soon:'Планируется' },
+};
+
+// ── STATE ──
+let lang = 'ro';
+let activeChart = 'gas';
+let theme = 'light';
+let navMode = 'expanded'; // expanded | compact
+const isDesktop = () => window.innerWidth > 1024;
+const isTablet = () => window.innerWidth > 768 && window.innerWidth <= 1024;
+const isMobile = () => window.innerWidth <= 768;
+
+// ── DOM ──
+const $ = id => document.getElementById(id);
+const frame = $('chartFrame');
+const sidebar = $('sidebar');
+const overlay = $('sidebarOverlay');
+const skeleton = $('skeleton');
+
+// ── THEME ──
+function applyTheme(t) {
+  theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  try { window['local'+'Storage'].setItem('adevar-theme', t); } catch(e){}
+  // Update icon
+  const icon = $('themeIcon');
+  icon.innerHTML = t === 'dark'
+    ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+    : '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  // Tell iframe
+  if (frame.contentWindow) {
+    frame.contentWindow.postMessage({ type:'setTheme', theme: t }, '*');
+  }
+}
+
+// ── SIDEBAR ──
+function buildSidebar() {
+  const soonText = I18N[lang].soon;
+  $('footerText').textContent = I18N[lang].footer;
+
+  const groups = {};
+  CHARTS.forEach(c => {
+    if (!groups[c.category]) groups[c.category] = [];
+    groups[c.category].push(c);
+  });
+
+  let html = '<div class="sidebar-section-title" id="sidebarSectionTitle">' + I18N[lang].overview + '</div>';
+  for (const [catId, cat] of Object.entries(CATEGORIES)) {
+    const items = groups[catId];
+    if (!items) continue;
+    html += `<div class="cat-header"><span class="cat-label">${cat[lang]||cat.en}</span></div>`;
+    items.forEach(c => {
+      const label = c[lang] || c.en;
+      const act = c.id === activeChart ? ' active' : '';
+      const un = c.soon ? ' unavailable' : '';
+      const badge = c.soon ? `<span class="nav-badge">${soonText}</span>` : '';
+      html += `<div class="nav-item${act}${un}" data-id="${c.id}" role="button" tabindex="0">
+        <span class="nav-icon">${c.icon||''}</span>
+        <span class="nav-label">${label}</span>
+        ${badge}
+      </div>`;
+    });
+  }
+  $('sidebarScroll').innerHTML = html;
+
+  // Bind clicks
+  $('sidebarScroll').querySelectorAll('.nav-item:not(.unavailable)').forEach(el => {
+    el.addEventListener('click', () => {
+      selectChart(el.dataset.id);
+      if (!isDesktop()) closeSidebar();
+    });
+  });
+}
+
+// ── CHART SELECTION ──
+function selectChart(id) {
+  const chart = CHARTS.find(c => c.id === id);
+  if (!chart || chart.soon) return;
+  activeChart = id;
+
+  // Skeleton
+  skeleton.classList.remove('hidden');
+
+  // Update frame
+  frame.src = `./charts/${chart.file}?lang=${lang}&theme=${theme}`;
+
+  // Title + breadcrumb
+  const label = chart[lang] || chart.en;
+  const cat = CATEGORIES[chart.category];
+  const catName = cat[lang] || cat.en;
+  $('titleText').textContent = label;
+  $('titleIcon').textContent = chart.icon || '';
+  $('bcCategory').textContent = catName;
+  $('bcItem').textContent = label;
+
+  // Active state
+  $('sidebarScroll').querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.id === id);
+  });
+}
+
+// ── LANGUAGE ──
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  buildSidebar();
+  selectChart(activeChart);
+}
+
+// ── NAV TOGGLE ──
+function toggleNav() {
+  if (isDesktop()) {
+    navMode = navMode === 'expanded' ? 'compact' : 'expanded';
+    sidebar.classList.toggle('compact', navMode === 'compact');
+    try { window['local'+'Storage'].setItem('adevar-nav', navMode); } catch(e){}
+  } else {
+    const isOpen = sidebar.classList.contains('open');
+    if (isOpen) closeSidebar(); else openSidebar();
+  }
+}
+
+function openSidebar() {
+  sidebar.classList.add('open');
+  sidebar.classList.remove('off');
+  overlay.classList.add('show');
+}
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+}
+
+// ── EVENTS ──
+$('navToggle').addEventListener('click', toggleNav);
+overlay.addEventListener('click', closeSidebar);
+$('themeToggle').addEventListener('click', () => applyTheme(theme === 'dark' ? 'light' : 'dark'));
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+// Iframe loaded → hide skeleton
+frame.addEventListener('load', () => {
+  setTimeout(() => skeleton.classList.add('hidden'), 200);
+  // Push theme to child
+  if (frame.contentWindow) {
+    frame.contentWindow.postMessage({ type:'setTheme', theme }, '*');
+  }
+});
+
+// Resize handler
+window.addEventListener('resize', () => {
+  if (isDesktop()) {
+    sidebar.classList.remove('open','off');
+    overlay.classList.remove('show');
+    sidebar.classList.toggle('compact', navMode === 'compact');
+  } else if (isTablet()) {
+    if (!sidebar.classList.contains('open')) {
+      sidebar.classList.remove('compact');
+    }
+    overlay.classList.remove('show');
+  } else {
+    if (!sidebar.classList.contains('open')) {
+      sidebar.classList.remove('compact');
+    }
+  }
+});
+
+// ── INIT ──
+(function init() {
+  // Restore theme
+  try { const saved = window['local'+'Storage'].getItem('adevar-theme'); if (saved) theme = saved; } catch(e){}
+  applyTheme(theme);
+  try { const savedNav = window['local'+'Storage'].getItem('adevar-nav'); if (savedNav) navMode = savedNav; } catch(e){}
+
+  if (isDesktop()) {
+    sidebar.classList.toggle('compact', navMode === 'compact');
+  }
+
+  buildSidebar();
+  // Set initial title
+  const c = CHARTS.find(x => x.id === activeChart);
+  if (c) {
+    $('titleText').textContent = c[lang] || c.en;
+    $('titleIcon').textContent = c.icon || '';
+    const cat = CATEGORIES[c.category];
+    $('bcCategory').textContent = cat[lang] || cat.en;
+    $('bcItem').textContent = c[lang] || c.en;
+  }
+})();
+</script>
+</body>
+</html>
