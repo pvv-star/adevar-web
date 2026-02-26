@@ -1,20 +1,46 @@
-import { getAllChartIds, getChart } from '../../../lib/charts';
+import { getActiveCharts, getChartById, getChartData } from '@/lib/charts';
 import ChartPageClient from './ChartPageClient';
+import { notFound } from 'next/navigation';
+
+export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-  const ids = getAllChartIds();
-  return ids.map(id => ({ id }));
+  // Include all charts (active + soon) for SSG
+  const { CHARTS } = await import('@/lib/charts');
+  return CHARTS
+    .filter(c => !c.special)
+    .map(c => ({ id: c.id }));
 }
 
 export async function generateMetadata({ params }) {
-  const chart = getChart(params.id);
-  if (!chart) return { title: 'Chart | Adevăr.md' };
+  const chart = getChartById(params.id);
+  if (!chart) {
+    return { title: 'adevar.ai' };
+  }
+  const title = `${chart.en} — adevar.ai`;
+  const description = chart.desc?.en || chart.desc?.ro || '';
   return {
-    title: `${chart.config.titleRo || chart.id} | Adevăr.md`,
-    description: chart.config.descRo || ''
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{ url: 'https://adevar.ai/og-image.png' }],
+    },
   };
 }
 
 export default function ChartPage({ params }) {
-  return <ChartPageClient id={params.id} />;
+  const chart = getChartById(params.id);
+  if (!chart) notFound();
+
+  // For coming-soon charts, pass null data
+  const chartData = chart.soon ? null : getChartData(params.id);
+
+  return (
+    <ChartPageClient
+      chart={chart}
+      chartData={chartData}
+    />
+  );
 }

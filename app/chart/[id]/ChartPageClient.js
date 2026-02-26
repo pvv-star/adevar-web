@@ -1,25 +1,35 @@
 'use client';
+import dynamic from 'next/dynamic';
+import ComingSoon from '@/components/ComingSoon';
 
-import { useContext } from 'react';
-import { LangContext } from '../../../contexts/LangContext';
-import { ThemeContext } from '../../../contexts/ThemeContext';
-import { getChart } from '../../../lib/charts';
-import ChartCanvas from '../../../components/ChartCanvas';
-import StatsBar from '../../../components/StatsBar';
+// Dynamically import ChartCanvas to avoid SSR issues with canvas
+const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="page-scroll">
+      <div style={{ padding: '32px', maxWidth: '920px', margin: '0 auto' }}>
+        <div className="skel-row" style={{ marginBottom: '16px' }}>
+          <div className="skel-bar skel-stat"></div>
+          <div className="skel-bar skel-stat"></div>
+          <div className="skel-bar skel-stat"></div>
+          <div className="skel-bar skel-stat"></div>
+        </div>
+        <div className="skel-bar skel-chart"></div>
+        <div className="skel-bar skel-events" style={{ marginTop: '12px' }}></div>
+      </div>
+    </div>
+  ),
+});
 
-export default function ChartPageClient({ id }) {
-  const { lang, t } = useContext(LangContext);
-  const { theme } = useContext(ThemeContext);
-  const chart = getChart(id);
-
-  if (!chart) {
-    return <div style={{padding: '2rem', color: 'var(--text)'}}>{t('chartNotFound') || 'Chart not found'}</div>;
+export default function ChartPageClient({ chart, chartData }) {
+  if (!chartData || chart.soon) {
+    return <ComingSoon chart={chart} />;
   }
 
   return (
-    <div className="chart-page">
-      <StatsBar chart={chart} lang={lang} t={t} />
-      <ChartCanvas chart={chart} lang={lang} theme={theme} />
-    </div>
+    <ChartCanvas
+      config={chartData.config}
+      eras={chartData.eras}
+    />
   );
 }

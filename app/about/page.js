@@ -1,8 +1,8 @@
-import AboutContent from '../../components/AboutContent';
+import AboutContent from '@/components/AboutContent';
 
 export const metadata = {
-  title: 'Despre | Adevăr.md',
-  description: 'Despre proiectul Adevăr.md'
+  title: 'Despre Platformă — adevar.ai',
+  description: 'Metodologie și surse de date pentru platforma adevar.ai. Date publice din Republica Moldova.',
 };
 
 export default function AboutPage() {
