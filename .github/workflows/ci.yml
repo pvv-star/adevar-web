@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main, prime/**]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+  smoke-prod-indicator:
+    runs-on: ubuntu-latest
+    # Run production smoke only after merge to main.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Check production inflation endpoint
+        run: |
+          curl -fsS "https://www.adevar.ai/api/indicators/inflation/series?from=2018&to=2025" > /tmp/inflation.json
+          python - <<'PY'
+import json
+p = '/tmp/inflation.json'
+with open(p, 'r', encoding='utf-8') as f:
+    data = json.load(f)
+strategy = data.get('matchStrategy')
+count = data.get('count', 0)
+if strategy != 'join-by-slug':
+    raise SystemExit(f'FAIL: unexpected strategy={strategy}')
+if not isinstance(count, int) or count <= 0:
+    raise SystemExit(f'FAIL: non-positive count={count}')
+print('OK smoke:', {'strategy': strategy, 'count': count})
+PY
