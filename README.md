@@ -34,3 +34,35 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## API
+
+### Indicator series
+
+`GET /api/indicators/:slug/series?from=2018&to=2026`
+
+Response shape:
+
+```json
+{
+  "slug": "inflation",
+  "from": 2018,
+  "to": 2026,
+  "matchStrategy": "join-by-slug",
+  "series": [{ "year": 2018, "value": 3.1 }]
+}
+```
+
+## Diagnostics
+
+For inflation data integrity checks, run SQL in Supabase SQL editor:
+
+- `sql/diagnostics/inflation_integrity.sql`
+
+## Not now (scope guard)
+
+- Microservices split
+- Realtime streaming pipelines
+- Multi-tenant architecture
+- Complex agent orchestration before data quality is stable
+
