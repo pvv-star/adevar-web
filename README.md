@@ -58,6 +58,11 @@ Response shape:
 For inflation data integrity checks, run SQL in Supabase SQL editor:
 
 - `sql/diagnostics/inflation_integrity.sql`
+- `sql/migrations/20260227_db_guardrails.sql`
+
+DB operation protocol:
+
+- `docs/DB_SAFETY_PROTOCOL.md`
 
 For API smoke check (after `npm run dev`):
 
