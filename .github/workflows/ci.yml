@@ -38,3 +38,23 @@ if not isinstance(count, int) or count <= 0:
     raise SystemExit(f'FAIL: non-positive count={count}')
 print('OK smoke:', {'strategy': strategy, 'count': count})
 PY
+
+  smoke-prod-health:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Check production health endpoint
+        run: |
+          curl -fsS "https://www.adevar.ai/api/health" > /tmp/health.json
+          python - <<'PY'
+import json
+p = '/tmp/health.json'
+with open(p, 'r', encoding='utf-8') as f:
+    data = json.load(f)
+if data.get('ok') is not True:
+    raise SystemExit(f"FAIL: health not ok -> {data}")
+checks = data.get('checks') or {}
+if (checks.get('inflationPoints') or 0) <= 0:
+    raise SystemExit(f"FAIL: inflationPoints invalid -> {checks.get('inflationPoints')}")
+print('OK health smoke:', checks)
+PY
