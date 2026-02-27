@@ -7,32 +7,68 @@ function normalizeSeriesRows(rows = []) {
     .sort((a, b) => a.year - b.year);
 }
 
-export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
-  const supabase = getSupabaseServerClient();
+function clampYears(from, to) {
+  const currentYear = new Date().getFullYear();
+  const minYear = 1990;
 
   const parsedFrom = Number(from);
   const parsedTo = Number(to);
 
-  const yearFrom = Number.isFinite(parsedFrom) ? parsedFrom : 2018;
-  const yearTo = Number.isFinite(parsedTo) ? parsedTo : new Date().getFullYear();
+  let yearFrom = Number.isFinite(parsedFrom) ? parsedFrom : 2018;
+  let yearTo = Number.isFinite(parsedTo) ? parsedTo : currentYear;
+
+  yearFrom = Math.max(minYear, Math.min(yearFrom, currentYear));
+  yearTo = Math.max(minYear, Math.min(yearTo, currentYear));
+
+  if (yearFrom > yearTo) {
+    [yearFrom, yearTo] = [yearTo, yearFrom];
+  }
+
+  return { yearFrom, yearTo };
+}
+
+function buildResponse({ slug, from, to, matchStrategy, series, indicator }) {
+  const normalized = normalizeSeriesRows(series);
+  return {
+    slug: indicator?.slug || slug,
+    from,
+    to,
+    matchStrategy,
+    count: normalized.length,
+    lastUpdated: normalized.length ? normalized[normalized.length - 1].year : null,
+    indicator: indicator
+      ? {
+          id: indicator.id,
+          name: indicator.name || null,
+        }
+      : null,
+    series: normalized,
+  };
+}
+
+export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
+  const supabase = getSupabaseServerClient();
+  const { yearFrom, yearTo } = clampYears(from, to);
 
   // Path A: relation join by slug (preferred)
   const joined = await supabase
     .from('indicator_values')
-    .select('year, value, indicators!inner(slug)')
+    .select('year, value, indicators!inner(id, slug, name)')
     .eq('indicators.slug', slug)
     .gte('year', yearFrom)
     .lte('year', yearTo)
     .order('year', { ascending: true });
 
   if (!joined.error && joined.data?.length) {
-    return {
+    const indicator = joined.data[0]?.indicators || null;
+    return buildResponse({
       slug,
       from: yearFrom,
       to: yearTo,
       matchStrategy: 'join-by-slug',
-      series: normalizeSeriesRows(joined.data),
-    };
+      series: joined.data,
+      indicator,
+    });
   }
 
   // Path B: find indicator id by slug (or fuzzy fallback) then query values
@@ -56,13 +92,14 @@ export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
   }
 
   if (!indicator) {
-    return {
+    return buildResponse({
       slug,
       from: yearFrom,
       to: yearTo,
       matchStrategy: 'not-found',
       series: [],
-    };
+      indicator: null,
+    });
   }
 
   const values = await supabase
@@ -77,11 +114,12 @@ export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
     throw new Error(values.error.message);
   }
 
-  return {
-    slug: indicator.slug || slug,
+  return buildResponse({
+    slug,
     from: yearFrom,
     to: yearTo,
     matchStrategy: exact.data ? 'indicator-id-exact' : 'indicator-id-fuzzy',
-    series: normalizeSeriesRows(values.data),
-  };
+    series: values.data,
+    indicator,
+  });
 }

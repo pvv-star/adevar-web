@@ -9,6 +9,10 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'Missing slug' }, { status: 400 });
     }
 
+    if (!/^[a-z0-9-_]+$/i.test(slug)) {
+      return NextResponse.json({ error: 'Invalid slug format' }, { status: 400 });
+    }
+
     const { searchParams } = new URL(request.url);
     const from = searchParams.get('from');
     const to = searchParams.get('to');
