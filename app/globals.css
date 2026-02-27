@@ -629,3 +629,23 @@ canvas{display:block;width:100%;cursor:crosshair}
   .sidebar-overlay{display:none!important}
   .bottom-nav{display:none!important}
 }
+
+/* ============================================================
+   DASHBOARD BANNERS
+   ============================================================ */
+.inflation-banner{
+  margin:20px 0;
+  padding:12px;
+  border-radius:8px;
+  font-size:13px;
+}
+
+.inflation-banner--ok{
+  background:#0f172a;
+  color:#ffffff;
+}
+
+.inflation-banner--error{
+  background:#2a1010;
+  color:#ffb3b3;
+}

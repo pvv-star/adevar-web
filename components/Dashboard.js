@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useLang } from '@/contexts/LangContext';
 import { getActiveCharts, getComingSoonCharts, LIVE_STATS } from '@/lib/charts';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import IndicatorStatCard from './IndicatorStatCard';
 
 export default function Dashboard() {
   const { lang, t } = useLang();
@@ -59,6 +60,24 @@ export default function Dashboard() {
   const activeCharts = getActiveCharts();
   const soonCharts = getComingSoonCharts();
 
+  const liveStats = useMemo(() => {
+    const mapped = { ...LIVE_STATS };
+    if (inflationSummary) {
+      mapped.inflation = {
+        value: String(inflationSummary.latest),
+        unit: '%',
+        change: mapped.inflation?.change || 'n/a',
+        dir: mapped.inflation?.dir || 'up',
+        date: {
+          ro: `${inflationSummary.to}`,
+          en: `${inflationSummary.to}`,
+          ru: `${inflationSummary.to}`,
+        },
+      };
+    }
+    return mapped;
+  }, [inflationSummary]);
+
   const upArrow = (
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
       <line x1="12" y1="19" x2="12" y2="5" />
@@ -76,16 +95,12 @@ export default function Dashboard() {
     <div className="page-scroll">
       <div className="view-heading">{t('dashTitle')}</div>
       <div className="view-subheading">{t('dashSub')}</div>
-      {inflationError ? (
-        <div style={{ margin: '20px 0', padding: '10px', background: '#2a1010', color: '#ffb3b3', borderRadius: 8 }}>
-          Inflation data unavailable: {inflationError}
-        </div>
-      ) : null}
+      {inflationError ? <div className="inflation-banner inflation-banner--error">Inflation data unavailable: {inflationError}</div> : null}
 
       {inflationSummary ? (
-        <div style={{ margin: '20px 0', padding: '12px', background: '#0f172a', borderRadius: 8 }}>
-          <strong>Inflation series live:</strong> {inflationSummary.count} points ({inflationSummary.from}–
-          {inflationSummary.to}), latest: {inflationSummary.latest}%
+        <div className="inflation-banner inflation-banner--ok">
+          <strong>Inflation series live:</strong> {inflationSummary.count} points ({inflationSummary.from}–{inflationSummary.to}),
+          latest: {inflationSummary.latest}%
         </div>
       ) : null}
 
@@ -93,25 +108,18 @@ export default function Dashboard() {
         <div className="inst-card-title">{t('availableCharts')}</div>
         <div className="dash-grid">
           {activeCharts.map((c) => {
-            const stat = LIVE_STATS[c.id];
+            const stat = liveStats[c.id];
             if (!stat) return null;
-            const dirClass = stat.dir === 'up' ? 'up' : 'down';
-            const arrow = stat.dir === 'up' ? upArrow : downArrow;
             return (
-              <Link key={c.id} href={`/chart/${c.id}`} className="dash-stat-card">
-                <div className="dash-stat-label">{c[lang] || c.en}</div>
-                <div className="dash-stat-value">
-                  {stat.value} <span className="dash-stat-unit">{stat.unit}</span>
-                </div>
-                <div className="dash-stat-meta">
-                  <span className={`dash-stat-change ${dirClass}`}>
-                    {arrow} {stat.change}
-                  </span>
-                  <span>
-                    {t('lastUpdate')}: {stat.date[lang] || stat.date.en}
-                  </span>
-                </div>
-              </Link>
+              <IndicatorStatCard
+                key={c.id}
+                href={`/chart/${c.id}`}
+                label={c[lang] || c.en}
+                stat={{ ...stat, date: stat.date?.[lang] || stat.date?.en || '' }}
+                lastUpdateLabel={t('lastUpdate')}
+                upArrow={upArrow}
+                downArrow={downArrow}
+              />
             );
           })}
         </div>

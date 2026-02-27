@@ -38,6 +38,10 @@ if not isinstance(count, int) or count <= 0:
     raise SystemExit(f'FAIL: non-positive count={count}')
 print('OK smoke:', {'strategy': strategy, 'count': count})
 PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prod-inflation-smoke
+          path: /tmp/inflation.json
 
   smoke-prod-health:
     runs-on: ubuntu-latest
@@ -58,3 +62,7 @@ if (checks.get('inflationPoints') or 0) <= 0:
     raise SystemExit(f"FAIL: inflationPoints invalid -> {checks.get('inflationPoints')}")
 print('OK health smoke:', checks)
 PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prod-health-smoke
+          path: /tmp/health.json
