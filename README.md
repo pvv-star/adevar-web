@@ -59,6 +59,14 @@ For inflation data integrity checks, run SQL in Supabase SQL editor:
 
 - `sql/diagnostics/inflation_integrity.sql`
 
+For API smoke check (after `npm run dev`):
+
+```bash
+npm run smoke:indicator
+# or custom:
+ADEVAR_BASE_URL=https://www.adevar.ai npm run smoke:indicator -- inflation 2018 2026
+```
+
 ## Not now (scope guard)
 
 - Microservices split
