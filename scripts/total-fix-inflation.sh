@@ -78,7 +78,7 @@ fi
 BASE_URL="${ADEVAR_BASE_URL:-https://www.adevar.ai}"
 echo
 yellow "[2/3] Production smoke test ($BASE_URL)"
-if node scripts/smoke-indicator-series.mjs inflation 2018 2026 >/tmp/adevar_prod_smoke.log 2>&1; then
+if ADEVAR_BASE_URL="$BASE_URL" node scripts/smoke-indicator-series.mjs inflation 2018 2026 >/tmp/adevar_prod_smoke.log 2>&1; then
   green "Production smoke passed"
   cat /tmp/adevar_prod_smoke.log
   exit 0
