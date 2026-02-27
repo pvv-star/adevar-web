@@ -1,5 +1,12 @@
 import './globals.css';
+import { Onest } from 'next/font/google';
 import ClientLayout from './ClientLayout';
+
+const onest = Onest({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'adevar.ai — Platforma de date instituționale a Moldovei',
@@ -21,15 +28,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ro" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet" />
-      </head>
-      <body suppressHydrationWarning>
-        <ClientLayout>
-          {children}
-        </ClientLayout>
+      <body className={onest.className} suppressHydrationWarning>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
