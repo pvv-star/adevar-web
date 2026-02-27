@@ -40,6 +40,14 @@ function buildResponse({ slug, from, to, matchStrategy, series, indicator }) {
       ? {
           id: indicator.id,
           name: indicator.name || null,
+          sourceName: indicator.source_name || null,
+          sourceUrl: indicator.source_url || null,
+          methodology: indicator.methodology || null,
+          updateFrequency: indicator.update_frequency || null,
+          coverageStartYear: indicator.coverage_start_year || null,
+          coverageEndYear: indicator.coverage_end_year || null,
+          unit: indicator.unit || null,
+          isOfficial: indicator.is_official ?? null,
         }
       : null,
     series: normalized,
@@ -53,7 +61,7 @@ export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
   // Path A: relation join by slug (preferred)
   const joined = await supabase
     .from('indicator_values')
-    .select('year, value, indicators!inner(id, slug, name)')
+    .select('year, value, indicators!inner(id, slug, name, source_name, source_url, methodology, update_frequency, coverage_start_year, coverage_end_year, unit, is_official)')
     .eq('indicators.slug', slug)
     .gte('year', yearFrom)
     .lte('year', yearTo)
@@ -91,7 +99,7 @@ export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
   if (!indicator) {
     const fuzzy = await supabase
       .from('indicators')
-      .select('id, slug, name')
+      .select('id, slug, name, source_name, source_url, methodology, update_frequency, coverage_start_year, coverage_end_year, unit, is_official')
       .or(`slug.ilike.%${slug}%,name.ilike.%${slug}%`)
       .limit(1)
       .maybeSingle();
