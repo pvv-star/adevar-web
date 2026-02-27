@@ -3,42 +3,9 @@
 import Link from 'next/link';
 import { useLang } from '@/contexts/LangContext';
 import { getActiveCharts, getComingSoonCharts, LIVE_STATS } from '@/lib/charts';
-import { supabase } from '@/lib/supabase';
-import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
   const { lang, t } = useLang();
-  const [inflationData, setInflationData] = useState([]);
-
-useEffect(() => {
-  async function fetchInflation() {
-    const { data: indicator, error: indicatorError } = await supabase
-      .from('indicators')
-      .select('id')
-      .eq('slug', 'inflation')
-      .single();
-
-    if (indicatorError || !indicator) {
-      console.error(indicatorError);
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from('indicator_values')
-      .select('year, value')
-      .eq('indicator_id', indicator.id)
-      .order('year', { ascending: true });
-
-    if (error) {
-      console.error(error);
-    } else {
-      console.log('Inflation:', data);
-      setInflationData(data);
-    }
-  }
-
-  fetchInflation();
-}, []);
 
   const activeCharts = getActiveCharts();
   const soonCharts = getComingSoonCharts();
@@ -60,10 +27,6 @@ useEffect(() => {
     <div className="page-scroll">
       <div className="view-heading">{t('dashTitle')}</div>
       <div className="view-subheading">{t('dashSub')}</div>
-    <div style={{ margin: '20px 0', padding: '10px', background: '#111' }}>
-  <h3>Inflation Test:</h3>
-  <pre>{JSON.stringify(inflationData, null, 2)}</pre>
-</div>
 
       <div className="inst-card">
         <div className="inst-card-title">{t('availableCharts')}</div>
