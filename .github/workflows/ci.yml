@@ -16,6 +16,7 @@ jobs:
           node-version: '20'
           cache: npm
       - run: npm ci
+      - run: npm run check:migrations
       - run: npm run build
 
   smoke-prod-indicator:
