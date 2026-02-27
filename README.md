@@ -69,7 +69,13 @@ For API smoke check (after `npm run dev`):
 ```bash
 npm run smoke:indicator
 # or custom:
-ADEVAR_BASE_URL=https://www.adevar.ai npm run smoke:indicator -- inflation 2018 2026
+ADEVAR_BASE_URL=https://www.adevar.ai node scripts/smoke-indicator-series.mjs inflation 2018 2026
+```
+
+Env sanity check:
+
+```bash
+npm run check:env
 ```
 
 ## Not now (scope guard)

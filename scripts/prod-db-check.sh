@@ -2,7 +2,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-vercel env pull .env.local --environment=production >/dev/null
+vercel env pull .env.local --environment=production --yes >/dev/null
 
 # sanitize quoted/newline-poisoned values in local pulled file
 sed -i 's/^NEXT_PUBLIC_SUPABASE_URL="\\n\(.*\)"$/NEXT_PUBLIC_SUPABASE_URL=\1/' .env.local

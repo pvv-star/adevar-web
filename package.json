@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "smoke:indicator": "node scripts/smoke-indicator-series.mjs"
+    "smoke:indicator": "node scripts/smoke-indicator-series.mjs",
+    "check:env": "bash scripts/validate-env.sh"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",
