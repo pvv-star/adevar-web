@@ -19,8 +19,8 @@ jobs:
 
   smoke-prod-indicator:
     runs-on: ubuntu-latest
-    # Run production smoke only after merge to main.
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Run on main pushes and manual dispatch.
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     steps:
       - name: Check production inflation endpoint
         run: |
@@ -45,7 +45,7 @@ PY
 
   smoke-prod-health:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     steps:
       - name: Check production health endpoint
         run: |
