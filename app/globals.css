@@ -649,3 +649,9 @@ canvas{display:block;width:100%;cursor:crosshair}
   background:#2a1010;
   color:#ffb3b3;
 }
+
+.inflation-meta{
+  margin-top:6px;
+  font-size:12px;
+  opacity:0.9;
+}

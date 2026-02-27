@@ -10,6 +10,7 @@ export default function Dashboard() {
   const { lang, t } = useLang();
   const [inflationError, setInflationError] = useState('');
   const [inflationSummary, setInflationSummary] = useState(null);
+  const [inflationMeta, setInflationMeta] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -32,6 +33,7 @@ export default function Dashboard() {
         if (!Array.isArray(payload.series) || payload.series.length === 0) {
           setInflationError('No inflation records returned from API');
           setInflationSummary(null);
+          setInflationMeta(null);
           return;
         }
 
@@ -43,10 +45,12 @@ export default function Dashboard() {
           to: last?.year,
           latest: last?.value,
         });
+        setInflationMeta(payload.indicator || null);
       } catch (error) {
         if (error.name !== 'AbortError') {
           console.error(error);
           setInflationSummary(null);
+          setInflationMeta(null);
           setInflationError(error.message || 'Failed to load inflation series');
         }
       }
@@ -101,6 +105,16 @@ export default function Dashboard() {
         <div className="inflation-banner inflation-banner--ok">
           <strong>Inflation series live:</strong> {inflationSummary.count} points ({inflationSummary.from}–{inflationSummary.to}),
           latest: {inflationSummary.latest}%
+          {inflationMeta?.sourceName ? (
+            <div className="inflation-meta">
+              Source: {inflationMeta.sourceName}
+              {inflationMeta.sourceUrl ? (
+                <a href={inflationMeta.sourceUrl} target="_blank" rel="noreferrer" style={{ marginLeft: 8 }}>
+                  link
+                </a>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       ) : null}
 
