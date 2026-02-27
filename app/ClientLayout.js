@@ -7,10 +7,23 @@ import Sidebar from '@/components/Sidebar';
 import BottomNav from '@/components/BottomNav';
 import { getInitialNavMode, persistNavMode } from '@/lib/theme';
 
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 1025px)');
+    setIsDesktop(mql.matches);
+    const handler = (e) => setIsDesktop(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+  return isDesktop;
+}
+
 export default function ClientLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navMode, setNavMode] = useState('compact');
   const [mounted, setMounted] = useState(false);
+  const isDesktop = useIsDesktop();
 
   useEffect(() => {
     const mode = getInitialNavMode();
@@ -18,17 +31,15 @@ export default function ClientLayout({ children }) {
     setMounted(true);
   }, []);
 
-  const isDesktop = () => typeof window !== 'undefined' && window.innerWidth > 1024;
-
   const handleNavToggle = useCallback(() => {
-    if (isDesktop()) {
+    if (isDesktop) {
       const newMode = navMode === 'expanded' ? 'compact' : 'expanded';
       setNavMode(newMode);
       persistNavMode(newMode);
     } else {
       setSidebarOpen(prev => !prev);
     }
-  }, [navMode]);
+  }, [navMode, isDesktop]);
 
   const closeSidebar = useCallback(() => {
     setSidebarOpen(false);

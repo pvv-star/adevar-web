@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLang } from '@/contexts/LangContext';
-import styles from './Header.module.css';
+
 
 export default function Header({ onNavToggle }) {
   const { theme, toggleTheme } = useTheme();
