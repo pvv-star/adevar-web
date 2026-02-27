@@ -59,7 +59,11 @@ export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
     .lte('year', yearTo)
     .order('year', { ascending: true });
 
-  if (!joined.error && joined.data?.length) {
+  if (joined.error) {
+    throw new Error(joined.error.message);
+  }
+
+  if (joined.data?.length) {
     const indicator = joined.data[0]?.indicators || null;
     return buildResponse({
       slug,
@@ -78,6 +82,10 @@ export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
     .eq('slug', slug)
     .maybeSingle();
 
+  if (exact.error) {
+    throw new Error(exact.error.message);
+  }
+
   let indicator = exact.data;
 
   if (!indicator) {
@@ -87,6 +95,10 @@ export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
       .or(`slug.ilike.%${slug}%,name.ilike.%${slug}%`)
       .limit(1)
       .maybeSingle();
+
+    if (fuzzy.error) {
+      throw new Error(fuzzy.error.message);
+    }
 
     indicator = fuzzy.data;
   }
