@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main, prime/**]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+  smoke-prod-indicator:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - name: Check production inflation endpoint
+        run: |
+          curl -fsS "https://www.adevar.ai/api/indicators/inflation/series?from=2018&to=2026" | tee /tmp/inflation.json
+          grep -q '"series"' /tmp/inflation.json

@@ -22,6 +22,7 @@ read_secret() {
   local value
   read -r -s -p "$prompt: " value
   echo
+  value="$(printf '%s' "$value" | tr -d '\r\n' | sed 's/^"//;s/"$//')"
   if [[ -z "$value" ]]; then
     echo "[ERROR] $var_name cannot be empty"
     exit 1
@@ -71,4 +72,4 @@ fi
 
 echo "Done."
 echo "For production smoke check run:"
-echo "ADEVAR_BASE_URL=https://www.adevar.ai npm run smoke:indicator -- inflation 2018 2026"
+echo "ADEVAR_BASE_URL=https://www.adevar.ai node scripts/smoke-indicator-series.mjs inflation 2018 2026"

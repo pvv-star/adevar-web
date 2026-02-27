@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 export default function Dashboard() {
   const { lang, t } = useLang();
   const [inflationError, setInflationError] = useState('');
+  const [inflationSummary, setInflationSummary] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -29,10 +30,22 @@ export default function Dashboard() {
 
         if (!Array.isArray(payload.series) || payload.series.length === 0) {
           setInflationError('No inflation records returned from API');
+          setInflationSummary(null);
+          return;
         }
+
+        const first = payload.series[0];
+        const last = payload.series[payload.series.length - 1];
+        setInflationSummary({
+          count: payload.count || payload.series.length,
+          from: first?.year,
+          to: last?.year,
+          latest: last?.value,
+        });
       } catch (error) {
         if (error.name !== 'AbortError') {
           console.error(error);
+          setInflationSummary(null);
           setInflationError(error.message || 'Failed to load inflation series');
         }
       }
@@ -66,6 +79,13 @@ export default function Dashboard() {
       {inflationError ? (
         <div style={{ margin: '20px 0', padding: '10px', background: '#2a1010', color: '#ffb3b3', borderRadius: 8 }}>
           Inflation data unavailable: {inflationError}
+        </div>
+      ) : null}
+
+      {inflationSummary ? (
+        <div style={{ margin: '20px 0', padding: '12px', background: '#0f172a', borderRadius: 8 }}>
+          <strong>Inflation series live:</strong> {inflationSummary.count} points ({inflationSummary.from}–
+          {inflationSummary.to}), latest: {inflationSummary.latest}%
         </div>
       ) : null}
 
