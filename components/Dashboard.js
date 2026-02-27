@@ -1,4 +1,7 @@
 'use client';
+
+import { supabase } from '@/lib/supabase';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useLang } from '@/contexts/LangContext';
 import { getActiveCharts, getComingSoonCharts, LIVE_STATS } from '@/lib/charts';
