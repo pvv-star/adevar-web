@@ -7,7 +7,6 @@ import { initChart } from '@/lib/engine';
 export default function ChartCanvas({ config, eras }) {
   const canvasRef = useRef(null);
   const cleanupRef = useRef(null);
-  const apiRef = useRef(null);
   const { lang } = useLang();
   const { theme } = useTheme();
 

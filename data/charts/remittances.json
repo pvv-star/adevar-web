@@ -1,0 +1,71 @@
+{
+  "config": {
+    "unit": "mln USD",
+    "yMax": 550,
+    "gridSteps": 5,
+    "decimals": 1,
+    "timeRange": "2014 — 2025",
+    "data": [
+      { "label": "Q1 2014", "value": 314.1,  "era": "PDM",  "pm": "Iurie Leancă" },
+      { "label": "Q3 2014", "value": 487.5,  "era": "PDM",  "pm": "Iurie Leancă" },
+      { "label": "Q1 2015", "value": 243.7,  "era": "PDM",  "pm": "Chiril Gaburici" },
+      { "label": "Q3 2015", "value": 294.0,  "era": "PDM",  "pm": "Valeriu Streleț" },
+      { "label": "Q1 2016", "value": 223.5,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q3 2016", "value": 293.8,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q1 2017", "value": 251.8,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q3 2017", "value": 320.6,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q1 2018", "value": 297.7,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q3 2018", "value": 315.5,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q1 2019", "value": 275.7,  "era": "PDM",  "pm": "Pavel Filip" },
+      { "label": "Q3 2019", "value": 314.5,  "era": "ACUM", "pm": "Maia Sandu" },
+      { "label": "Q4 2019", "value": 319.9,  "era": "PSRM", "pm": "Ion Chicu" },
+      { "label": "Q1 2020", "value": 276.5,  "era": "PSRM", "pm": "Ion Chicu" },
+      { "label": "Q3 2020", "value": 424.1,  "era": "PSRM", "pm": "Ion Chicu" },
+      { "label": "Q4 2020", "value": 416.2,  "era": "PSRM", "pm": "Ion Chicu" },
+      { "label": "Q1 2021", "value": 365.3,  "era": "PSRM", "pm": "Aureliu Ciocoi" },
+      { "label": "Q3 2021", "value": 406.7,  "era": "PAS",  "pm": "Natalia Gavrilița" },
+      { "label": "Q1 2022", "value": 351.5,  "era": "PAS",  "pm": "Natalia Gavrilița" },
+      { "label": "Q3 2022", "value": 491.8,  "era": "PAS",  "pm": "Natalia Gavrilița" },
+      { "label": "Q4 2022", "value": 460.1,  "era": "PAS",  "pm": "Natalia Gavrilița" },
+      { "label": "Q1 2023", "value": 407.4,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q3 2023", "value": 397.7,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q1 2024", "value": 371.2,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q3 2024", "value": 410.0,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q4 2024", "value": 404.2,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q1 2025", "value": 356.5,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q3 2025", "value": 428.2,  "era": "PAS",  "pm": "Dorin Recean" },
+      { "label": "Q4 2025", "value": 462.1,  "era": "PAS",  "pm": "Dorin Recean" }
+    ],
+    "stats": { "current": 462.1, "lowest": 223.5, "peak": 491.8, "change": "+47%" },
+    "events": [
+      { "idx": 0,  "en": "Annual total: $1.61B — peak pre-crisis level",       "ro": "Total anual: $1,61 mld — nivel maxim pre-criză",         "ru": "Годовой итог: $1,61 млрд — пик до кризиса" },
+      { "idx": 1,  "en": "Q3 seasonal peak: $487M from diaspora",              "ro": "Vârf sezonier T3: $487M de la diaspora",                  "ru": "Сезонный пик 3кв: $487M от диаспоры" },
+      { "idx": 2,  "en": "$1B bank fraud — ruble crash hits transfers",         "ro": "Frauda bancară $1 mld — prăbușirea rublei afectează transferurile", "ru": "Банковское мошенничество $1 млрд — обвал рубля бьёт по переводам" },
+      { "idx": 4,  "en": "All-time low: $223M — ruble devaluation, oil crash",  "ro": "Minim istoric: $223M — devalorizarea rublei, prăbușirea petrolului", "ru": "Исторический минимум: $223M — девальвация рубля, падение нефти" },
+      { "idx": 6,  "en": "Gradual recovery — ruble stabilizes",                 "ro": "Redresare treptată — rubla se stabilizează",               "ru": "Постепенное восстановление — рубль стабилизируется" },
+      { "idx": 8,  "en": "Shift to EU: Italy, Germany overtake Russia",         "ro": "Reorientare spre UE: Italia, Germania depășesc Rusia",     "ru": "Переориентация на ЕС: Италия, Германия обгоняют Россию" },
+      { "idx": 10, "en": "Stable flows — $1.22B annual total",                  "ro": "Fluxuri stabile — total anual $1,22 mld",                 "ru": "Стабильные потоки — годовой итог $1,22 млрд" },
+      { "idx": 11, "en": "ACUM coalition — brief reform period",                "ro": "Coaliția ACUM — perioadă scurtă de reforme",              "ru": "Коалиция ACUM — краткий период реформ" },
+      { "idx": 12, "en": "PSRM takes power — Chicu government",                "ro": "PSRM preia puterea — guvernul Chicu",                     "ru": "ПСРМ приходит к власти — правительство Кику" },
+      { "idx": 13, "en": "COVID-19 lockdowns — brief Q1 dip",                   "ro": "Lockdown COVID-19 — scădere scurtă în T1",                "ru": "Локдаун COVID-19 — кратковременный спад в 1кв" },
+      { "idx": 14, "en": "Post-COVID surge — diaspora sends record aid",        "ro": "Val post-COVID — diaspora trimite ajutor record",          "ru": "Волна после COVID — диаспора отправляет рекордную помощь" },
+      { "idx": 17, "en": "PAS wins supermajority — EU integration path",        "ro": "PAS câștigă supermajoritate — cale spre integrarea UE",   "ru": "PAS получает суперболь\u00ADшинство — курс на интеграцию в ЕС" },
+      { "idx": 19, "en": "All-time peak: $492M — Ukraine war boosts flows",     "ro": "Vârf istoric: $492M — războiul din Ucraina crește fluxurile", "ru": "Исторический максимум: $492M — война в Украине увеличивает потоки" },
+      { "idx": 21, "en": "Normalization — flows stabilize around $400M/Q",      "ro": "Normalizare — fluxurile se stabilizează la ~$400M/trim",  "ru": "Нормализация — потоки стабилизируются на уровне ~$400M/кв" },
+      { "idx": 23, "en": "EU candidate status — confidence effect",             "ro": "Statut de candidat UE — efect de încredere",              "ru": "Статус кандидата ЕС — эффект доверия" },
+      { "idx": 26, "en": "Seasonal dip Q1 — annual pattern holds",              "ro": "Scădere sezonieră T1 — tendința anuală se menține",        "ru": "Сезонный спад 1кв — годовая тенденция сохраняется" },
+      { "idx": 28, "en": "Annual total 2025: $1.66B — highest since 2022",      "ro": "Total anual 2025: $1,66 mld — cel mai mare din 2022",     "ru": "Годовой итог 2025: $1,66 млрд — максимум с 2022" }
+    ],
+    "i18n": {
+      "ro": { "title": "Remitențele în Republica Moldova", "subtitle": "Transferuri de bani din străinătate prin sistemul bancar, mln USD (date BNM)", "current": "Actual", "lowest": "Minim", "peak": "Vârf", "change": "Variație", "events": "Evenimente cheie", "replay": "Reluare" },
+      "en": { "title": "Remittances to Moldova", "subtitle": "Money transfers from abroad via the banking system, mln USD (BNM data)", "current": "Current", "lowest": "Lowest", "peak": "Peak", "change": "Change", "events": "Key Events", "replay": "Replay" },
+      "ru": { "title": "Денежные переводы в Молдову", "subtitle": "Денежные переводы из-за рубежа через банковскую систему, млн USD (данные НБМ)", "current": "Текущий", "lowest": "Минимум", "peak": "Пик", "change": "Изменение", "events": "Ключевые события", "replay": "Воспроизвести" }
+    }
+  },
+  "eras": {
+    "PDM":  { "name": "PDM"  },
+    "ACUM": { "name": "ACUM" },
+    "PSRM": { "name": "PSRM" },
+    "PAS":  { "name": "PAS"  }
+  }
+}
