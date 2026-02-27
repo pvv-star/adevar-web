@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
   const { lang, t } = useLang();
-  const [inflationData, setInflationData] = useState([]);
   const [inflationError, setInflationError] = useState('');
 
   useEffect(() => {
@@ -28,7 +27,9 @@ export default function Dashboard() {
           throw new Error(payload?.details || payload?.error || 'Request failed');
         }
 
-        setInflationData(payload.series || []);
+        if (!Array.isArray(payload.series) || payload.series.length === 0) {
+          setInflationError('No inflation records returned from API');
+        }
       } catch (error) {
         if (error.name !== 'AbortError') {
           console.error(error);
@@ -62,14 +63,11 @@ export default function Dashboard() {
     <div className="page-scroll">
       <div className="view-heading">{t('dashTitle')}</div>
       <div className="view-subheading">{t('dashSub')}</div>
-      <div style={{ margin: '20px 0', padding: '10px', background: '#111' }}>
-        <h3>Inflation Test:</h3>
-        {inflationError ? (
-          <pre style={{ color: '#ff8787' }}>{inflationError}</pre>
-        ) : (
-          <pre>{JSON.stringify(inflationData, null, 2)}</pre>
-        )}
-      </div>
+      {inflationError ? (
+        <div style={{ margin: '20px 0', padding: '10px', background: '#2a1010', color: '#ffb3b3', borderRadius: 8 }}>
+          Inflation data unavailable: {inflationError}
+        </div>
+      ) : null}
 
       <div className="inst-card">
         <div className="inst-card-title">{t('availableCharts')}</div>
