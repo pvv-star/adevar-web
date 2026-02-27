@@ -10,6 +10,7 @@
     "smoke:indicator": "node scripts/smoke-indicator-series.mjs",
     "smoke:health": "node scripts/smoke-health.mjs",
     "smoke:prod": "bash scripts/smoke-prod-all.sh",
+    "smoke:metadata": "node scripts/smoke-indicator-metadata.mjs",
     "check:env": "bash scripts/validate-env.sh",
     "check:migrations": "bash scripts/check-migrations.sh"
   },

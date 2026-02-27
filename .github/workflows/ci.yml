@@ -67,3 +67,27 @@ jobs:
         with:
           name: prod-health-smoke
           path: /tmp/health.json
+
+  smoke-prod-metadata:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    steps:
+      - name: Check production inflation metadata fields
+        run: |
+          curl -fsS "https://www.adevar.ai/api/indicators/inflation/series?from=2018&to=2025" > /tmp/metadata.json
+          python - <<'PY'
+          import json
+          p = '/tmp/metadata.json'
+          with open(p, 'r', encoding='utf-8') as f:
+              data = json.load(f)
+          indicator = data.get('indicator') or {}
+          required = ['name', 'sourceName', 'sourceUrl', 'updateFrequency', 'unit']
+          missing = [k for k in required if not indicator.get(k)]
+          if missing:
+              raise SystemExit(f"FAIL: missing metadata fields -> {missing}")
+          print('OK metadata smoke:', {k: indicator.get(k) for k in required})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prod-metadata-smoke
+          path: /tmp/metadata.json
