@@ -78,6 +78,14 @@ Env sanity check:
 npm run check:env
 ```
 
+Production smoke bundle:
+
+```bash
+npm run smoke:prod
+# or custom base URL
+ADEVAR_BASE_URL=https://www.adevar.ai npm run smoke:prod
+```
+
 ## Not now (scope guard)
 
 - Microservices split

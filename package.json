@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "smoke:indicator": "node scripts/smoke-indicator-series.mjs",
+    "smoke:health": "node scripts/smoke-health.mjs",
+    "smoke:prod": "bash scripts/smoke-prod-all.sh",
     "check:env": "bash scripts/validate-env.sh"
   },
   "dependencies": {
