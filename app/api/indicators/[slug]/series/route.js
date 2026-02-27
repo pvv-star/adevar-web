@@ -19,6 +19,10 @@ export async function GET(request, { params }) {
 
     const result = await getIndicatorSeriesBySlug(slug, { from, to });
 
+    if (result.matchStrategy === 'not-found') {
+      return NextResponse.json(result, { status: 404 });
+    }
+
     return NextResponse.json(result, {
       status: 200,
       headers: {
