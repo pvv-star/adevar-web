@@ -39,11 +39,14 @@ export default function Dashboard() {
 
         const first = payload.series[0];
         const last = payload.series[payload.series.length - 1];
+        const currentYear = new Date().getFullYear();
+        const freshness = last?.year >= currentYear - 1 ? 'fresh' : 'stale';
         setInflationSummary({
           count: payload.count || payload.series.length,
           from: first?.year,
           to: last?.year,
           latest: last?.value,
+          freshness,
         });
         setInflationMeta(payload.indicator || null);
       } catch (error) {
@@ -105,6 +108,7 @@ export default function Dashboard() {
         <div className="inflation-banner inflation-banner--ok">
           <strong>Inflation series live:</strong> {inflationSummary.count} points ({inflationSummary.from}–{inflationSummary.to}),
           latest: {inflationSummary.latest}%
+          <span className={`freshness-badge freshness-badge--${inflationSummary.freshness}`}>{inflationSummary.freshness}</span>
           {inflationMeta?.sourceName ? (
             <div className="inflation-meta">
               Source: {inflationMeta.sourceName}
