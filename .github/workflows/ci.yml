@@ -19,9 +19,22 @@ jobs:
 
   smoke-prod-indicator:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    # Run production smoke only after merge to main.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Check production inflation endpoint
         run: |
-          curl -fsS "https://www.adevar.ai/api/indicators/inflation/series?from=2018&to=2026" | tee /tmp/inflation.json
-          grep -q '"series"' /tmp/inflation.json
+          curl -fsS "https://www.adevar.ai/api/indicators/inflation/series?from=2018&to=2025" > /tmp/inflation.json
+          python - <<'PY'
+import json
+p = '/tmp/inflation.json'
+with open(p, 'r', encoding='utf-8') as f:
+    data = json.load(f)
+strategy = data.get('matchStrategy')
+count = data.get('count', 0)
+if strategy != 'join-by-slug':
+    raise SystemExit(f'FAIL: unexpected strategy={strategy}')
+if not isinstance(count, int) or count <= 0:
+    raise SystemExit(f'FAIL: non-positive count={count}')
+print('OK smoke:', {'strategy': strategy, 'count': count})
+PY
