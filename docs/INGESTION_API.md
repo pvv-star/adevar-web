@@ -17,9 +17,17 @@
 
 ## Behavior
 - Validates payload (`slug/year/value/reason/changedBy` required)
+- Optional token auth via `x-ingest-token` when `INGEST_API_TOKEN` is configured
 - Resolves indicator by slug
 - `dryRun=true`: no DB write, returns target preview
 - `dryRun=false`: upserts into `indicator_values` and writes `data_change_log`
+
+## Auth
+If `INGEST_API_TOKEN` exists in environment, all ingest requests must include:
+
+```http
+x-ingest-token: <INGEST_API_TOKEN>
+```
 
 ## CLI
 ```bash

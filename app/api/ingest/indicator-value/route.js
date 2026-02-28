@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase-server';
 import { validateIngestionPayload } from '@/lib/ingestion-validation';
 import { logDataChange } from '@/lib/data-change-log';
+import { validateIngestAuth } from '@/lib/ingest-auth';
 
 export async function POST(request) {
   try {
@@ -14,6 +15,11 @@ export async function POST(request) {
         { ok: false, error: 'validation_failed', details: validation.errors },
         { status: 400 }
       );
+    }
+
+    const auth = validateIngestAuth(request, { dryRun });
+    if (!auth.ok) {
+      return NextResponse.json({ ok: false, error: auth.error }, { status: auth.status });
     }
 
     const { slug, year, value, reason, changedBy } = validation.normalized;

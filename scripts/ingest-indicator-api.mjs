@@ -17,9 +17,14 @@ const payload = {
 };
 
 const url = `${base}/api/ingest/indicator-value`;
+const headers = { 'content-type': 'application/json' };
+if (process.env.INGEST_API_TOKEN) {
+  headers['x-ingest-token'] = process.env.INGEST_API_TOKEN;
+}
+
 const res = await fetch(url, {
   method: 'POST',
-  headers: { 'content-type': 'application/json' },
+  headers,
   body: JSON.stringify(payload),
 });
 
