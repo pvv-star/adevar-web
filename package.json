@@ -11,6 +11,8 @@
     "smoke:health": "node scripts/smoke-health.mjs",
     "smoke:prod": "bash scripts/smoke-prod-all.sh",
     "smoke:metadata": "node scripts/smoke-indicator-metadata.mjs",
+    "smoke:ingest": "node scripts/smoke-ingest-contract.mjs",
+    "ingest:api": "node scripts/ingest-indicator-api.mjs",
     "check:env": "bash scripts/validate-env.sh",
     "check:migrations": "bash scripts/check-migrations.sh",
     "check:docs": "bash scripts/check-docs.sh"

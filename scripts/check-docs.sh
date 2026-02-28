@@ -7,6 +7,7 @@ required=(
   "docs/DB_SAFETY_PROTOCOL.md"
   "docs/DATA_CATALOG.md"
   "docs/INGESTION_PLAN.md"
+  "docs/INGESTION_API.md"
 )
 
 for f in "${required[@]}"; do
