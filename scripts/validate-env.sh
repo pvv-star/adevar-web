@@ -40,6 +40,22 @@ if [[ -n "$url" && ! "$url" =~ ^https://[a-z0-9-]+\.supabase\.co$ ]]; then
   echo "WARN: NEXT_PUBLIC_SUPABASE_URL format looks unusual: $url"
 fi
 
+token_line="$(grep -E '^INGEST_API_TOKEN=' "$FILE" || true)"
+if [[ -n "$token_line" ]]; then
+  token_value="${token_line#*=}"
+  if [[ -z "$token_value" ]]; then
+    echo "WARN: INGEST_API_TOKEN is set but empty"
+  fi
+  if [[ "$token_value" == *'\\n'* || "$token_value" == *$'\r'* || "$token_value" == *$'\n'* ]]; then
+    echo "FAIL: INGEST_API_TOKEN contains newline/carriage return"
+    fail=1
+  fi
+  if [[ "$token_value" == '"'* || "$token_value" == *'"' ]]; then
+    echo "FAIL: INGEST_API_TOKEN contains wrapping quotes"
+    fail=1
+  fi
+fi
+
 if [[ $fail -eq 1 ]]; then
   exit 2
 fi

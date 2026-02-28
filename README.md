@@ -86,6 +86,12 @@ npm run smoke:prod
 ADEVAR_BASE_URL=https://www.adevar.ai npm run smoke:prod
 ```
 
+Ingestion API dry-run smoke:
+
+```bash
+ADEVAR_BASE_URL=https://www.adevar.ai npm run smoke:ingest
+```
+
 ## Not now (scope guard)
 
 - Microservices split

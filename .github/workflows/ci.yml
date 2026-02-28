@@ -92,3 +92,32 @@ jobs:
         with:
           name: prod-metadata-smoke
           path: /tmp/metadata.json
+
+  smoke-prod-ingest:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    steps:
+      - name: Check production ingest contract (dry-run)
+        run: |
+          curl -fsS -X POST "https://www.adevar.ai/api/ingest/indicator-value" \
+            -H "content-type: application/json" \
+            -d '{"slug":"inflation","year":2025,"value":5.2,"reason":"ci_contract_check","changedBy":"ci","dryRun":true}' \
+            > /tmp/ingest.json
+          python - <<'PY'
+          import json
+          p = '/tmp/ingest.json'
+          with open(p, 'r', encoding='utf-8') as f:
+              data = json.load(f)
+          if data.get('ok') is not True:
+              raise SystemExit(f"FAIL: ingest not ok -> {data}")
+          if data.get('mode') != 'dry-run':
+              raise SystemExit(f"FAIL: expected dry-run mode -> {data.get('mode')}")
+          target = data.get('target') or {}
+          if not target.get('indicatorId'):
+              raise SystemExit(f"FAIL: missing target indicatorId -> {target}")
+          print('OK ingest smoke:', target)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prod-ingest-smoke
+          path: /tmp/ingest.json

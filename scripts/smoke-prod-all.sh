@@ -9,7 +9,10 @@ ADEVAR_BASE_URL="$BASE_URL" node scripts/smoke-indicator-series.mjs inflation 20
 echo "[2/3] Health smoke"
 ADEVAR_BASE_URL="$BASE_URL" node scripts/smoke-health.mjs
 
-echo "[3/3] Metadata smoke"
+echo "[3/4] Metadata smoke"
 ADEVAR_BASE_URL="$BASE_URL" node scripts/smoke-indicator-metadata.mjs inflation
+
+echo "[4/4] Ingestion contract smoke (dry-run)"
+ADEVAR_BASE_URL="$BASE_URL" node scripts/smoke-ingest-contract.mjs
 
 echo "OK: production smokes passed"
