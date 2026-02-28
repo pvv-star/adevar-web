@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { useLang } from '@/contexts/LangContext';
-import { getActiveCharts, getComingSoonCharts, LIVE_STATS } from '@/lib/charts';
-import { useEffect, useMemo, useState } from 'react';
+import { getActiveCharts, getComingSoonCharts } from '@/lib/charts';
+import { useEffect, useState } from 'react';
 import IndicatorStatCard from './IndicatorStatCard';
 
 export default function Dashboard() {
@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [inflationError, setInflationError] = useState('');
   const [inflationSummary, setInflationSummary] = useState(null);
   const [inflationMeta, setInflationMeta] = useState(null);
+  const [liveStats, setLiveStats] = useState({});
 
   useEffect(() => {
     const controller = new AbortController();
@@ -64,26 +65,36 @@ export default function Dashboard() {
     return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function fetchDashboardStats() {
+      try {
+        const res = await fetch('/api/dashboard/stats', {
+          signal: controller.signal,
+          cache: 'no-store',
+        });
+
+        const payload = await res.json();
+        if (!res.ok) {
+          throw new Error(payload?.details || payload?.error || 'Failed to load dashboard stats');
+        }
+
+        setLiveStats(payload?.stats || {});
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error(error);
+        }
+      }
+    }
+
+    fetchDashboardStats();
+
+    return () => controller.abort();
+  }, []);
+
   const activeCharts = getActiveCharts();
   const soonCharts = getComingSoonCharts();
-
-  const liveStats = useMemo(() => {
-    const mapped = { ...LIVE_STATS };
-    if (inflationSummary) {
-      mapped.inflation = {
-        value: String(inflationSummary.latest),
-        unit: '%',
-        change: mapped.inflation?.change || 'n/a',
-        dir: mapped.inflation?.dir || 'up',
-        date: {
-          ro: `${inflationSummary.to}`,
-          en: `${inflationSummary.to}`,
-          ru: `${inflationSummary.to}`,
-        },
-      };
-    }
-    return mapped;
-  }, [inflationSummary]);
 
   const upArrow = (
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
