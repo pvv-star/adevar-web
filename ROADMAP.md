@@ -1,26 +1,43 @@
-# adevar.ai Roadmap (Execution View)
+# adevar.ai Roadmap (Updated March 2026)
 
-## Phase 1 — Stability (Now)
-- [x] Server-side indicator API for inflation
-- [x] Smoke checks for indicator endpoint
-- [x] DB safety protocol + guardrail migration file
-- [ ] Run guardrail migration in production (SQL checkpoint)
-- [ ] Finalize env/auth hygiene runbook
+## Phase 1 — Reliable Modular Monolith (Current)
 
-## Phase 2 — Product Consistency
-- [ ] Apply Brand v4 tokens across global styles
-- [ ] Reusable indicator card pattern for dashboard
-- [ ] Replace static dashboard stats with API-backed values
+- [x] Next.js app + dashboard + chart routes
+- [x] Server indicator API (`/api/indicators/:slug/series`)
+- [x] Service-layer retrieval with fallback strategy (join/exact/fuzzy)
+- [x] Health endpoint and smoke checks
+- [x] Ingestion API with validation/auth and upsert semantics
+- [x] Guardrail + metadata/audit SQL migrations added
+- [ ] Replace remaining hardcoded dashboard stats with API-derived values
+- [ ] Tighten server-key policy (remove anon fallback from server paths)
 
-## Phase 3 — Data Platform
-- [ ] Indicator metadata model (source/frequency/methodology)
-- [ ] Ingestion plan per indicator
-- [ ] Audit log for data changes
+## Phase 2 — Governance Hardening
+
+- [ ] Finalize indicator registry model (source/frequency/methodology/coverage)
+- [ ] Versioning workflow for metadata changes
+- [ ] Enforce validation rules per indicator (ranges, frequency, missingness)
+- [ ] Expand data change logs into consistent audit trail UI/report export
+
+## Phase 3 — AI Query Layer (Controlled)
+
+- [ ] Design intent schema (`metric`, `timeframe`, `comparison`)
+- [ ] Implement safe query builder with table/column allowlist
+- [ ] Add `/api/ai-query` with strict guardrails and logs
+- [ ] Institutional response formatting with source citation + freshness
 
 ## Phase 4 — Delivery Discipline
-- [ ] CI gate for non-empty inflation series
-- [ ] Release checklist (DB verify → smoke → deploy → verify)
-- [ ] Weekly reliability report
 
-## Current Principle
-Prime executes autonomously. User is involved mainly for SQL-layer and auth/access steps.
+- [ ] CI checks for non-empty critical indicators (inflation first)
+- [ ] Release checklist gate: DB verify → smoke → deploy → verify
+- [ ] Reliability dashboard / weekly quality report
+
+## Non-goals (for now)
+
+- Full microservice decomposition
+- Real-time streaming architecture
+- Complex multi-agent orchestration before data quality is stable
+
+## Working principle
+
+Build for correctness and traceability first.  
+Scale architecture only after data reliability and governance are stable.

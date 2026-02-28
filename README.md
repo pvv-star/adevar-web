@@ -1,47 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# adevar-web
 
-## Getting Started
+Institutional data intelligence web app for Moldova, built with **Next.js 14 + Supabase**.
 
-First, run the development server:
+## What exists today
+
+- Next.js App Router frontend (`app/`)
+- Dashboard + chart pages (`/`, `/chart/[id]`, `/about`)
+- Server API for indicator time series:
+  - `GET /api/indicators/:slug/series?from=YYYY&to=YYYY`
+- Health endpoint:
+  - `GET /api/health`
+- Protected ingestion endpoint:
+  - `POST /api/ingest/indicator-value`
+- SQL migrations and diagnostics under `sql/`
+- Smoke and env scripts under `scripts/`
+
+---
+
+## Local setup
 
 ```bash
+npm install
+cp .env.example .env.local # if available, otherwise create .env.local manually
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open: <http://localhost:3000>
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Required environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+At minimum:
 
-## Learn More
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY` (preferred for server routes)
 
-To learn more about Next.js, take a look at the following resources:
+Fallback behavior currently allows `NEXT_PUBLIC_SUPABASE_ANON_KEY` in server client if service key is missing, but service role key is recommended for backend flows.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## API
+## API quick reference
 
 ### Indicator series
 
 `GET /api/indicators/:slug/series?from=2018&to=2026`
 
-Response shape:
+Example response:
 
 ```json
 {
@@ -49,53 +52,60 @@ Response shape:
   "from": 2018,
   "to": 2026,
   "matchStrategy": "join-by-slug",
+  "count": 6,
+  "lastUpdated": 2023,
+  "indicator": {
+    "id": "uuid",
+    "name": "Inflation",
+    "sourceName": "...",
+    "sourceUrl": "...",
+    "unit": "%"
+  },
   "series": [{ "year": 2018, "value": 3.1 }]
 }
 ```
 
-## Diagnostics
+Possible `matchStrategy` values:
+- `join-by-slug`
+- `indicator-id-exact`
+- `indicator-id-fuzzy`
+- `not-found`
 
-For inflation data integrity checks, run SQL in Supabase SQL editor:
+---
 
-- `sql/diagnostics/inflation_integrity.sql`
-- `sql/migrations/20260227_db_guardrails.sql`
+## Useful scripts
 
-DB operation protocol:
+```bash
+npm run dev
+npm run build
+npm run lint
+
+npm run check:env
+npm run check:migrations
+npm run check:docs
+
+npm run smoke:indicator
+npm run smoke:health
+npm run smoke:metadata
+npm run smoke:ingest
+npm run smoke:prod
+```
+
+---
+
+## SQL and safety docs
 
 - `docs/DB_SAFETY_PROTOCOL.md`
+- `sql/diagnostics/inflation_integrity.sql`
+- `sql/migrations/20260227_db_guardrails.sql`
+- `sql/migrations/20260228_indicator_metadata_and_audit.sql`
 
-For API smoke check (after `npm run dev`):
+---
 
-```bash
-npm run smoke:indicator
-# or custom:
-ADEVAR_BASE_URL=https://www.adevar.ai node scripts/smoke-indicator-series.mjs inflation 2018 2026
-```
+## Current development principle
 
-Env sanity check:
-
-```bash
-npm run check:env
-```
-
-Production smoke bundle:
-
-```bash
-npm run smoke:prod
-# or custom base URL
-ADEVAR_BASE_URL=https://www.adevar.ai npm run smoke:prod
-```
-
-Ingestion API dry-run smoke:
-
-```bash
-ADEVAR_BASE_URL=https://www.adevar.ai npm run smoke:ingest
-```
-
-## Not now (scope guard)
-
-- Microservices split
-- Realtime streaming pipelines
-- Multi-tenant architecture
-- Complex agent orchestration before data quality is stable
-
+Keep architecture as a **modular monolith**:
+- service-layer data access
+- clean API boundaries
+- governance/audit by default
+- microservice extraction only when scale requires it
