@@ -16,6 +16,7 @@ jobs:
           node-version: '20'
           cache: npm
       - run: npm ci
+      - run: npm run check:env
       - run: npm run check:migrations
       - run: npm run check:docs
       - run: npm run build
