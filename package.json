@@ -6,12 +6,23 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "smoke:indicator": "node scripts/smoke-indicator-series.mjs",
+    "smoke:health": "node scripts/smoke-health.mjs",
+    "smoke:prod": "bash scripts/smoke-prod-all.sh",
+    "smoke:metadata": "node scripts/smoke-indicator-metadata.mjs",
+    "check:env": "bash scripts/validate-env.sh",
+    "check:migrations": "bash scripts/check-migrations.sh",
+    "check:docs": "bash scripts/check-docs.sh"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",
+    "next": "14.2.35",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.35"
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35"
   }
 }

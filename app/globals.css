@@ -629,3 +629,41 @@ canvas{display:block;width:100%;cursor:crosshair}
   .sidebar-overlay{display:none!important}
   .bottom-nav{display:none!important}
 }
+
+/* ============================================================
+   DASHBOARD BANNERS
+   ============================================================ */
+.inflation-banner{
+  margin:20px 0;
+  padding:12px;
+  border-radius:8px;
+  font-size:13px;
+}
+
+.inflation-banner--ok{
+  background:#0f172a;
+  color:#ffffff;
+}
+
+.inflation-banner--error{
+  background:#2a1010;
+  color:#ffb3b3;
+}
+
+.inflation-meta{
+  margin-top:6px;
+  font-size:12px;
+  opacity:0.9;
+}
+
+.freshness-badge{
+  display:inline-block;
+  margin-left:8px;
+  padding:2px 6px;
+  border-radius:999px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.freshness-badge--fresh{background:#065f46;color:#d1fae5}
+.freshness-badge--stale{background:#7f1d1d;color:#fee2e2}
