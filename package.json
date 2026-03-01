@@ -20,7 +20,8 @@
     "test:ingest-core": "node scripts/test-ingest-core.mjs",
     "preflight": "bash scripts/boss-preflight.sh",
     "deploy:prod:safe": "bash scripts/boss-deploy.sh",
-    "news:pipeline": "node scripts/news-pipeline.mjs"
+    "news:pipeline": "node scripts/news-pipeline.mjs",
+    "tokens:sync": "node scripts/sync-ui-tokens.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",

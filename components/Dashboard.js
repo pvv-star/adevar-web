@@ -6,11 +6,25 @@ import { getActiveCharts, getComingSoonCharts } from '@/lib/charts';
 import { useEffect, useState } from 'react';
 import IndicatorStatCard from './IndicatorStatCard';
 
+function DashboardSkeleton() {
+  return (
+    <div className="dashboard-skeleton" aria-hidden="true">
+      <div className="skel-bar skel-hero"></div>
+      <div className="skel-row">
+        <div className="skel-bar skel-stat"></div>
+        <div className="skel-bar skel-stat"></div>
+      </div>
+      <div className="skel-bar skel-news"></div>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const { lang, t } = useLang();
   const [liveStats, setLiveStats] = useState({});
   const [snapshot, setSnapshot] = useState(null);
   const [liveNews, setLiveNews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -67,9 +81,9 @@ export default function Dashboard() {
       }
     }
 
-    fetchDashboardStats();
-    fetchSnapshot();
-    fetchLiveNews();
+    Promise.allSettled([fetchDashboardStats(), fetchSnapshot(), fetchLiveNews()]).finally(() => {
+      setLoading(false);
+    });
 
     return () => controller.abort();
   }, []);
@@ -92,10 +106,20 @@ export default function Dashboard() {
 
   return (
     <div className="page-scroll">
-      <div className="view-heading">{t('dashTitle')}</div>
-      <div className="view-subheading">{t('dashSub')}</div>
+      <section className="mobile-hero">
+        <p className="mobile-hero-trust">Official Moldova data · transparent sources · no guesswork</p>
+        <h1 className="view-heading mobile-hero-title">{t('dashTitle')}</h1>
+        <p className="view-subheading mobile-hero-sub">{t('dashSub')}</p>
+        <div className="mobile-hero-cta-row">
+          <Link href="/chart/inflation" className="hero-cta-primary">Explore data</Link>
+          <Link href="/news?range=72h" className="hero-cta-link">Latest news</Link>
+          <Link href="/about" className="hero-cta-link">About sources</Link>
+        </div>
+      </section>
 
-      {liveNews?.length ? (
+      {loading ? <DashboardSkeleton /> : null}
+
+      {!loading && liveNews?.length ? (
         <Link href="/news?range=72h" className="live-news-card" style={{ textDecoration: 'none' }}>
           <div className="live-snapshot-title">Live Moldova News Pulse · last 24h</div>
           <div className="live-news-list">
@@ -108,7 +132,7 @@ export default function Dashboard() {
           </div>
           <div className="live-snapshot-meta">Tap to open full 72h feed</div>
         </Link>
-      ) : snapshot?.ok ? (
+      ) : !loading && snapshot?.ok ? (
         <div className="live-snapshot-card">
           <div className="live-snapshot-title">Live Snapshot · FX + Weather</div>
           <div className="live-snapshot-grid">
@@ -123,7 +147,6 @@ export default function Dashboard() {
           </div>
         </div>
       ) : null}
-
 
       <div className="inst-card">
         <div className="inst-card-title">{t('availableCharts')}</div>
