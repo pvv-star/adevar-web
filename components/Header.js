@@ -43,6 +43,18 @@ export default function Header({ onNavToggle }) {
     };
   }, []);
 
+  // Cmd/Ctrl+K to open search
+  useEffect(() => {
+    function onKeyDown(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen(prev => !prev);
+      }
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   function onBack() {
     if (window.history.length > 1) {
       router.back();
@@ -82,7 +94,7 @@ export default function Header({ onNavToggle }) {
         </div>
       </div>
       <div className="header-right">
-        <button className="search-toggle" onClick={() => setSearchOpen(true)} aria-label={t('searchIndicators')}>
+        <button className="search-toggle" onClick={() => setSearchOpen(true)} aria-label={t('searchIndicators')} title="⌘K">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
