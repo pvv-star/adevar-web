@@ -69,6 +69,34 @@ jobs:
           name: prod-health-smoke
           path: /tmp/health.json
 
+  smoke-prod-dashboard-critical:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    steps:
+      - name: Check production dashboard critical stats
+        run: |
+          curl -fsS "https://www.adevar.ai/api/dashboard/stats" > /tmp/dashboard.json
+          python - <<'PY'
+          import json
+          p = '/tmp/dashboard.json'
+          with open(p, 'r', encoding='utf-8') as f:
+              data = json.load(f)
+          stats = data.get('stats') or {}
+          required = ['inflation', 'gas', 'electricity']
+          missing = [k for k in required if not isinstance(stats.get(k), dict)]
+          if missing:
+              raise SystemExit(f"FAIL: missing critical dashboard stats -> {missing}")
+          for key in required:
+              node = stats[key]
+              if not node.get('value'):
+                  raise SystemExit(f"FAIL: empty value for {key} -> {node}")
+          print('OK dashboard critical smoke:', {k: stats[k].get('value') for k in required})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prod-dashboard-critical-smoke
+          path: /tmp/dashboard.json
+
   smoke-prod-metadata:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')

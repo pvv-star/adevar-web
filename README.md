@@ -32,9 +32,8 @@ Open: <http://localhost:3000>
 At minimum:
 
 - `NEXT_PUBLIC_SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY` (preferred for server routes)
-
-Fallback behavior currently allows `NEXT_PUBLIC_SUPABASE_ANON_KEY` in server client if service key is missing, but service role key is recommended for backend flows.
+- `SUPABASE_SERVICE_ROLE_KEY` (required for server routes)
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` (required by env validation and client-side public usage)
 
 ---
 
