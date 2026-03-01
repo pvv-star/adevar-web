@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
 
 export async function GET(request) {
   try {
@@ -29,8 +30,8 @@ export async function GET(request) {
     const items = hasMore ? rows.slice(0, limit) : rows;
     const nextCursor = hasMore ? items[items.length - 1]?.published_at : null;
 
-    return NextResponse.json({ ok: true, items, nextCursor, hasMore, range });
-  } catch (error) {
-    return NextResponse.json({ ok: false, error: error.message || 'news_feed_failed' }, { status: 500 });
+    return NextResponse.json({ ok: true, items, nextCursor, hasMore, range, ...DATA_GOVERNANCE });
+  } catch {
+    return NextResponse.json(notAvailableResponse(), { status: 200 });
   }
 }

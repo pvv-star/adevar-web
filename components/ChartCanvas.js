@@ -4,37 +4,57 @@ import { useLang } from '@/contexts/LangContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { initChart } from '@/lib/engine';
 
+const PERIODS = [
+  { id: '1y', label: '1Y', points: 12 },
+  { id: '3y', label: '3Y', points: 36 },
+  { id: '5y', label: '5Y', points: 60 },
+  { id: 'all', label: 'All', points: null },
+];
+
 export default function ChartCanvas({ config, eras }) {
   const canvasRef = useRef(null);
   const cleanupRef = useRef(null);
   const { lang } = useLang();
   const { theme } = useTheme();
   const [compactMode, setCompactMode] = useState(true);
+  const [period, setPeriod] = useState('all');
+
+  const effectiveConfig = useMemo(() => {
+    const source = config || {};
+    const data = Array.isArray(source.data) ? source.data : [];
+    const selected = PERIODS.find((p) => p.id === period) || PERIODS[PERIODS.length - 1];
+    if (!selected.points || data.length <= selected.points) return source;
+
+    return {
+      ...source,
+      data: data.slice(-selected.points),
+      timeRange: selected.label,
+    };
+  }, [config, period]);
 
   const mobileSummary = useMemo(() => {
-    const data = config?.data || [];
+    const data = effectiveConfig?.data || [];
     if (!data.length) return { value: '—', trend: '—', updated: '—' };
     const last = data[data.length - 1];
     const prev = data[data.length - 2];
     const diff = prev ? Number(last.y) - Number(prev.y) : 0;
-    const trend = Number.isFinite(diff) ? `${diff > 0 ? '+' : ''}${diff.toFixed(config?.decimals ?? 1)}` : '—';
+    const trend = Number.isFinite(diff) ? `${diff > 0 ? '+' : ''}${diff.toFixed(effectiveConfig?.decimals ?? 1)}` : '—';
     return {
-      value: `${last.y}${config?.unit || ''}`,
+      value: `${last.y}${effectiveConfig?.unit || ''}`,
       trend,
       updated: String(last.x || '—'),
     };
-  }, [config]);
+  }, [effectiveConfig]);
 
   const mount = useCallback(() => {
     if (!canvasRef.current) return;
-    // Clean up previous instance
     if (cleanupRef.current) {
       cleanupRef.current();
       cleanupRef.current = null;
     }
-    const cleanup = initChart(canvasRef.current, config, eras, lang, theme);
+    const cleanup = initChart(canvasRef.current, effectiveConfig, eras, lang, theme);
     cleanupRef.current = cleanup;
-  }, [config, eras, lang, theme]);
+  }, [effectiveConfig, eras, lang, theme]);
 
   useEffect(() => {
     mount();
@@ -63,6 +83,20 @@ export default function ChartCanvas({ config, eras }) {
         </div>
 
         <div className="chart-source-row">Source: Official Moldova institutional datasets</div>
+
+        <div className="period-chips" aria-label="Chart period">
+          {PERIODS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              className={`period-chip${period === p.id ? ' active' : ''}`}
+              onClick={() => setPeriod(p.id)}
+              aria-pressed={period === p.id}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
 
         <div className="controls">
           <button className="ctrl-btn" id="replayBtn">&#8635; Replay</button>

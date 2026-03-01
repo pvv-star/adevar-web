@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
 
 export async function GET() {
   try {
@@ -15,8 +16,8 @@ export async function GET() {
 
     if (error) throw error;
 
-    return NextResponse.json({ ok: true, updatedAt: new Date().toISOString(), items: data || [] }, { headers: { 'Cache-Control': 'no-store' } });
-  } catch (error) {
-    return NextResponse.json({ ok: false, error: error.message || 'live_news_failed' }, { status: 500 });
+    return NextResponse.json({ ok: true, updatedAt: new Date().toISOString(), items: data || [], ...DATA_GOVERNANCE }, { headers: { 'Cache-Control': 'no-store' } });
+  } catch {
+    return NextResponse.json(notAvailableResponse(), { status: 200, headers: { 'Cache-Control': 'no-store' } });
   }
 }
