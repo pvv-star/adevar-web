@@ -21,6 +21,11 @@ function DashboardSkeleton() {
 
 export default function Dashboard() {
   const { lang, t } = useLang();
+  const heroCta = {
+    primary: lang === 'ro' ? 'Explorează datele' : lang === 'ru' ? 'Изучить данные' : 'Explore data',
+    news: lang === 'ro' ? 'Noutăți' : lang === 'ru' ? 'Новости' : 'Latest news',
+    sources: lang === 'ro' ? 'Despre surse' : lang === 'ru' ? 'Об источниках' : 'About sources',
+  };
   const [liveStats, setLiveStats] = useState({});
   const [snapshot, setSnapshot] = useState(null);
   const [liveNews, setLiveNews] = useState([]);
@@ -111,9 +116,9 @@ export default function Dashboard() {
         <h1 className="view-heading mobile-hero-title">{t('dashTitle')}</h1>
         <p className="view-subheading mobile-hero-sub">{t('dashSub')}</p>
         <div className="mobile-hero-cta-row">
-          <Link href="/chart/inflation" className="hero-cta-primary">Explore data</Link>
-          <Link href="/news?range=72h" className="hero-cta-link">Latest news</Link>
-          <Link href="/about" className="hero-cta-link">About sources</Link>
+          <Link href="/chart/inflation" className="hero-cta-primary">{heroCta.primary}</Link>
+          <Link href="/news?range=72h" className="hero-cta-link">{heroCta.news}</Link>
+          <Link href="/about" className="hero-cta-link">{heroCta.sources}</Link>
         </div>
       </section>
 

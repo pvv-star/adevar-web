@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseReadClient } from '@/lib/supabase-server';
+import { getSupabaseReadClient, getSupabaseServerClient } from '@/lib/supabase-server';
 import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
@@ -18,17 +18,24 @@ export async function GET(request) {
     const hours = range === '24h' ? 24 : range === '48h' ? 48 : 72;
     const from = new Date(Date.now() - hours * 3600 * 1000).toISOString();
 
-    const supabase = getSupabaseReadClient();
-    let q = supabase
-      .from('news_items')
-      .select('id,title,summary,url,source_slug,published_at,impact_score,duplicate_group')
-      .gte('published_at', from)
-      .order('published_at', { ascending: false })
-      .limit(limit + 1);
+    const runQuery = (client) => {
+      let q = client
+        .from('news_items')
+        .select('id,title,summary,url,source_slug,published_at,impact_score,duplicate_group')
+        .gte('published_at', from)
+        .order('published_at', { ascending: false })
+        .limit(limit + 1);
 
-    if (cursor) q = q.lt('published_at', cursor);
+      if (cursor) q = q.lt('published_at', cursor);
+      return q;
+    };
 
-    const { data, error } = await q;
+    let { data, error } = await runQuery(getSupabaseReadClient());
+
+    if (error && /permission|rls|denied|42501/i.test(String(error.message || error.code || ''))) {
+      ({ data, error } = await runQuery(getSupabaseServerClient()));
+    }
+
     if (error) throw error;
 
     const rows = data || [];

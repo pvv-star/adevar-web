@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseReadClient } from '@/lib/supabase-server';
+import { getSupabaseReadClient, getSupabaseServerClient } from '@/lib/supabase-server';
 import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
@@ -10,14 +10,19 @@ export async function GET(request) {
   }
   try {
     const from = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
-    const supabase = getSupabaseReadClient();
-    const { data, error } = await supabase
+
+    const runQuery = (client) => client
       .from('news_items')
       .select('title,url,source_slug,published_at,impact_score,duplicate_group')
       .gte('published_at', from)
       .order('impact_score', { ascending: false })
       .order('published_at', { ascending: false })
       .limit(8);
+
+    let { data, error } = await runQuery(getSupabaseReadClient());
+    if (error && /permission|rls|denied|42501/i.test(String(error.message || error.code || ''))) {
+      ({ data, error } = await runQuery(getSupabaseServerClient()));
+    }
 
     if (error) throw error;
 
