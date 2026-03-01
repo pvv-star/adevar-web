@@ -4,6 +4,11 @@ cd "$(dirname "$0")/.."
 
 FILE=".env.local"
 if [[ ! -f "$FILE" ]]; then
+  # In CI we may not have local env file. Skip hard fail there.
+  if [[ "${CI:-}" == "true" || "${GITHUB_ACTIONS:-}" == "true" ]]; then
+    echo "WARN: $FILE not found in CI; skipping local env format checks"
+    exit 0
+  fi
   echo "FAIL: $FILE not found"
   exit 1
 fi
