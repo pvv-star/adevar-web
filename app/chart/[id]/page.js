@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title,
       description,
-      images: [{ url: 'https://adevar.ai/og-image.png' }],
+      images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
     },
   };
 }

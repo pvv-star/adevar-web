@@ -9,6 +9,7 @@ const onest = Onest({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://www.adevar.ai'),
   title: 'adevar.ai — Platforma de date instituționale a Moldovei',
   description: 'Monitorizare independentă a indicatorilor economici și energetici din Republica Moldova. Date din surse oficiale: BNS, ANRE, BNM.',
   openGraph: {
@@ -16,9 +17,11 @@ export const metadata = {
     description: 'Indicatori macroeconomici ai Republicii Moldova: gaze, electricitate, inflație, salarii, remitențe.',
     type: 'website',
     url: 'https://www.adevar.ai',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
+    images: ['/opengraph-image'],
   },
   icons: {
     icon: '/favicon.svg',

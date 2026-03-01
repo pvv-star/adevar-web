@@ -6,6 +6,7 @@ import { getActiveCharts, getComingSoonCharts } from '@/lib/charts';
 import { useEffect, useState } from 'react';
 import IndicatorStatCard from './IndicatorStatCard';
 import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
+import { cachedFetch } from '@/lib/fetch-cache';
 
 function DashboardSkeleton() {
   return (
@@ -38,15 +39,17 @@ export default function Dashboard() {
 
     async function fetchDashboardStats() {
       try {
-        const res = await fetch('/api/dashboard/stats', {
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-
-        const payload = await res.json();
-        if (!res.ok) {
-          throw new Error(payload?.details || payload?.error || 'Failed to load dashboard stats');
-        }
+        const payload = await cachedFetch('dashboard-stats', async () => {
+          const res = await fetch('/api/dashboard/stats', {
+            signal: controller.signal,
+            cache: 'no-store',
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            throw new Error(data?.details || data?.error || 'Failed to load dashboard stats');
+          }
+          return data;
+        }, { ttl: 60_000, swr: 120_000 });
 
         setLiveStats(payload?.stats || {});
       } catch (error) {
@@ -70,12 +73,16 @@ export default function Dashboard() {
 
     async function fetchLiveNews() {
       try {
-        const res = await fetch('/api/widgets/live-news', {
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-        const payload = await res.json();
-        if (!res.ok || !payload?.ok) throw new Error(payload?.error || 'Failed live news');
+        const payload = await cachedFetch('live-news', async () => {
+          const res = await fetch('/api/widgets/live-news', {
+            signal: controller.signal,
+            cache: 'no-store',
+          });
+          const data = await res.json();
+          if (!res.ok || !data?.ok) throw new Error(data?.error || 'Failed live news');
+          return data;
+        }, { ttl: 60_000, swr: 120_000 });
+
         setLiveNews(payload.items || []);
       } catch (error) {
         if (error.name !== 'AbortError') {

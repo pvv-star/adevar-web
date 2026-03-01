@@ -1,13 +1,16 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLang } from '@/contexts/LangContext';
 import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
+import SearchModal from './SearchModal';
 
 
 export default function Header({ onNavToggle }) {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
   const { theme, toggleTheme } = useTheme();
   const { lang, setLang, t } = useLang();
   const pathname = usePathname();
@@ -49,6 +52,7 @@ export default function Header({ onNavToggle }) {
   }
 
   return (
+    <>
     <header className="header">
       <div className="header-left">
         <button className="nav-toggle" onClick={onNavToggle} aria-label="Toggle navigation">
@@ -78,6 +82,12 @@ export default function Header({ onNavToggle }) {
         </div>
       </div>
       <div className="header-right">
+        <button className="search-toggle" onClick={() => setSearchOpen(true)} aria-label={t('searchIndicators')}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </button>
         <div className="lang-group" role="radiogroup" aria-label="Language">
           {['ro','en','ru'].map(l => (
             <button
@@ -111,5 +121,7 @@ export default function Header({ onNavToggle }) {
         </button>
       </div>
     </header>
+    <SearchModal open={searchOpen} onClose={closeSearch} />
+    </>
   );
 }
