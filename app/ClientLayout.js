@@ -9,21 +9,23 @@ import { getInitialNavMode, persistNavMode } from '@/lib/theme';
 
 function useIsDesktop() {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [ready, setReady] = useState(false);
   useEffect(() => {
     const mql = window.matchMedia('(min-width: 1025px)');
     setIsDesktop(mql.matches);
+    setReady(true);
     const handler = (e) => setIsDesktop(e.matches);
     mql.addEventListener('change', handler);
     return () => mql.removeEventListener('change', handler);
   }, []);
-  return isDesktop;
+  return { isDesktop, ready };
 }
 
 export default function ClientLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navMode, setNavMode] = useState('compact');
   const [mounted, setMounted] = useState(false);
-  const isDesktop = useIsDesktop();
+  const { isDesktop, ready } = useIsDesktop();
 
   useEffect(() => {
     const mode = getInitialNavMode();
@@ -51,11 +53,13 @@ export default function ClientLayout({ children }) {
         <div className="app-layout">
           <Header onNavToggle={handleNavToggle} />
           <div className="app-body">
-            <Sidebar
-              isCompact={mounted && navMode === 'compact'}
-              isOpen={sidebarOpen}
-              onClose={closeSidebar}
-            />
+            {ready && (
+              <Sidebar
+                isCompact={mounted && navMode === 'compact'}
+                isOpen={sidebarOpen}
+                onClose={closeSidebar}
+              />
+            )}
             {sidebarOpen && (
               <div
                 className="sidebar-overlay show"

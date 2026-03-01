@@ -82,6 +82,12 @@ export default function ChartCanvas({ config, eras }) {
     };
   }, [mount]);
 
+  const chartLabel = config?.i18n?.[lang]?.title || config?.i18n?.ro?.title || 'Data chart';
+  const chartUnit = config?.unit || '';
+
+  // Build sr-only data table for screen readers
+  const dataRows = config?.data || [];
+
   return (
     <div className="chart-section">
       <div className="chart-container">
@@ -124,7 +130,12 @@ export default function ChartCanvas({ config, eras }) {
         <div className="stats-bar" id="statsBar"></div>
 
         <div className={`chart-wrap${compactMode ? ' compact-mobile' : ''}`}>
-          <canvas ref={canvasRef} id="chart"></canvas>
+          <canvas
+            ref={canvasRef}
+            id="chart"
+            role="img"
+            aria-label={`${chartLabel} — ${chartUnit}`}
+          ></canvas>
           <div className="tooltip" id="tooltip"></div>
           <div className="price-pill" id="pricePill"></div>
         </div>
@@ -135,6 +146,25 @@ export default function ChartCanvas({ config, eras }) {
           <h3 id="eventsTitle"></h3>
           <div className="events-grid" id="eventsGrid"></div>
         </div>
+        {dataRows.length > 0 && (
+          <table className="sr-only">
+            <caption>{chartLabel}</caption>
+            <thead>
+              <tr>
+                <th scope="col">Period</th>
+                <th scope="col">Value ({chartUnit})</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataRows.map((d, i) => (
+                <tr key={i}>
+                  <td>{d.label}</td>
+                  <td>{d.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

@@ -89,7 +89,6 @@ export default function BottomNav() {
     if (pathname === href || (href.startsWith('/chart') && pathname.startsWith('/chart'))) {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      router.refresh();
     }
   }
 

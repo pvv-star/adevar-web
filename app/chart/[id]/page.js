@@ -30,12 +30,12 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function ChartPage({ params }) {
+export default async function ChartPage({ params }) {
   const chart = getChartById(params.id);
   if (!chart) notFound();
 
   // For coming-soon charts, pass null data
-  const chartData = chart.soon ? null : getChartData(params.id);
+  const chartData = chart.soon ? null : await getChartData(params.id);
 
   return (
     <ChartPageClient

@@ -4,6 +4,9 @@
    ============================================================ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
+/* Screen-reader only — visually hidden but accessible */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
 /* ── TOKENS: LIGHT (default) ── */
 :root{
   --bg-primary:#f9f9f7;
@@ -49,6 +52,8 @@
   --divider:#f0f1f3;
   --skeleton-bg:#e5e7eb;
   --skeleton-shine:#f0f1f3;
+  --series-primary:#3b82f6;
+  --series-secondary:#22c55e;
 }
 
 /* ── TOKENS: DARK ── */
@@ -88,6 +93,8 @@
   --divider:#1e2130;
   --skeleton-bg:#2a2d3a;
   --skeleton-shine:#353848;
+  --series-primary:#60a5fa;
+  --series-secondary:#4ade80;
 }
 
 html,body{height:100%}
@@ -247,7 +254,7 @@ a{color:inherit;text-decoration:none}
   color:var(--text-primary);text-transform:uppercase;letter-spacing:0.08em;
 }
 .cat-header .cat-icon{font-size:13px;opacity:0.7}
-.cat-label{}
+.cat-label{flex:1}
 
 .nav-item{
   display:flex;align-items:center;gap:10px;
@@ -525,10 +532,12 @@ canvas{display:block;width:100%;cursor:crosshair}
 .tooltip .t-era .pip{width:8px;height:8px;border-radius:2px;display:inline-block}
 .tooltip .t-pm{font-size:12px;color:var(--text-tertiary)}
 
-:root .tooltip .t-date{color:#ffffff}
-:root .tooltip .t-price{color:#2dd4bf}
-:root .tooltip .t-era{color:#c8c8c8}
-:root .tooltip .t-pm{color:#919191}
+/* Light mode tooltip text — dark bg tooltip in light mode */
+:root:not([data-theme="dark"]) .tooltip .t-date{color:#ffffff}
+:root:not([data-theme="dark"]) .tooltip .t-price{color:#2dd4bf}
+:root:not([data-theme="dark"]) .tooltip .t-era{color:#c8c8c8}
+:root:not([data-theme="dark"]) .tooltip .t-pm{color:#919191}
+/* Dark mode tooltip text — light bg tooltip in dark mode */
 [data-theme="dark"] .tooltip .t-date{color:#000000}
 [data-theme="dark"] .tooltip .t-price{color:#0d9488}
 [data-theme="dark"] .tooltip .t-era{color:#3d3d3d}
@@ -649,14 +658,22 @@ canvas{display:block;width:100%;cursor:crosshair}
   :root{--header-h:48px;--bottom-nav-h:108px}
   body{font-size:16px}
   .header{padding:0 12px;height:48px}
-  .header .nav-toggle{display:none}
+  .header .nav-toggle{display:flex}
   .header-left{gap:8px}
   .live-mini-group{display:none}
   .back-btn{display:inline-flex}
   .back-btn span{display:none}
   .brand{font-size:15px;padding-left:0}
-  .sidebar{display:none !important}
-  .sidebar-overlay{display:none !important}
+  .sidebar{
+    position:fixed;top:var(--header-h);left:0;bottom:0;
+    z-index:150;box-shadow:var(--shadow-overlay);
+    width:var(--sidebar-w-expanded);min-width:var(--sidebar-w-expanded);
+    transform:translateX(calc(-1 * var(--sidebar-w-expanded)));
+    transition:transform var(--transition-normal);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay{display:none;position:fixed;inset:0;top:var(--header-h);background:rgba(0,0,0,0.3);z-index:140}
+  .sidebar-overlay.show{display:block}
   .bottom-nav{display:block}
   .app-body{padding-bottom:var(--bottom-nav-h)}
   .page-scroll{padding:14px}
@@ -678,3 +695,39 @@ canvas{display:block;width:100%;cursor:crosshair}
   .more-sheet,
   .more-sheet-backdrop{display:none!important}
 }
+
+/* About page text */
+.about-text{font-size:14px;color:var(--text-secondary);line-height:1.7}
+
+/* Bottom nav scroll fade affordance */
+.bottom-nav-inner{
+  -webkit-mask-image:linear-gradient(to right, black calc(100% - 24px), transparent);
+  mask-image:linear-gradient(to right, black calc(100% - 24px), transparent);
+  padding-right:24px;
+}
+.bottom-nav-inner:not(:hover){
+  -webkit-mask-image:linear-gradient(to right, black calc(100% - 24px), transparent);
+  mask-image:linear-gradient(to right, black calc(100% - 24px), transparent);
+}
+
+/* prefers-reduced-motion */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* Dashboard skeleton loading cards */
+.dash-stat-skeleton{
+  background:var(--bg-secondary);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:20px 24px;
+  min-height:120px;
+}
+.dash-stat-skeleton .skel-bar{height:12px;width:60%;margin-bottom:12px}
+.dash-stat-skeleton .skel-bar-lg{height:28px;width:40%;margin-bottom:8px}
+.dash-stat-skeleton .skel-bar-sm{height:12px;width:80%}

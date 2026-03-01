@@ -36,20 +36,20 @@ export default function BirthsSexChart({ data, title }) {
         <div className="stats-bar">
           <div className="stat-card">
             <div className="stat-label">BOYS (LATEST)</div>
-            <div className="stat-value" style={{ color: '#3b82f6' }}>{latest.male.toLocaleString()}</div>
+            <div className="stat-value" style={{ color: 'var(--series-primary)' }}>{latest.male.toLocaleString()}</div>
             <div className="stat-unit">{latest.year}</div>
           </div>
           <div className="stat-card">
             <div className="stat-label">GIRLS (LATEST)</div>
-            <div className="stat-value" style={{ color: '#22c55e' }}>{latest.female.toLocaleString()}</div>
+            <div className="stat-value" style={{ color: 'var(--series-secondary)' }}>{latest.female.toLocaleString()}</div>
             <div className="stat-unit">{latest.year}</div>
           </div>
-          <div className="stat-card change" style={{ ['--change-color']: boysChange < 0 ? '#ef4444' : '#16a34a' }}>
+          <div className="stat-card change" style={{ ['--change-color']: boysChange < 0 ? 'var(--negative)' : 'var(--positive)' }}>
             <div className="stat-label">BOYS CHANGE</div>
             <div className="stat-value">{boysChange > 0 ? '+' : ''}{boysChange}%</div>
             <div className="stat-unit">{first.year} → {latest.year}</div>
           </div>
-          <div className="stat-card change" style={{ ['--change-color']: girlsChange < 0 ? '#ef4444' : '#16a34a' }}>
+          <div className="stat-card change" style={{ ['--change-color']: girlsChange < 0 ? 'var(--negative)' : 'var(--positive)' }}>
             <div className="stat-label">GIRLS CHANGE</div>
             <div className="stat-value">{girlsChange > 0 ? '+' : ''}{girlsChange}%</div>
             <div className="stat-unit">{first.year} → {latest.year}</div>
@@ -62,13 +62,13 @@ export default function BirthsSexChart({ data, title }) {
               <line x1={pad} y1={h - pad} x2={w - pad} y2={h - pad} stroke="var(--border)" />
               <line x1={pad} y1={pad} x2={pad} y2={h - pad} stroke="var(--border)" />
 
-              <path d={path('male')} fill="none" stroke="#3b82f6" strokeWidth="3" />
-              <path d={path('female')} fill="none" stroke="#22c55e" strokeWidth="3" />
+              <path d={path('male')} fill="none" stroke="var(--series-primary)" strokeWidth="3" />
+              <path d={path('female')} fill="none" stroke="var(--series-secondary)" strokeWidth="3" />
 
               {series.map((d, i) => (
                 <g key={d.year}>
-                  <circle cx={x(i)} cy={y(d.male)} r="2.5" fill="#3b82f6" />
-                  <circle cx={x(i)} cy={y(d.female)} r="2.5" fill="#22c55e" />
+                  <circle cx={x(i)} cy={y(d.male)} r="2.5" fill="var(--series-primary)" />
+                  <circle cx={x(i)} cy={y(d.female)} r="2.5" fill="var(--series-secondary)" />
                   {(i % 2 === 0 || i === series.length - 1) ? (
                     <text x={x(i)} y={h - 10} textAnchor="middle" fontSize="10" fill="var(--text-secondary)">
                       {d.year}
@@ -81,15 +81,15 @@ export default function BirthsSexChart({ data, title }) {
         </div>
 
         <div className="legend" style={{ marginBottom: 8 }}>
-          <div className="legend-item"><span className="ldot" style={{ background: '#3b82f6' }}></span>Boys</div>
-          <div className="legend-item"><span className="ldot" style={{ background: '#22c55e' }}></span>Girls</div>
+          <div className="legend-item"><span className="ldot" style={{ background: 'var(--series-primary)' }}></span>Boys</div>
+          <div className="legend-item"><span className="ldot" style={{ background: 'var(--series-secondary)' }}></span>Girls</div>
         </div>
 
         <div className="events-section">
           <h3>Data source</h3>
           <div className="events-grid" style={{ gridTemplateColumns: '1fr' }}>
             <div className="event-card" style={{ cursor: 'default' }}>
-              <div className="e-pip" style={{ background: '#3b82f6' }}></div>
+              <div className="e-pip" style={{ background: 'var(--series-primary)' }}></div>
               <div>
                 <div className="e-label">Official source</div>
                 <div className="e-text">

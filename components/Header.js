@@ -8,7 +8,7 @@ import { useLang } from '@/contexts/LangContext';
 
 export default function Header({ onNavToggle }) {
   const { theme, toggleTheme } = useTheme();
-  const { lang, setLang } = useLang();
+  const { lang, setLang, t } = useLang();
   const pathname = usePathname();
   const router = useRouter();
   const canGoBack = pathname && pathname !== '/';
@@ -63,7 +63,7 @@ export default function Header({ onNavToggle }) {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
-            <span>Back</span>
+            <span>{t('back')}</span>
           </button>
         ) : null}
         <Link className="brand" href="/">
@@ -78,12 +78,13 @@ export default function Header({ onNavToggle }) {
         </div>
       </div>
       <div className="header-right">
-        <div className="lang-group">
+        <div className="lang-group" role="radiogroup" aria-label="Language">
           {['ro','en','ru'].map(l => (
             <button
               key={l}
               className={`lang-btn${lang === l ? ' active' : ''}`}
               onClick={() => setLang(l)}
+              aria-pressed={lang === l}
             >
               {l.toUpperCase()}
             </button>

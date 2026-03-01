@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 export default function IndicatorStatCard({ href, label, stat, lastUpdateLabel, upArrow, downArrow }) {
@@ -5,6 +7,7 @@ export default function IndicatorStatCard({ href, label, stat, lastUpdateLabel, 
 
   const dirClass = stat.dir === 'up' ? 'up' : 'down';
   const arrow = stat.dir === 'up' ? upArrow : downArrow;
+  const dirLabel = stat.dir === 'up' ? 'increased' : 'decreased';
 
   return (
     <Link href={href} className="dash-stat-card">
@@ -13,7 +16,7 @@ export default function IndicatorStatCard({ href, label, stat, lastUpdateLabel, 
         {stat.value} <span className="dash-stat-unit">{stat.unit}</span>
       </div>
       <div className="dash-stat-meta">
-        <span className={`dash-stat-change ${dirClass}`}>
+        <span className={`dash-stat-change ${dirClass}`} aria-label={`${dirLabel} ${stat.change}`}>
           {arrow} {stat.change}
         </span>
         <span>

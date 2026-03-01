@@ -26,10 +26,11 @@ export default function Dashboard() {
     news: lang === 'ro' ? 'Noutăți' : lang === 'ru' ? 'Новости' : 'Latest news',
     sources: lang === 'ro' ? 'Despre surse' : lang === 'ru' ? 'Об источниках' : 'About sources',
   };
-  const [liveStats, setLiveStats] = useState({});
+  const [liveStats, setLiveStats] = useState(null);
   const [snapshot, setSnapshot] = useState(null);
   const [liveNews, setLiveNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [statsError, setStatsError] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -50,6 +51,7 @@ export default function Dashboard() {
       } catch (error) {
         if (error.name !== 'AbortError') {
           if (process.env.NODE_ENV !== 'production') console.error(error);
+          setStatsError(true);
         }
       }
     }
@@ -97,17 +99,19 @@ export default function Dashboard() {
   const soonCharts = getComingSoonCharts();
 
   const upArrow = (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
       <line x1="12" y1="19" x2="12" y2="5" />
       <polyline points="5 12 12 5 19 12" />
     </svg>
   );
   const downArrow = (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
       <line x1="12" y1="5" x2="12" y2="19" />
       <polyline points="19 12 12 19 5 12" />
     </svg>
   );
+
+  const isLoading = liveStats === null && !statsError;
 
   return (
     <div className="page-scroll">
@@ -126,7 +130,7 @@ export default function Dashboard() {
 
       {!loading && liveNews?.length ? (
         <Link href="/news?range=72h" className="live-news-card" style={{ textDecoration: 'none' }}>
-          <div className="live-snapshot-title">Live Moldova News Pulse · last 24h</div>
+          <div className="live-snapshot-title">{t('liveNewsPulse')}</div>
           <div className="live-news-list">
             {liveNews.slice(0, 4).map((n, idx) => (
               <div key={`${n.url}-${idx}`} className="live-news-item">
@@ -135,11 +139,11 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
-          <div className="live-snapshot-meta">Tap to open full 72h feed</div>
+          <div className="live-snapshot-meta">{t('tapFullFeed')}</div>
         </Link>
       ) : !loading && snapshot?.ok ? (
         <div className="live-snapshot-card">
-          <div className="live-snapshot-title">Live Snapshot · FX + Weather</div>
+          <div className="live-snapshot-title">{t('liveSnapshot')}</div>
           <div className="live-snapshot-grid">
             <div className="live-chip"><span>EUR/MDL</span><b>{snapshot.fx?.rates?.EUR ?? '—'}</b></div>
             <div className="live-chip"><span>USD/MDL</span><b>{snapshot.fx?.rates?.USD ?? '—'}</b></div>
@@ -154,28 +158,42 @@ export default function Dashboard() {
       ) : null}
 
       <div className="inst-card">
-        <div className="inst-card-title">{t('availableCharts')}</div>
+        <h2 className="inst-card-title">{t('availableCharts')}</h2>
         <div className="dash-grid">
-          {activeCharts.map((c) => {
-            const stat = liveStats[c.id];
-            if (!stat) return null;
-            return (
-              <IndicatorStatCard
-                key={c.id}
-                href={`/chart/${c.id}`}
-                label={c[lang] || c.en}
-                stat={{ ...stat, date: stat.date?.[lang] || stat.date?.en || '' }}
-                lastUpdateLabel={t('lastUpdate')}
-                upArrow={upArrow}
-                downArrow={downArrow}
-              />
-            );
-          })}
+          {isLoading ? (
+            activeCharts.map((c) => (
+              <div key={c.id} className="dash-stat-skeleton">
+                <div className="skel-bar skel-bar" />
+                <div className="skel-bar skel-bar-lg" />
+                <div className="skel-bar skel-bar-sm" />
+              </div>
+            ))
+          ) : statsError ? (
+            <div style={{ padding: '16px', color: 'var(--negative)', fontSize: '13px' }}>
+              {t('statsError')}
+            </div>
+          ) : (
+            activeCharts.map((c) => {
+              const stat = liveStats[c.id];
+              if (!stat) return null;
+              return (
+                <IndicatorStatCard
+                  key={c.id}
+                  href={`/chart/${c.id}`}
+                  label={c[lang] || c.en}
+                  stat={{ ...stat, date: stat.date?.[lang] || stat.date?.en || '' }}
+                  lastUpdateLabel={t('lastUpdate')}
+                  upArrow={upArrow}
+                  downArrow={downArrow}
+                />
+              );
+            })
+          )}
         </div>
       </div>
 
       <div className="inst-card">
-        <div className="inst-card-title">{t('comingSoon')}</div>
+        <h2 className="inst-card-title">{t('comingSoon')}</h2>
         <div className="soon-grid">
           {soonCharts.map((c) => (
             <Link key={c.id} href={`/chart/${c.id}`} className="soon-card">

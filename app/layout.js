@@ -4,7 +4,7 @@ import ClientLayout from './ClientLayout';
 
 const onest = Onest({
   subsets: ['latin', 'cyrillic'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
 });
 
@@ -27,8 +27,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ro">
-      <body className={onest.className}>
+    <html lang="ro" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('adevar-theme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}})()`,
+          }}
+        />
+      </head>
+      <body className={onest.className} suppressHydrationWarning>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

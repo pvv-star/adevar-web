@@ -1,6 +1,12 @@
 'use client';
 import { useLang } from '@/contexts/LangContext';
 
+const SOURCE_URLS = {
+  BNS: 'https://statistica.gov.md',
+  ANRE: 'https://anre.md',
+  BNM: 'https://bnm.md',
+};
+
 export default function AboutContent() {
   const { lang, t } = useLang();
 
@@ -21,24 +27,32 @@ export default function AboutContent() {
 
   return (
     <div className="page-scroll">
-      <div className="view-heading">{t('aboutTitle')}</div>
-      <div className="view-subheading">{t('aboutSub')}</div>
+      <h1 className="view-heading">{t('aboutTitle')}</h1>
+      <p className="view-subheading">{t('aboutSub')}</p>
 
       <div className="inst-card about-section">
-        <div className="inst-card-title">{t('missionTitle')}</div>
-        <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7' }}>
+        <h2 className="inst-card-title">{t('missionTitle')}</h2>
+        <p className="about-text">
           {t('missionText')}
         </p>
       </div>
 
       <div className="inst-card about-section">
-        <div className="inst-card-title">{t('sourcesTitle')}</div>
-        <ul className="about-source-list">
+        <h2 className="inst-card-title">{t('sourcesTitle')}</h2>
+        <ul className="about-source-list" role="list">
           {Object.entries(sources).map(([code, info], i, arr) => (
             <li key={code}>
               <div className="about-source-item">
                 <span className="about-source-code">{code}</span>
-                <span className="about-source-name">{info.name}</span>
+                <a
+                  href={SOURCE_URLS[code]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="about-source-name"
+                  style={{ textDecoration: 'underline', textUnderlineOffset: '2px' }}
+                >
+                  {info.name}
+                </a>
                 <span className="about-source-desc">{info.desc}</span>
               </div>
               {i < arr.length - 1 && <div className="about-divider"></div>}
@@ -48,16 +62,19 @@ export default function AboutContent() {
       </div>
 
       <div className="inst-card about-section">
-        <div className="inst-card-title">{t('methodTitle')}</div>
-        <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7' }}>
+        <h2 className="inst-card-title">{t('methodTitle')}</h2>
+        <p className="about-text">
           {t('methodText')}
         </p>
       </div>
 
       <div className="inst-card about-section">
-        <div className="inst-card-title">{t('contactTitle')}</div>
-        <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-          {t('contactText')}
+        <h2 className="inst-card-title">{t('contactTitle')}</h2>
+        <p className="about-text">
+          {t('contactText')}{' '}
+          <a href="mailto:contact@adevar.ai" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>
+            contact@adevar.ai
+          </a>
         </p>
       </div>
     </div>

@@ -13,6 +13,9 @@ export default function NewsPage() {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [recentSearches, setRecentSearches] = useState([]);
   const [toast, setToast] = useState(null);
+  const [error, setError] = useState(null);
+  const sentinelRef = useRef(null);
+  const scrollRef = useRef(null);
   const loadingRef = useRef(false);
 
   useEffect(() => {
@@ -28,6 +31,7 @@ export default function NewsPage() {
     if (loadingRef.current) return;
     loadingRef.current = true;
     setLoading(true);
+    setError(null);
     try {
       const params = new URLSearchParams({ range: '72h', limit: '20' });
       if (!reset && cursor) params.set('cursor', cursor);
@@ -37,7 +41,8 @@ export default function NewsPage() {
       setItems((prev) => (reset ? payload.items : [...prev, ...payload.items]));
       setCursor(payload.nextCursor || null);
       setHasMore(Boolean(payload.hasMore));
-    } catch {
+    } catch (err) {
+      setError(err.message || 'Failed to load news');
       setToast({ type: 'error', text: 'Live feed refresh failed. Retrying soon.' });
     } finally {
       loadingRef.current = false;
@@ -45,13 +50,14 @@ export default function NewsPage() {
     }
   }, [cursor]);
 
+  // Initial load — stable ref avoids dependency loop
+  const loadMoreRef = useRef(loadMore);
+  loadMoreRef.current = loadMore;
   useEffect(() => {
-    loadMore(true);
-    // run once on mount; cursor changes should not auto-refetch
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    loadMoreRef.current(true);
   }, []);
 
-
+  // Save recent searches
   useEffect(() => {
     if (!query.trim()) return;
     const id = setTimeout(() => {
@@ -76,6 +82,24 @@ export default function NewsPage() {
     });
   }, [items, query, selectedFilter]);
 
+  // Infinite scroll via IntersectionObserver on sentinel element
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMoreRef.current(false);
+        }
+      },
+      { root: scrollRef.current, rootMargin: '400px' }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, loading]);
+
   useEffect(() => {
     if (!toast) return;
     const id = setTimeout(() => setToast(null), 2200);
@@ -83,7 +107,7 @@ export default function NewsPage() {
   }, [toast]);
 
   return (
-    <div className="page-scroll">
+    <div className="page-scroll" ref={scrollRef}>
       <div className="view-heading">Live News Feed · 72h</div>
       <div className="view-subheading">Deduped, impact-ranked Moldova sources</div>
 
@@ -143,11 +167,27 @@ export default function NewsPage() {
           </div>
         ) : null}
 
-        {!loading && !filteredItems.length ? <div className="news-loading">No results for this filter.</div> : null}
+        {error ? (
+          <div className="news-loading" style={{ color: 'var(--negative, #ef4444)' }}>
+            Error: {error}
+            <button className="ctrl-btn" style={{ marginLeft: 8 }} onClick={() => loadMore(items.length === 0)}>
+              Retry
+            </button>
+          </div>
+        ) : null}
 
-        {!loading && hasMore ? (
+        {!loading && !error && !filteredItems.length ? <div className="news-loading">No results for this filter.</div> : null}
+
+        {!loading && !error && hasMore ? (
           <button className="ctrl-btn" onClick={() => loadMore(false)}>Load more</button>
         ) : null}
+
+        {!loading && !error && items.length === 0 ? (
+          <div className="news-loading">No news available</div>
+        ) : null}
+
+        {/* Sentinel for IntersectionObserver-based infinite scroll */}
+        <div ref={sentinelRef} aria-hidden="true" style={{ height: 1 }} />
       </div>
 
       {toast ? (

@@ -22,6 +22,9 @@ export function LangProvider({ children }) {
     if (!I18N[l]) return;
     setLangState(l);
     storageSet('adevar-lang', l);
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = l;
+    }
   }
 
   function t(key) {
