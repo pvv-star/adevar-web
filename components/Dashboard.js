@@ -8,63 +8,8 @@ import IndicatorStatCard from './IndicatorStatCard';
 
 export default function Dashboard() {
   const { lang, t } = useLang();
-  const [inflationError, setInflationError] = useState('');
-  const [inflationSummary, setInflationSummary] = useState(null);
-  const [inflationMeta, setInflationMeta] = useState(null);
   const [liveStats, setLiveStats] = useState({});
   const [snapshot, setSnapshot] = useState(null);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function fetchInflation() {
-      try {
-        setInflationError('');
-
-        const res = await fetch('/api/indicators/inflation/series?from=2018', {
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-
-        const payload = await res.json();
-
-        if (!res.ok) {
-          throw new Error(payload?.details || payload?.error || 'Request failed');
-        }
-
-        if (!Array.isArray(payload.series) || payload.series.length === 0) {
-          setInflationError('No inflation records returned from API');
-          setInflationSummary(null);
-          setInflationMeta(null);
-          return;
-        }
-
-        const first = payload.series[0];
-        const last = payload.series[payload.series.length - 1];
-        const currentYear = new Date().getFullYear();
-        const freshness = last?.year >= currentYear - 1 ? 'fresh' : 'stale';
-        setInflationSummary({
-          count: payload.count || payload.series.length,
-          from: first?.year,
-          to: last?.year,
-          latest: last?.value,
-          freshness,
-        });
-        setInflationMeta(payload.indicator || null);
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          console.error(error);
-          setInflationSummary(null);
-          setInflationMeta(null);
-          setInflationError(error.message || 'Failed to load inflation series');
-        }
-      }
-    }
-
-    fetchInflation();
-
-    return () => controller.abort();
-  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -148,25 +93,6 @@ export default function Dashboard() {
         </div>
       ) : null}
 
-      {inflationError ? <div className="inflation-banner inflation-banner--error">Inflation data unavailable: {inflationError}</div> : null}
-
-      {inflationSummary ? (
-        <div className="inflation-banner inflation-banner--ok">
-          <strong>Inflation series live:</strong> {inflationSummary.count} points ({inflationSummary.from}–{inflationSummary.to}),
-          latest: {inflationSummary.latest}%
-          <span className={`freshness-badge freshness-badge--${inflationSummary.freshness}`}>{inflationSummary.freshness}</span>
-          {inflationMeta?.sourceName ? (
-            <div className="inflation-meta">
-              Source: {inflationMeta.sourceName}
-              {inflationMeta.sourceUrl ? (
-                <a href={inflationMeta.sourceUrl} target="_blank" rel="noreferrer" style={{ marginLeft: 8 }}>
-                  link
-                </a>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-      ) : null}
 
       <div className="inst-card">
         <div className="inst-card-title">{t('availableCharts')}</div>
