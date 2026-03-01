@@ -27,7 +27,8 @@ export async function GET(request) {
     if (error) throw error;
 
     return NextResponse.json({ ok: true, updatedAt: new Date().toISOString(), items: data || [], ...DATA_GOVERNANCE }, { headers: { 'Cache-Control': 'no-store' } });
-  } catch {
+  } catch (err) {
+    console.error('[api] live-news failed:', err?.message || err);
     return NextResponse.json(notAvailableResponse(), { status: 200, headers: { 'Cache-Control': 'no-store' } });
   }
 }

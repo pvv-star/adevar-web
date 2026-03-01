@@ -26,6 +26,7 @@ export const metadata = {
   icons: {
     icon: '/favicon.svg',
   },
+  manifest: '/manifest.json',
 };
 
 const jsonLd = {

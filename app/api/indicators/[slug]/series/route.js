@@ -35,7 +35,8 @@ export async function GET(request, { params }) {
         'Cache-Control': 'no-store',
       },
     });
-  } catch {
+  } catch (err) {
+    console.error('[api] indicator-series failed:', err?.message || err);
     return NextResponse.json(
       {
         error: 'Failed to load indicator series',

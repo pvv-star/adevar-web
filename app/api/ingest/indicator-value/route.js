@@ -87,7 +87,8 @@ export async function POST(request) {
       mode: 'write',
       data: upsertRes.data,
     });
-  } catch {
+  } catch (err) {
+    console.error('[ingest] indicator-value failed:', err?.message || err);
     return NextResponse.json(
       { ok: false, error: 'ingest_failed' },
       { status: 500 }

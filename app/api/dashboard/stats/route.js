@@ -14,7 +14,8 @@ export async function GET(request) {
       status: 200,
       headers: { 'Cache-Control': 'no-store' },
     });
-  } catch {
+  } catch (err) {
+    console.error('[api] dashboard-stats failed:', err?.message || err);
     return NextResponse.json(
       { error: 'Failed to load dashboard stats' },
       { status: 500 }

@@ -80,7 +80,8 @@ export async function GET(request) {
       },
       { status: 200, headers: { 'Cache-Control': 'no-store' } }
     );
-  } catch {
+  } catch (err) {
+    console.error('[api] live-snapshot failed:', err?.message || err);
     return NextResponse.json(
       {
         ok: false,
