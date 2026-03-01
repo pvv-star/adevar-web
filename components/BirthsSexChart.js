@@ -1,12 +1,24 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 export default function BirthsSexChart({ data, title }) {
   const series = data?.series || [];
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
   if (!series.length) return null;
 
-  const w = 860;
-  const h = 320;
-  const pad = 36;
+  const w = isMobile ? 640 : 860;
+  const h = isMobile ? 240 : 320;
+  const pad = isMobile ? 28 : 36;
   const years = series.map((d) => d.year);
   const minY = Math.min(...series.map((d) => Math.min(d.male, d.female)));
   const maxY = Math.max(...series.map((d) => Math.max(d.male, d.female)));
@@ -22,14 +34,15 @@ export default function BirthsSexChart({ data, title }) {
   const latest = series[series.length - 1];
 
   return (
-    <div className="page-scroll" style={{ padding: 20 }}>
-      <div className="inst-card" style={{ maxWidth: 980, margin: '0 auto' }}>
-        <h2 style={{ marginTop: 0 }}>{title}</h2>
-        <p style={{ color: 'var(--text-secondary)', marginTop: 0 }}>
+    <div className="page-scroll" style={{ padding: isMobile ? 10 : 20 }}>
+      <div className="inst-card" style={{ maxWidth: 980, margin: '0 auto', padding: isMobile ? 12 : 20 }}>
+        <h2 style={{ marginTop: 0, fontSize: isMobile ? 18 : 28 }}>{title}</h2>
+        <p style={{ color: 'var(--text-secondary)', marginTop: 0, fontSize: isMobile ? 13 : 16 }}>
           Moldova, whole country, annual live births, last 10 years.
         </p>
 
-        <svg viewBox={`0 0 ${w} ${h}`} width="100%" role="img" aria-label="Live births male vs female">
+        <div style={{ width: '100%', overflowX: 'auto' }}>
+          <svg viewBox={`0 0 ${w} ${h}`} width="100%" role="img" aria-label="Live births male vs female">
           <line x1={pad} y1={h - pad} x2={w - pad} y2={h - pad} stroke="var(--border)" />
           <line x1={pad} y1={pad} x2={pad} y2={h - pad} stroke="var(--border)" />
 
@@ -40,16 +53,17 @@ export default function BirthsSexChart({ data, title }) {
             <g key={d.year}>
               <circle cx={x(i)} cy={y(d.male)} r="2.5" fill="#3b82f6" />
               <circle cx={x(i)} cy={y(d.female)} r="2.5" fill="#22c55e" />
-              {i % 2 === 0 || i === series.length - 1 ? (
-                <text x={x(i)} y={h - 12} textAnchor="middle" fontSize="10" fill="var(--text-secondary)">
+              {(isMobile ? i % 3 === 0 : i % 2 === 0) || i === series.length - 1 ? (
+                <text x={x(i)} y={h - 10} textAnchor="middle" fontSize={isMobile ? '9' : '10'} fill="var(--text-secondary)">
                   {d.year}
                 </text>
               ) : null}
             </g>
           ))}
-        </svg>
+          </svg>
+        </div>
 
-        <div style={{ display: 'flex', gap: 16, marginTop: 8, fontSize: 14 }}>
+        <div style={{ display: 'flex', gap: 16, marginTop: 8, fontSize: isMobile ? 13 : 14, flexWrap: 'wrap' }}>
           <span><b style={{ color: '#3b82f6' }}>●</b> Boys</span>
           <span><b style={{ color: '#22c55e' }}>●</b> Girls</span>
         </div>
