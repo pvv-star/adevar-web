@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { getSupabaseReadClient } from '@/lib/supabase-server';
 import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
@@ -18,7 +18,7 @@ export async function GET(request) {
     const hours = range === '24h' ? 24 : range === '48h' ? 48 : 72;
     const from = new Date(Date.now() - hours * 3600 * 1000).toISOString();
 
-    const supabase = getSupabaseServerClient();
+    const supabase = getSupabaseReadClient();
     let q = supabase
       .from('news_items')
       .select('id,title,summary,url,source_slug,published_at,impact_score,duplicate_group')

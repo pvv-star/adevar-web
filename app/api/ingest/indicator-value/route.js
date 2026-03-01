@@ -3,8 +3,15 @@ import { getSupabaseServerClient } from '@/lib/supabase-server';
 import { validateIngestionPayload } from '@/lib/ingestion-validation';
 import { logDataChange } from '@/lib/data-change-log';
 import { validateIngestAuth } from '@/lib/ingest-auth';
+import { checkIngestRateLimit } from '@/lib/ingest-rate-limit';
+import { clientIp } from '@/lib/server-rate-limit';
 
 export async function POST(request) {
+  const rl = checkIngestRateLimit(`ingest:${clientIp(request)}`, { max: 30, windowMs: 60_000 });
+  if (!rl.allowed) {
+    return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
+  }
+
   try {
     const body = await request.json();
     const dryRun = Boolean(body?.dryRun);
@@ -80,9 +87,9 @@ export async function POST(request) {
       mode: 'write',
       data: upsertRes.data,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
-      { ok: false, error: error?.message || 'ingest_failed' },
+      { ok: false, error: 'ingest_failed' },
       { status: 500 }
     );
   }

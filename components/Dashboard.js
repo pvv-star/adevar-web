@@ -44,7 +44,7 @@ export default function Dashboard() {
         setLiveStats(payload?.stats || {});
       } catch (error) {
         if (error.name !== 'AbortError') {
-          if (process.env.NODE_ENV != 'production') console.error(error);
+          if (process.env.NODE_ENV !== 'production') console.error(error);
         }
       }
     }
@@ -60,7 +60,7 @@ export default function Dashboard() {
         setSnapshot(payload);
       } catch (error) {
         if (error.name !== 'AbortError') {
-          if (process.env.NODE_ENV != 'production') console.error(error);
+          if (process.env.NODE_ENV !== 'production') console.error(error);
         }
       }
     }
@@ -76,7 +76,7 @@ export default function Dashboard() {
         setLiveNews(payload.items || []);
       } catch (error) {
         if (error.name !== 'AbortError') {
-          if (process.env.NODE_ENV != 'production') console.error(error);
+          if (process.env.NODE_ENV !== 'production') console.error(error);
         }
       }
     }

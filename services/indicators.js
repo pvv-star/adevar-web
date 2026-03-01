@@ -1,4 +1,4 @@
-import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { getSupabaseReadClient } from '@/lib/supabase-server';
 
 function normalizeSeriesRows(rows = []) {
   return rows
@@ -55,7 +55,7 @@ function buildResponse({ slug, from, to, matchStrategy, series, indicator }) {
 }
 
 export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
-  const supabase = getSupabaseServerClient();
+  const supabase = getSupabaseReadClient();
   const { yearFrom, yearTo } = clampYears(from, to);
 
   // Path A: relation join by slug (preferred)
@@ -97,18 +97,41 @@ export async function getIndicatorSeriesBySlug(slug, { from, to } = {}) {
   let indicator = exact.data;
 
   if (!indicator) {
-    const fuzzy = await supabase
-      .from('indicators')
-      .select('id, slug, name, source_name, source_url, methodology, update_frequency, coverage_start_year, coverage_end_year, unit, is_official')
-      .or(`slug.ilike.%${slug}%,name.ilike.%${slug}%`)
-      .limit(1)
-      .maybeSingle();
+    const safeFuzzy = String(slug || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9-_\s]/g, '')
+      .trim()
+      .slice(0, 64);
 
-    if (fuzzy.error) {
-      throw new Error(fuzzy.error.message);
+    if (safeFuzzy) {
+      const fuzzyBySlug = await supabase
+        .from('indicators')
+        .select('id, slug, name, source_name, source_url, methodology, update_frequency, coverage_start_year, coverage_end_year, unit, is_official')
+        .ilike('slug', `%${safeFuzzy}%`)
+        .limit(1)
+        .maybeSingle();
+
+      if (fuzzyBySlug.error) {
+        throw new Error(fuzzyBySlug.error.message);
+      }
+
+      indicator = fuzzyBySlug.data;
+
+      if (!indicator) {
+        const fuzzyByName = await supabase
+          .from('indicators')
+          .select('id, slug, name, source_name, source_url, methodology, update_frequency, coverage_start_year, coverage_end_year, unit, is_official')
+          .ilike('name', `%${safeFuzzy}%`)
+          .limit(1)
+          .maybeSingle();
+
+        if (fuzzyByName.error) {
+          throw new Error(fuzzyByName.error.message);
+        }
+
+        indicator = fuzzyByName.data;
+      }
     }
-
-    indicator = fuzzy.data;
   }
 
   if (!indicator) {
