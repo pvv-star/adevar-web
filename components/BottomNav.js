@@ -63,7 +63,7 @@ const MORE_LINKS = [
 ];
 
 export default function BottomNav() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
   const pathname = usePathname();
   const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
@@ -75,12 +75,12 @@ export default function BottomNav() {
   const isNews = pathname.startsWith('/news');
   const isData = pathname.startsWith('/chart');
   const dataLabel = useMemo(() => {
-    if (!chart) return 'Data';
-    return chart?.en || 'Data';
-  }, [chart]);
+    if (!chart) return t('chartsTab');
+    return chart?.[lang] || chart?.en || t('chartsTab');
+  }, [chart, lang, t]);
 
   const tabs = [
-    { id: 'home', label: t('bnTabDashboard') || 'Home', iconName: 'home', href: '/', active: pathname === '/' },
+    { id: 'home', label: t('bnTabDashboard'), iconName: 'home', href: '/', active: pathname === '/' },
     { id: 'news', label: t('newsTab'), iconName: 'news', href: '/news?range=72h', active: isNews },
     { id: 'data', label: t('chartsTab'), iconName: 'data', href: '/chart/inflation', active: isData },
   ];
@@ -126,12 +126,12 @@ export default function BottomNav() {
             type="button"
             role="tab"
             aria-selected={moreOpen ? 'true' : 'false'}
-            aria-label={t('bnTabMore') || 'More'}
+            aria-label={t('bnTabMore')}
             className={`bn-tab${moreOpen ? ' active' : ''}`}
             onClick={openMoreSheet}
           >
             {icon('more', moreOpen)}
-            <span className="bn-tab-label">{t('bnTabMore') || 'More'}</span>
+            <span className="bn-tab-label">{t('bnTabMore')}</span>
           </button>
         </div>
       </nav>

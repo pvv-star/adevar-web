@@ -130,7 +130,7 @@ export default function ChartCanvas({ config, eras }) {
         </div>
 
         <div className="controls">
-          <button className="ctrl-btn" id="replayBtn">&#8635; Replay</button>
+          <button className="ctrl-btn" id="replayBtn">&#8635; {t('chartReplay')}</button>
           <button className="ctrl-btn" id="speedBtn">1x</button>
           <button className="ctrl-btn" onClick={() => setCompactMode((v) => !v)}>{compactMode ? t('chartFull') : t('chartCompact')}</button>
         </div>
@@ -159,8 +159,8 @@ export default function ChartCanvas({ config, eras }) {
             <caption>{chartLabel}</caption>
             <thead>
               <tr>
-                <th scope="col">Period</th>
-                <th scope="col">Value ({chartUnit})</th>
+                <th scope="col">{t('chartPeriod')}</th>
+                <th scope="col">{t('chartValue')} ({chartUnit})</th>
               </tr>
             </thead>
             <tbody>

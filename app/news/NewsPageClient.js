@@ -153,7 +153,7 @@ export default function NewsPageClient() {
             </button>
           ))}
           <button className="news-chip reset" type="button" onClick={() => { setSelectedFilter('all'); setQuery(''); }}>
-            Reset
+            {t('newsReset')}
           </button>
         </div>
 
