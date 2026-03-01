@@ -27,8 +27,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ro" suppressHydrationWarning>
-      <body className={onest.className} suppressHydrationWarning>
+    <html lang="ro">
+      <body className={onest.className}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

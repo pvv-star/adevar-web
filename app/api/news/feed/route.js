@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase-server';
 import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
+import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
 export async function GET(request) {
+  const rl = applyRateLimit(`news-feed:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
+  if (!rl.allowed) {
+    return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const range = searchParams.get('range') || '72h';

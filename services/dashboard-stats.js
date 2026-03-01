@@ -95,15 +95,14 @@ function buildFromChartJson(chartId) {
     };
   }
 
-  const fallbackStats = config?.stats || {};
   const computed = formatChangePercent(firstValue, lastValue);
   const date = normalizeQuarterLabel(last?.label || 'n/a');
 
   return {
     value: formatValue(lastValue, decimals),
     unit: config?.unit || '',
-    change: fallbackStats.change || computed.change,
-    dir: fallbackStats.change ? (String(fallbackStats.change).trim().startsWith('-') ? 'down' : 'up') : computed.dir,
+    change: computed.change,
+    dir: computed.dir,
     date,
     source: 'json',
   };

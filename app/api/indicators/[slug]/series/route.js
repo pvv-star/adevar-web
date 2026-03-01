@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getIndicatorSeriesBySlug } from '@/services/indicators';
+import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
 export async function GET(request, { params }) {
+  const rl = applyRateLimit(`indicator-series:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
+  if (!rl.allowed) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+  }
+
   try {
     const { slug } = await params;
 
@@ -29,11 +35,10 @@ export async function GET(request, { params }) {
         'Cache-Control': 'no-store',
       },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       {
         error: 'Failed to load indicator series',
-        details: error?.message || 'unknown-error',
       },
       { status: 500 }
     );

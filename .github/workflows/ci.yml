@@ -24,7 +24,7 @@ jobs:
 
   smoke-prod-indicator:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Check production inflation endpoint
         run: |
@@ -49,7 +49,7 @@ jobs:
 
   smoke-prod-health:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Check production health endpoint
         run: |
@@ -73,7 +73,7 @@ jobs:
 
   smoke-prod-dashboard-critical:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Check production dashboard critical stats
         run: |
@@ -101,7 +101,7 @@ jobs:
 
   smoke-prod-metadata:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Check production inflation metadata fields
         run: |
@@ -125,7 +125,7 @@ jobs:
 
   smoke-prod-ingest:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Check production ingest contract (dry-run)
         run: |

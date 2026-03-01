@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase-server';
 import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
+import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
-export async function GET() {
+export async function GET(request) {
+  const rl = applyRateLimit(`live-news:${clientIp(request)}`, { limit: 90, windowMs: 60_000 });
+  if (!rl.allowed) {
+    return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
+  }
   try {
     const from = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
     const supabase = getSupabaseServerClient();

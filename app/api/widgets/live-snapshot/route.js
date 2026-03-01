@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
+import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
 const CHISINAU = { lat: 47.0105, lon: 28.8638 };
+const FETCH_TIMEOUT_MS = Number(process.env.FETCH_TIMEOUT_MS || 8000);
 
 function formatDateForBnm(date = new Date()) {
   const dd = String(date.getDate()).padStart(2, '0');
@@ -24,7 +26,7 @@ function parseBnmRate(xml, code) {
 async function getBnmRates() {
   const date = formatDateForBnm();
   const url = `https://www.bnm.md/en/official_exchange_rates?get_xml=1&date=${date}`;
-  const res = await fetch(url, { cache: 'no-store' });
+  const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`BNM fetch failed: ${res.status}`);
   const xml = await res.text();
 
@@ -44,7 +46,7 @@ async function getBnmRates() {
 
 async function getWeather() {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${CHISINAU.lat}&longitude=${CHISINAU.lon}&current=temperature_2m,weather_code&timezone=Europe%2FChisinau`;
-  const res = await fetch(url, { cache: 'no-store' });
+  const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`Weather fetch failed: ${res.status}`);
   const json = await res.json();
   const current = json?.current || {};
@@ -61,7 +63,12 @@ async function getWeather() {
   };
 }
 
-export async function GET() {
+export async function GET(request) {
+  const rl = applyRateLimit(`live-snapshot:${clientIp(request)}`, { limit: 90, windowMs: 60_000 });
+  if (!rl.allowed) {
+    return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
+  }
+
   try {
     const [fx, weather] = await Promise.all([getBnmRates(), getWeather()]);
     return NextResponse.json(
@@ -73,12 +80,11 @@ export async function GET() {
       },
       { status: 200, headers: { 'Cache-Control': 'no-store' } }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       {
         ok: false,
         error: 'Failed to load live snapshot',
-        details: error?.message || 'unknown-error',
       },
       { status: 500 }
     );

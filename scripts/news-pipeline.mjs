@@ -15,6 +15,8 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
+const FETCH_TIMEOUT_MS = Number(process.env.NEWS_FETCH_TIMEOUT_MS || 10000);
+
 function hash(v) {
   return crypto.createHash('sha1').update(String(v || '')).digest('hex');
 }
@@ -57,7 +59,10 @@ async function run() {
   for (const source of sources) {
     try {
       if (!source.rssUrl) continue;
-      const res = await fetch(source.rssUrl, { headers: { 'user-agent': 'adevar-news-bot/1.0' } });
+      const res = await fetch(source.rssUrl, {
+        headers: { 'user-agent': 'adevar-news-bot/1.0' },
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const xml = await res.text();
       const parsed = parseRss(xml).slice(0, 50);
