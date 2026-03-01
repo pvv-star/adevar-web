@@ -50,6 +50,16 @@
 - unit: mln USD
 - official: TODO
 
+## Unemployment
+- slug: `unemployment`
+- source_name: World Bank Open Data (modeled ILO estimate)
+- source_url: https://api.worldbank.org/v2/country/MDA/indicator/SL.UEM.TOTL.ZS?format=json&per_page=100
+- methodology: Total unemployment (% of total labor force), modeled ILO estimate
+- frequency: annual
+- coverage: 2014-2025
+- unit: %
+- official: false
+
 ## Births by Sex (Demography)
 - slug: `births-sex`
 - source_name: National Bureau of Statistics of the Republic of Moldova (StatBank)

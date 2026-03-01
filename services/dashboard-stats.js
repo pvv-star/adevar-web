@@ -75,6 +75,26 @@ function buildFromChartJson(chartId) {
   const lastValue = toFiniteNumber(last?.value);
   const decimals = Number.isFinite(Number(config?.decimals)) ? Number(config.decimals) : 2;
 
+  // Remittances: prefer yearly total USD equivalent widget value (USD + EUR→USD)
+  if (chartId === 'remittances' && Array.isArray(config?.yearlyTotals) && config.yearlyTotals.length) {
+    const yearly = config.yearlyTotals.slice().sort((a, b) => Number(a.year) - Number(b.year));
+    const yf = yearly[0];
+    const yl = yearly[yearly.length - 1];
+    const from = toFiniteNumber(yf?.totalUsd);
+    const to = toFiniteNumber(yl?.totalUsd);
+    const computed = formatChangePercent(from, to);
+    const yearLabel = String(yl?.year || 'n/a');
+
+    return {
+      value: formatValue(to, 1),
+      unit: 'mln USD (eq)',
+      change: computed.change,
+      dir: computed.dir,
+      date: { ro: yearLabel, en: yearLabel, ru: yearLabel },
+      source: 'json',
+    };
+  }
+
   const fallbackStats = config?.stats || {};
   const computed = formatChangePercent(firstValue, lastValue);
   const date = normalizeQuarterLabel(last?.label || 'n/a');

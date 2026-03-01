@@ -49,6 +49,7 @@ export default function ChartCanvas({ config, eras }) {
           <div className="price-pill" id="pricePill"></div>
         </div>
         <div className="legend" id="legend"></div>
+        <div className="extra-widget" id="extraWidget"></div>
         <div className="events-section">
           <h3 id="eventsTitle"></h3>
           <div className="events-grid" id="eventsGrid"></div>

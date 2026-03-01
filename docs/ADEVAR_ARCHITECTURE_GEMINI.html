@@ -1,0 +1,356 @@
+<!doctype html><html><head><meta charset="utf-8"><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:40px auto;line-height:1.45;color:#111}pre{background:#f6f8fa;padding:10px;border-radius:8px;overflow:auto}code{font-family:ui-monospace,Menlo,monospace}h1,h2,h3{page-break-after:avoid}table{border-collapse:collapse}td,th{border:1px solid #ddd;padding:6px}</style></head><body><h1>Adevăr.ai Architecture Document</h1>
+<p><strong>Version:</strong> 1.0<br />
+<strong>Date:</strong> 2026-03-01<br />
+<strong>Status:</strong> In Review</p>
+<hr />
+<h2>1. Executive Summary</h2>
+<p>Adevăr.ai is a public-facing data journalism platform focused on providing reliable, up-to-date socio-economic indicators and news for Moldova. Architected as a <strong>clean, modular monolith</strong>, it leverages a modern web stack consisting of <strong>Next.js 14</strong> for the frontend and API, <strong>Supabase (PostgreSQL)</strong> for the data backend, and <strong>Vercel</strong> for deployment and hosting.</p>
+<p>The system is designed around a core principle: a strict separation between raw data ingestion and curated data presentation. External data, including economic indicators and news articles, is processed through idempotent, validated ingestion pipelines. All user-facing interfaces—from interactive indicator charts to the live news feed—read exclusively from the trusted, sanctioned database layer in Supabase. This ensures data integrity, traceability, and consistency.</p>
+<p>Key implemented features include a dynamic chart platform, a dashboard with real-time statistics, a comprehensive news aggregation and analysis pipeline, and a responsive mobile-first user interface. The operational model relies on automated scripts for data ingestion, triggered by an external scheduler, and a safe, preflight-checked deployment process to Vercel.</p>
+<h2>2. Principles</h2>
+<ul>
+<li><strong>Modular Monolith First:</strong> Build with clear boundaries between components (UI, API, Services, Data) within a single application codebase. This provides development velocity while allowing for future, targeted extraction of services only when necessary.</li>
+<li><strong>Data Integrity is Paramount:</strong> User-facing applications <strong>must not</strong> consume data from external sources directly. All data must pass through a validation and ingestion process into the Supabase database. This is the "single source of truth."</li>
+<li><strong>Build for Correctness &amp; Traceability:</strong> Prioritize data quality, governance, and auditability. Implement features like data change logs and metadata tracking before focusing on complex AI or scaling initiatives.</li>
+<li><strong>Idempotent &amp; Resilient Operations:</strong> All data ingestion and processing scripts must be safely re-runnable without causing data duplication or corruption. Service layers should employ resilient data retrieval strategies (e.g., fallbacks) to handle inconsistencies.</li>
+<li><strong>Secure by Default:</strong> Implement security at each layer, from token-protected API endpoints to database row-level security and strict data validation.</li>
+</ul>
+<h2>3. System Context</h2>
+<p>Adevăr.ai operates within a simple, robust ecosystem designed for reliability and scalability.</p>
+<pre><code class="language-ascii">+-----------------------+      /-------------\      +----------------------+
+| External Data Sources |-----&gt;| Mac mini Cron |-----&gt;|   Adevăr.ai System   |
+| (Gov APIs, RSS Feeds) |      \(Scheduler)/     |  (Vercel Environment)  |
++-----------------------+      \-------------/      +-----------+----------+
+                                                                |
+                                             (HTTPS API Requests) |
+                                                                |
+     +----------------------------------------------------------+
+     |
+     v
++----+--------------------+      +--------------------+      +----------------------+
+| User's Web Browser      |-----&gt;| Vercel Edge Network|&lt;----&gt;| Next.js Application  |
+| (Desktop / Mobile)      |      | (CDN &amp; Caching)    |      | (SSR &amp; API Routes)   |
++-------------------------+      +--------------------+      +----------+-----------+
+                                                                       |
+                                         (DB Connection over SSL)        |
+                                                                       v
+                                                              +----------+-----------+
+                                                              | Supabase (PostgreSQL)|
+                                                              | (Data Backend)       |
+                                                              +----------------------+
+</code></pre>
+<p><strong>Components:</strong>
+- <strong>External Data Sources:</strong> Third-party government APIs and news RSS feeds that provide the raw data.
+- <strong>Mac mini Scheduler:</strong> An external cron job runner responsible for periodically triggering the data ingestion scripts (e.g., <code>news-pipeline.mjs</code>).
+- <strong>Adevăr.ai System (Vercel):</strong> The core application hosted on Vercel.
+- <strong>Vercel Edge Network:</strong> Provides CDN caching for static assets and server-side rendering caching for pages.
+- <strong>Next.js Application:</strong> The monolithic application serving both the user-facing React UI (via App Router) and the backend API routes.
+- <strong>Supabase (PostgreSQL):</strong> The managed PostgreSQL database that serves as the single source of truth for all user-facing data.</p>
+<h2>4. Logical Architecture</h2>
+<p>The application is structured as a modular monolith, with a clear separation of concerns between different logical layers.</p>
+<pre><code class="language-ascii">+-------------------------------------------------------------------+
+|                           User Interface (UI)                       |
+|        (Next.js App Router: Pages, Layouts, Client Components)      |
+|  [/, /chart/:id, /news]  [Header.js, BottomNav.js, ChartCanvas.js]  |
++----------------------------------+----------------------------------+
+                                   | (Client-side Fetch)
++----------------------------------+----------------------------------+
+|                            API Surface (app/api)                      |
+| (Next.js Route Handlers: Caching, Revalidation, Auth)               |
+| [/api/dashboard/stats, /api/news/feed, /api/indicators/:slug/series]|
++----------------------------------+----------------------------------+
+                                   | (Server-side Call)
++----------------------------------+----------------------------------+
+|                          Services Layer (services/)                   |
+|                   (Business Logic &amp; Data Retrieval)                 |
+|            [dashboard-stats.js, indicators.js]                      |
++----------------------------------+----------------------------------+
+                                   | (Server-side Call)
++----------------------------------+----------------------------------+
+|                        Core Libraries (lib/)                        |
+|        (DB Clients, Auth Helpers, i18n, Validation, Engine)         |
+| [supabase-server.js, ingest-auth.js, ingestion-validation.js]       |
++----------------------------------+----------------------------------+
+                                   |
++----------------------------------+----------------------------------+
+|                         Data Access Layer (DAL)                       |
+|              (Supabase Client executing SQL/RPC calls)              |
++---------------------------------------------------------------------+
+</code></pre>
+<ul>
+<li><strong>UI Layer (<code>app</code>, <code>components</code>):</strong> Built with Next.js App Router. It uses a mix of Server Components (for data fetching, e.g., <code>app/chart/[id]/page.js</code>) and Client Components (for interactivity, e.g., <code>components/ChartCanvas.js</code>).</li>
+<li><strong>API Surface (<code>app/api</code>):</strong> A set of RESTful endpoints built with Next.js Route Handlers. These endpoints are the exclusive gateway for the UI to fetch data. They handle caching, data shaping, and forwarding requests to the service layer.</li>
+<li><strong>Services Layer (<code>services</code>):</strong> Encapsulates business logic for data retrieval and manipulation. For example, <code>services/indicators.js</code> contains logic for fetching indicator data with resilient fallbacks. This layer is called only from the API layer or other server-side processes.</li>
+<li><strong>Core Libraries (<code>lib</code>):</strong> Contains shared, reusable modules for concerns like creating Supabase clients, handling authentication, internationalization (i18n), and the core chart rendering engine logic (<code>lib/engine.js</code>).</li>
+<li><strong>Data Access Layer:</strong> Abstracted via the Supabase client. All database interactions (queries, upserts, function calls) are performed through this client, primarily within the Services Layer.</li>
+</ul>
+<h2>5. Data Architecture</h2>
+<p>The data architecture is centered around a PostgreSQL database managed by Supabase. Schema is managed via versioned SQL migration files.</p>
+<h3>Key Tables</h3>
+<p><strong>Indicators &amp; Values:</strong>
+- <code>indicators</code>: Stores metadata about each economic indicator.
+- <code>indicator_values</code>: Stores the time-series data points for each indicator.</p>
+<pre><code class="language-sql">-- From sql/migrations/20260228_indicator_metadata_and_audit.sql
+CREATE TABLE indicators (
+  id uuid PRIMARY KEY,
+  slug text UNIQUE NOT NULL,
+  name text NOT NULL,
+  -- ... metadata fields
+  source_name text,
+  source_url text,
+  methodology text,
+  update_frequency text,
+  unit text,
+  is_official boolean
+);
+
+CREATE TABLE indicator_values (
+  id bigserial PRIMARY KEY,
+  indicator_id uuid REFERENCES indicators(id),
+  year int NOT NULL,
+  value numeric(18, 4),
+  -- ... other fields
+  UNIQUE (indicator_id, year)
+);
+</code></pre>
+<p><strong>News Pipeline:</strong>
+- <code>news_sources</code>: Configuration for each news source to be scraped.
+- <code>news_items</code>: Stores individual news articles, with hashes for deduplication.
+- <code>news_runs</code>: Logs for each execution of the news pipeline script.</p>
+<pre><code class="language-sql">-- From sql/migrations/20260301_news_pipeline.sql
+CREATE TABLE news_sources (
+  id uuid PRIMARY KEY,
+  slug text UNIQUE NOT NULL,
+  name text NOT NULL,
+  rss_url text,
+  enabled boolean NOT NULL
+);
+
+CREATE TABLE news_items (
+  id uuid PRIMARY KEY,
+  source_slug text NOT NULL,
+  title text NOT NULL,
+  url text NOT NULL,
+  canonical_url text NOT NULL,
+  url_hash text NOT NULL UNIQUE,
+  title_hash text NOT NULL,
+  published_at timestamptz,
+  impact_score numeric(6,2) NOT NULL DEFAULT 0,
+  duplicate_group text
+);
+</code></pre>
+<p><strong>Governance:</strong>
+- <code>data_change_log</code>: An audit table that logs all modifications to key data tables.</p>
+<pre><code class="language-sql">-- From sql/migrations/20260228_indicator_metadata_and_audit.sql
+CREATE TABLE data_change_log (
+  id bigserial PRIMARY KEY,
+  table_name text NOT NULL,
+  record_key text,
+  action text NOT NULL, -- e.g., 'INSERT', 'UPDATE'
+  changed_by text,
+  reason text,
+  payload jsonb,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+</code></pre>
+<h3>Data Flow</h3>
+<ol>
+<li><strong>Ingestion:</strong> External scripts (<code>ingest-indicator.mjs</code>, <code>news-pipeline.mjs</code>) are run, which fetch data from external sources.</li>
+<li><strong>Validation:</strong> The scripts validate and transform the raw data.</li>
+<li><strong>Upsert:</strong> Data is written to Supabase tables using <code>upsert</code> semantics to prevent duplicates (e.g., on <code>(indicator_id, year)</code> or <code>url_hash</code>).</li>
+<li><strong>Audit:</strong> Triggers or application logic populates the <code>data_change_log</code> table upon modification.</li>
+<li><strong>Consumption:</strong> The Next.js application's API routes query the Supabase tables via the service layer to serve data to the frontend.</li>
+</ol>
+<h2>6. News Pipeline Architecture</h2>
+<p>The news pipeline is a discrete, automated system for aggregating, deduplicating, and scoring news articles from various sources.</p>
+<ol>
+<li><strong>Configuration:</strong> A static JSON file (<code>config/news-sources.json</code>) defines the list of RSS feeds to process, including their priority and language.</li>
+<li><strong>Execution:</strong> The <code>scripts/news-pipeline.mjs</code> Node.js script is triggered by the external scheduler.</li>
+<li><strong>Fetching:</strong> The script iterates through enabled sources, fetches the RSS feeds, and parses the XML into a standardized item format.</li>
+<li><strong>Processing &amp; Hashing:</strong> For each article, it:<ul>
+<li>Generates a <code>url_hash</code> from the canonical URL for hard deduplication.</li>
+<li>Generates a <code>title_hash</code> and a <code>duplicate_group</code> hash from the title for soft deduplication analysis.</li>
+<li>Calculates an <code>impact_score</code> based on keywords (<code>guvern</code>, <code>inflatie</code>, etc.) and source priority.</li>
+</ul>
+</li>
+<li><strong>Storage:</strong> The processed article is inserted into the <code>news_items</code> table using an <code>upsert</code> on the unique <code>url_hash</code>. This makes the process idempotent.</li>
+<li><strong>Logging:</strong> The script logs its execution results (counts of fetched, inserted, deduped items) into the <code>news_runs</code> table.</li>
+</ol>
+<h2>7. API Surface</h2>
+<p>The API surface is composed of Next.js Route Handlers. All data is returned as JSON.</p>
+<h3><code>GET /api/dashboard/stats</code></h3>
+<ul>
+<li><strong>Description:</strong> Returns high-level statistics for the main dashboard.</li>
+<li><strong>Caching:</strong> No store (<code>Cache-Control: no-store</code>), data is always fresh.</li>
+<li><strong>Response Example:</strong></li>
+</ul>
+<pre><code class="language-json">{
+  &quot;totalIndicators&quot;: 10,
+  &quot;latestNewsItems&quot;: 5,
+  &quot;systemStatus&quot;: &quot;ok&quot;
+}
+</code></pre>
+<h3><code>GET /api/indicators/:slug/series</code></h3>
+<ul>
+<li><strong>Description:</strong> Retrieves the full time-series data and metadata for a specific indicator.</li>
+<li><strong>Caching:</strong> Statically generated at build time, with incremental static regeneration if configured.</li>
+<li><strong>Response Example (<code>/api/indicators/inflation/series</code>):</strong></li>
+</ul>
+<pre><code class="language-json">{
+  &quot;indicator&quot;: {
+    &quot;slug&quot;: &quot;inflation&quot;,
+    &quot;name&quot;: &quot;Inflație&quot;,
+    &quot;source_name&quot;: &quot;Biroul Național de Statistică (BNS)&quot;,
+    &quot;unit&quot;: &quot;%&quot;
+  },
+  &quot;series&quot;: [
+    { &quot;year&quot;: 2020, &quot;value&quot;: 0.39 },
+    { &quot;year&quot;: 2021, &quot;value&quot;: 5.11 },
+    { &quot;year&quot;: 2022, &quot;value&quot;: 30.24 }
+  ]
+}
+</code></pre>
+<h3><code>GET /api/news/feed</code></h3>
+<ul>
+<li><strong>Description:</strong> Returns a paginated feed of recent news items, sorted by impact score and publication date.</li>
+<li><strong>Query Params:</strong> <code>?page=1&amp;limit=20</code></li>
+<li><strong>Response Example:</strong></li>
+</ul>
+<pre><code class="language-json">{
+  &quot;items&quot;: [
+    {
+      &quot;id&quot;: &quot;...&quot;,
+      &quot;source_slug&quot;: &quot;protv-md&quot;,
+      &quot;title&quot;: &quot;Guvernul a aprobat un nou pachet de legi&quot;,
+      &quot;summary&quot;: &quot;...&quot;,
+      &quot;url&quot;: &quot;...&quot;,
+      &quot;published_at&quot;: &quot;2026-03-01T10:00:00Z&quot;,
+      &quot;impact_score&quot;: 74.00
+    }
+  ],
+  &quot;meta&quot;: {
+    &quot;currentPage&quot;: 1,
+    &quot;hasNextPage&quot;: true
+  }
+}
+</code></pre>
+<h3><code>POST /api/ingest/indicator-value</code></h3>
+<ul>
+<li><strong>Description:</strong> A protected endpoint for ingesting new indicator data points.</li>
+<li><strong>Authentication:</strong> Requires a valid <code>x-ingest-token</code> in the header.</li>
+<li><strong>Request Body Example:</strong></li>
+</ul>
+<pre><code class="language-json">{
+  &quot;indicator_slug&quot;: &quot;gdp&quot;,
+  &quot;values&quot;: [
+    { &quot;year&quot;: 2025, &quot;value&quot;: 280000 }
+  ]
+}
+</code></pre>
+<h2>8. UI Architecture</h2>
+<p>The UI is built using Next.js 14's App Router, which enables a powerful combination of server-side and client-side rendering.</p>
+<ul>
+<li><strong>Layouts (<code>app/layout.js</code>, <code>app/ClientLayout.js</code>):</strong> A root server layout handles the overall page structure (<code>&lt;html&gt;</code>, <code>&lt;body&gt;</code>), while a nested client-side layout (<code>ClientLayout.js</code>) manages shared state providers (<code>ThemeContext</code>, <code>LangContext</code>) that require browser interactivity.</li>
+<li><strong>Server Components:</strong> Most pages (<code>app/page.js</code>, <code>app/chart/[id]/page.js</code>) are React Server Components (RSCs). They run on the server, can perform direct data access (e.g., reading chart data from files during the build), and generate static HTML for fast initial loads.</li>
+<li><strong>Client Components (<code>'use client'</code>):</strong> Components requiring state, effects, or browser APIs are marked as Client Components.<ul>
+<li><strong><code>ChartPageClient.js</code>:</strong> Wraps the chart page, receiving server-fetched data as props but managing client-side logic.</li>
+<li><strong><code>ChartCanvas.js</code>:</strong> A key client component that uses a <code>ref</code> to an HTML <code>&lt;canvas&gt;</code> element and leverages the browser-based <code>lib/engine.js</code> to render the interactive chart visualizations.</li>
+</ul>
+</li>
+<li><strong>Styling:</strong> A global CSS file (<code>app/globals.css</code>) provides the base styles, following a utility-first or BEM-like approach for component-specific styles.</li>
+</ul>
+<h2>9. Mobile Architecture</h2>
+<p>The application is designed mobile-first.
+- <strong>Responsive Design:</strong> The UI uses responsive CSS techniques (media queries, flexible layouts) to adapt to various screen sizes.
+- <strong>Mobile Navigation:</strong> For small screens, the primary navigation is handled by the <code>components/BottomNav.js</code> component, providing an app-like experience with easy-to-tap icons for accessing the Dashboard, Charts list, and News feed.
+- <strong>Performance:</strong> Server-side rendering and static generation ensure that mobile devices receive optimized, fast-loading HTML, which is critical for potentially slower network connections.</p>
+<h2>10. Security &amp; Governance</h2>
+<ul>
+<li><strong>Ingestion Endpoint Protection:</strong> The <code>/api/ingest/*</code> routes are protected. The <code>lib/ingest-auth.js</code> middleware validates a bearer token (<code>x-ingest-token</code>) against a server-side secret (<code>INGEST_API_TOKEN</code>), returning a <code>401</code> or <code>403</code> error on failure.</li>
+<li><strong>Data Validation:</strong> Ingestion logic includes validation steps to ensure data integrity before it's written to the database.</li>
+<li><strong>Supabase Security:</strong><ul>
+<li><strong>Row Level Security (RLS):</strong> Policies are in place to control access to data. For example, public users (<code>anon</code> role) have read-only access to specific tables, while service roles (<code>service_role</code>) are used for write operations during ingestion.</li>
+<li><strong>Connection Pooling:</strong> Supabase manages secure, pooled PostgreSQL connections.</li>
+</ul>
+</li>
+<li><strong>Audit Trail:</strong> The <code>data_change_log</code> table provides a basic but effective audit trail, logging all data modifications for traceability and debugging.</li>
+<li><strong>No Raw SQL Injection:</strong> The use of the Supabase client library mitigates the risk of SQL injection vulnerabilities by parametrizing queries.</li>
+</ul>
+<h2>11. Reliability/Observability</h2>
+<ul>
+<li><strong>Health Checks:</strong> A dedicated <code>/api/health</code> endpoint provides a simple check on the application's status.</li>
+<li><strong>Smoke Tests:</strong> A suite of scripts in <code>scripts/smoke-*.mjs</code> are used to actively probe live endpoints (<code>/api/dashboard/stats</code>, <code>/api/indicators/inflation/series</code>, etc.) to verify they are returning valid data. The <code>smoke-prod-all.sh</code> script runs the entire suite.</li>
+<li><strong>Operational Logging:</strong><ul>
+<li><strong>Ingestion Runs:</strong> The <code>news_runs</code> table provides a detailed log of every news pipeline execution, capturing status, counts, and errors.</li>
+<li><strong>Ingestion Errors:</strong> The <code>news_errors</code> table specifically logs errors encountered during the fetching stage of the news pipeline, helping to identify unreliable sources.</li>
+</ul>
+</li>
+<li><strong>Vercel Analytics:</strong> Vercel's built-in analytics provide insights into traffic, performance (e.g., Web Vitals), and function errors.</li>
+</ul>
+<h2>12. Deployment/Operations</h2>
+<ul>
+<li><strong>Platform:</strong> Vercel is the primary deployment and hosting platform.</li>
+<li><strong>Deployment Script (<code>scripts/boss-deploy.sh</code>):</strong> This is the canonical script for production deployments.<ol>
+<li>It first runs <code>npm run preflight</code>, which executes a series of checks (<code>validate-env.sh</code>, <code>check-migrations.sh</code>).</li>
+<li>If the preflight checks pass, it proceeds to run <code>vercel deploy --prod --yes</code> to push the new build to production.</li>
+</ol>
+</li>
+<li><strong>CI/CD:</strong> The <code>.github/workflows/ci.yml</code> file defines a basic continuous integration pipeline that likely runs on pull requests, executing linting and tests.</li>
+<li><strong>Scheduler:</strong> A Mac mini running <code>cron</code> is used as an external scheduler. It is configured to periodically execute the <code>scripts/news-pipeline.mjs</code> and <code>scripts/ingest-indicator-api.mjs</code> scripts via SSH or a similar mechanism, ensuring data is kept up-to-date.</li>
+</ul>
+<h2>13. Scaling Plan</h2>
+<p>The current architecture is well-positioned to scale gracefully.
+- <strong>Frontend/API Scaling:</strong> Vercel's serverless infrastructure automatically scales the Next.js application (both page rendering and API functions) in response to traffic. The Edge Network provides a global CDN to handle high request volumes for cached content.
+- <strong>Database Scaling:</strong> Supabase offers managed database scaling. The first step under load would be to upgrade the underlying compute instance. For read-heavy workloads, a read replica can be introduced to offload queries from the primary database.
+- <strong>Ingestion Scaling:</strong> The ingestion scripts are run on a fixed schedule. If data sources grow significantly, the scheduler can be parallelized, or the scripts can be moved to a serverless function (e.g., Vercel Cron Job, AWS Lambda) that can scale on demand. The idempotent nature of the scripts makes them safe for distributed execution.</p>
+<h2>14. Risks/Mitigations</h2>
+<ul>
+<li><strong>Risk: External Data Source Unreliability:</strong> An external API may go down, change format, or provide corrupt data.<ul>
+<li><strong>Mitigation:</strong> The ingestion scripts have error handling. The strict separation of ingestion and presentation means a failed ingestion job does not take down the user-facing site; it simply runs on stale data until the next successful run. <code>news_errors</code> table tracks faulty sources.</li>
+</ul>
+</li>
+<li><strong>Risk: Ingestion Pipeline Failure:</strong> The scheduler could fail or the ingestion script could have a critical bug.<ul>
+<li><strong>Mitigation:</strong> Operational logging (<code>news_runs</code>) provides visibility into pipeline health. Smoke tests will fail if data freshness is compromised, triggering alerts.</li>
+</ul>
+</li>
+<li><strong>Risk: Ingestion API Security Breach:</strong> The <code>INGEST_API_TOKEN</code> could be leaked.<ul>
+<li><strong>Mitigation:</strong> The token is stored as a secret in the environment. It can be rotated easily. Further hardening could involve IP whitelisting on the ingestion endpoint.</li>
+</ul>
+</li>
+<li><strong>Risk: Database Performance Bottleneck:</strong> A complex query or high traffic could slow down the database.<ul>
+<li><strong>Mitigation:</strong> The service layer uses targeted, indexed queries. Supabase provides performance monitoring tools. A read replica is a planned scaling path.</li>
+</ul>
+</li>
+</ul>
+<h2>15. 30-60-90 Day Roadmap</h2>
+<p>This roadmap is synthesized from the <code>ROADMAP.md</code> and <code>PROJECT_CONTEXT.md</code> documents.</p>
+<h3>30 Days (Immediate Priorities)</h3>
+<ul>
+<li><strong>Objective:</strong> Solidify the Foundation.</li>
+<li><strong>Key Results:</strong><ul>
+<li>Replace all remaining hardcoded dashboard statistics with values derived from the <code>dashboard-stats</code> API endpoint.</li>
+<li>Tighten Supabase Row Level Security policies, particularly removing any fallback <code>anon</code> access from server-side data modification paths.</li>
+<li>Add CI gates to the deployment workflow that fail the build if critical indicator data (e.g., inflation) is empty or invalid.</li>
+</ul>
+</li>
+</ul>
+<h3>60 Days (Governance Hardening)</h3>
+<ul>
+<li><strong>Objective:</strong> Enhance Data Governance and Reliability.</li>
+<li><strong>Key Results:</strong><ul>
+<li>Finalize the indicator registry model in the <code>indicators</code> table, ensuring all fields (<code>source</code>, <code>frequency</code>, <code>methodology</code>) are populated for all active indicators.</li>
+<li>Implement a versioning workflow or approval process for changes to indicator metadata.</li>
+<li>Expand the <code>data_change_log</code> into a user-facing audit trail or internal report, providing a clear history of data provenance.</li>
+</ul>
+</li>
+</ul>
+<h3>90 Days (Controlled Innovation)</h3>
+<ul>
+<li><strong>Objective:</strong> Begin development of the controlled AI query layer.</li>
+<li><strong>Key Results:</strong><ul>
+<li>Design and document a query "intent schema" that can translate natural language questions into structured data queries.</li>
+<li>Implement a prototype of the <code>/api/ai-query</code> endpoint with a hardcoded allowlist of tables and columns to prevent unsafe queries.</li>
+<li>Develop a standardized response format for AI queries that includes source citations and data freshness timestamps to maintain trust and transparency.</li>
+</ul>
+</li>
+</ul></body></html>

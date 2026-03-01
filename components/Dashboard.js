@@ -10,6 +10,7 @@ export default function Dashboard() {
   const { lang, t } = useLang();
   const [liveStats, setLiveStats] = useState({});
   const [snapshot, setSnapshot] = useState(null);
+  const [liveNews, setLiveNews] = useState([]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -50,8 +51,25 @@ export default function Dashboard() {
       }
     }
 
+    async function fetchLiveNews() {
+      try {
+        const res = await fetch('/api/widgets/live-news', {
+          signal: controller.signal,
+          cache: 'no-store',
+        });
+        const payload = await res.json();
+        if (!res.ok || !payload?.ok) throw new Error(payload?.error || 'Failed live news');
+        setLiveNews(payload.items || []);
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error(error);
+        }
+      }
+    }
+
     fetchDashboardStats();
     fetchSnapshot();
+    fetchLiveNews();
 
     return () => controller.abort();
   }, []);
@@ -77,7 +95,20 @@ export default function Dashboard() {
       <div className="view-heading">{t('dashTitle')}</div>
       <div className="view-subheading">{t('dashSub')}</div>
 
-      {snapshot?.ok ? (
+      {liveNews?.length ? (
+        <Link href="/news?range=72h" className="live-news-card" style={{ textDecoration: 'none' }}>
+          <div className="live-snapshot-title">Live Moldova News Pulse · last 24h</div>
+          <div className="live-news-list">
+            {liveNews.slice(0, 4).map((n, idx) => (
+              <div key={`${n.url}-${idx}`} className="live-news-item">
+                <span className="live-news-source">{n.source_slug}</span>
+                <span className="live-news-title">{n.title}</span>
+              </div>
+            ))}
+          </div>
+          <div className="live-snapshot-meta">Tap to open full 72h feed</div>
+        </Link>
+      ) : snapshot?.ok ? (
         <div className="live-snapshot-card">
           <div className="live-snapshot-title">Live Snapshot · FX + Weather</div>
           <div className="live-snapshot-grid">

@@ -1,0 +1,258 @@
+{
+  "config": {
+    "unit": "people",
+    "yMax": 3000000,
+    "gridSteps": 8,
+    "decimals": 0,
+    "timeRange": "1992 — 2024",
+    "data": [
+      {
+        "label": "1992",
+        "value": 2980965,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "1993",
+        "value": 2975966,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "1994",
+        "value": 2966745,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "1995",
+        "value": 2953200,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "1996",
+        "value": 2947293,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "1997",
+        "value": 2936413,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "1998",
+        "value": 2935227,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "1999",
+        "value": 2930622,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2000",
+        "value": 2924668,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2001",
+        "value": 2918135,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2002",
+        "value": 2911385,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2003",
+        "value": 2903198,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2004",
+        "value": 2896023,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2005",
+        "value": 2888985,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2006",
+        "value": 2880967,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2007",
+        "value": 2874299,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2008",
+        "value": 2868833,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2009",
+        "value": 2865213,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2010",
+        "value": 2862354,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2011",
+        "value": 2860699,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2012",
+        "value": 2860324,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2013",
+        "value": 2859558,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2014",
+        "value": 2857815,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 2835978,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 2803186,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 2755189,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 2707203,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 2664224,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 2635130,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 2595809,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 2528654,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 2457783,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 2402306,
+        "era": "DEM",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 2402306,
+      "lowest": 2402306,
+      "peak": 2980965,
+      "change": "-19.4%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Populația cu Reședință Obișnuită",
+        "subtitle": "Numărul estimat al locuitorilor țării la începutul anului",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Usually Resident Population",
+        "subtitle": "Estimated number of the country's inhabitants at the beginning of the year",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Численность постоянного населения",
+        "subtitle": "Оценочная численность жителей страны на начало года",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "World Bank Open Data",
+      "url": "https://api.worldbank.org/v2/country/MDA/indicator/SP.POP.TOTL?format=json&per_page=100",
+      "indicator": "SP.POP.TOTL"
+    }
+  },
+  "eras": {
+    "DEM": {
+      "name": "Official data"
+    }
+  }
+}

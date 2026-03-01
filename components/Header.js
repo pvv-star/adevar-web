@@ -1,5 +1,7 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLang } from '@/contexts/LangContext';
 
@@ -7,6 +9,44 @@ import { useLang } from '@/contexts/LangContext';
 export default function Header({ onNavToggle }) {
   const { theme, toggleTheme } = useTheme();
   const { lang, setLang } = useLang();
+  const pathname = usePathname();
+  const router = useRouter();
+  const canGoBack = pathname && pathname !== '/';
+  const [liveMini, setLiveMini] = useState({ usd: null, eur: null, temp: null });
+
+  useEffect(() => {
+    let active = true;
+
+    async function fetchLiveMini() {
+      try {
+        const res = await fetch('/api/widgets/live-snapshot', { cache: 'no-store' });
+        const payload = await res.json();
+        if (!active || !res.ok || !payload?.ok) return;
+        setLiveMini({
+          usd: payload?.fx?.rates?.USD ?? null,
+          eur: payload?.fx?.rates?.EUR ?? null,
+          temp: payload?.weather?.temperatureC ?? null,
+        });
+      } catch {
+        // silent in header
+      }
+    }
+
+    fetchLiveMini();
+    const id = setInterval(fetchLiveMini, 60_000);
+    return () => {
+      active = false;
+      clearInterval(id);
+    };
+  }, []);
+
+  function onBack() {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/');
+    }
+  }
 
   return (
     <header className="header">
@@ -18,11 +58,24 @@ export default function Header({ onNavToggle }) {
             <line x1="3" y1="18" x2="18" y2="18"/>
           </svg>
         </button>
+        {canGoBack ? (
+          <button className="back-btn" onClick={onBack} aria-label="Go back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            <span>Back</span>
+          </button>
+        ) : null}
         <Link className="brand" href="/">
           <span className="brand-name">adevar</span>
           <span className="brand-dot">.</span>
           <span className="brand-ext">ai</span>
         </Link>
+        <div className="live-mini-group" aria-label="Live rates and weather">
+          <span className="live-mini-chip">USD {liveMini.usd ?? '—'}</span>
+          <span className="live-mini-chip">EUR {liveMini.eur ?? '—'}</span>
+          <span className="live-mini-chip">{liveMini.temp ?? '—'}°C</span>
+        </div>
       </div>
       <div className="header-right">
         <div className="lang-group">

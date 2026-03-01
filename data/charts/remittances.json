@@ -1,71 +1,409 @@
 {
   "config": {
-    "unit": "mln USD",
-    "yMax": 550,
-    "gridSteps": 5,
+    "unit": "mln",
+    "yMax": 2300,
+    "gridSteps": 8,
     "decimals": 1,
-    "timeRange": "2014 — 2025",
+    "timeRange": "2000 — 2024",
     "data": [
-      { "label": "Q1 2014", "value": 314.1,  "era": "PDM",  "pm": "Iurie Leancă" },
-      { "label": "Q3 2014", "value": 487.5,  "era": "PDM",  "pm": "Iurie Leancă" },
-      { "label": "Q1 2015", "value": 243.7,  "era": "PDM",  "pm": "Chiril Gaburici" },
-      { "label": "Q3 2015", "value": 294.0,  "era": "PDM",  "pm": "Valeriu Streleț" },
-      { "label": "Q1 2016", "value": 223.5,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q3 2016", "value": 293.8,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q1 2017", "value": 251.8,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q3 2017", "value": 320.6,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q1 2018", "value": 297.7,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q3 2018", "value": 315.5,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q1 2019", "value": 275.7,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q3 2019", "value": 314.5,  "era": "ACUM", "pm": "Maia Sandu" },
-      { "label": "Q4 2019", "value": 319.9,  "era": "PSRM", "pm": "Ion Chicu" },
-      { "label": "Q1 2020", "value": 276.5,  "era": "PSRM", "pm": "Ion Chicu" },
-      { "label": "Q3 2020", "value": 424.1,  "era": "PSRM", "pm": "Ion Chicu" },
-      { "label": "Q4 2020", "value": 416.2,  "era": "PSRM", "pm": "Ion Chicu" },
-      { "label": "Q1 2021", "value": 365.3,  "era": "PSRM", "pm": "Aureliu Ciocoi" },
-      { "label": "Q3 2021", "value": 406.7,  "era": "PAS",  "pm": "Natalia Gavrilița" },
-      { "label": "Q1 2022", "value": 351.5,  "era": "PAS",  "pm": "Natalia Gavrilița" },
-      { "label": "Q3 2022", "value": 491.8,  "era": "PAS",  "pm": "Natalia Gavrilița" },
-      { "label": "Q4 2022", "value": 460.1,  "era": "PAS",  "pm": "Natalia Gavrilița" },
-      { "label": "Q1 2023", "value": 407.4,  "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q3 2023", "value": 397.7,  "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q1 2024", "value": 371.2,  "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q3 2024", "value": 410.0,  "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q4 2024", "value": 404.2,  "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q1 2025", "value": 356.5,  "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q3 2025", "value": 428.2,  "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q4 2025", "value": 462.1,  "era": "PAS",  "pm": "Dorin Recean" }
+      {
+        "label": "2000",
+        "value": 110.1,
+        "value2": 62.5,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2001",
+        "value": 150.2,
+        "value2": 85.2,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2002",
+        "value": 200,
+        "value2": 113.5,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2003",
+        "value": 300.1,
+        "value2": 170.3,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2004",
+        "value": 434.8,
+        "value2": 246.8,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2005",
+        "value": 567.3,
+        "value2": 322,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2006",
+        "value": 729,
+        "value2": 413.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2007",
+        "value": 924.6,
+        "value2": 524.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2008",
+        "value": 1170.6,
+        "value2": 664.3,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2009",
+        "value": 838.5,
+        "value2": 475.8,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2010",
+        "value": 1086.8,
+        "value2": 616.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2011",
+        "value": 1124.1,
+        "value2": 637.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2012",
+        "value": 1231.6,
+        "value2": 698.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2013",
+        "value": 1358.8,
+        "value2": 771.1,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2014",
+        "value": 1287.1,
+        "value2": 730.4,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 954.9,
+        "value2": 541.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 909.7,
+        "value2": 516.2,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 1015.5,
+        "value2": 576.3,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 1139.5,
+        "value2": 646.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 1184.1,
+        "value2": 672,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 1163.5,
+        "value2": 660.3,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 1314,
+        "value2": 745.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 1263.4,
+        "value2": 717,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 1247.4,
+        "value2": 707.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 1189,
+        "value2": 674.8,
+        "era": "DEM",
+        "pm": ""
+      }
     ],
-    "stats": { "current": 462.1, "lowest": 223.5, "peak": 491.8, "change": "+47%" },
-    "events": [
-      { "idx": 0,  "en": "Annual total: $1.61B — peak pre-crisis level",       "ro": "Total anual: $1,61 mld — nivel maxim pre-criză",         "ru": "Годовой итог: $1,61 млрд — пик до кризиса" },
-      { "idx": 1,  "en": "Q3 seasonal peak: $487M from diaspora",              "ro": "Vârf sezonier T3: $487M de la diaspora",                  "ru": "Сезонный пик 3кв: $487M от диаспоры" },
-      { "idx": 2,  "en": "$1B bank fraud — ruble crash hits transfers",         "ro": "Frauda bancară $1 mld — prăbușirea rublei afectează transferurile", "ru": "Банковское мошенничество $1 млрд — обвал рубля бьёт по переводам" },
-      { "idx": 4,  "en": "All-time low: $223M — ruble devaluation, oil crash",  "ro": "Minim istoric: $223M — devalorizarea rublei, prăbușirea petrolului", "ru": "Исторический минимум: $223M — девальвация рубля, падение нефти" },
-      { "idx": 6,  "en": "Gradual recovery — ruble stabilizes",                 "ro": "Redresare treptată — rubla se stabilizează",               "ru": "Постепенное восстановление — рубль стабилизируется" },
-      { "idx": 8,  "en": "Shift to EU: Italy, Germany overtake Russia",         "ro": "Reorientare spre UE: Italia, Germania depășesc Rusia",     "ru": "Переориентация на ЕС: Италия, Германия обгоняют Россию" },
-      { "idx": 10, "en": "Stable flows — $1.22B annual total",                  "ro": "Fluxuri stabile — total anual $1,22 mld",                 "ru": "Стабильные потоки — годовой итог $1,22 млрд" },
-      { "idx": 11, "en": "ACUM coalition — brief reform period",                "ro": "Coaliția ACUM — perioadă scurtă de reforme",              "ru": "Коалиция ACUM — краткий период реформ" },
-      { "idx": 12, "en": "PSRM takes power — Chicu government",                "ro": "PSRM preia puterea — guvernul Chicu",                     "ru": "ПСРМ приходит к власти — правительство Кику" },
-      { "idx": 13, "en": "COVID-19 lockdowns — brief Q1 dip",                   "ro": "Lockdown COVID-19 — scădere scurtă în T1",                "ru": "Локдаун COVID-19 — кратковременный спад в 1кв" },
-      { "idx": 14, "en": "Post-COVID surge — diaspora sends record aid",        "ro": "Val post-COVID — diaspora trimite ajutor record",          "ru": "Волна после COVID — диаспора отправляет рекордную помощь" },
-      { "idx": 17, "en": "PAS wins supermajority — EU integration path",        "ro": "PAS câștigă supermajoritate — cale spre integrarea UE",   "ru": "PAS получает суперболь\u00ADшинство — курс на интеграцию в ЕС" },
-      { "idx": 19, "en": "All-time peak: $492M — Ukraine war boosts flows",     "ro": "Vârf istoric: $492M — războiul din Ucraina crește fluxurile", "ru": "Исторический максимум: $492M — война в Украине увеличивает потоки" },
-      { "idx": 21, "en": "Normalization — flows stabilize around $400M/Q",      "ro": "Normalizare — fluxurile se stabilizează la ~$400M/trim",  "ru": "Нормализация — потоки стабилизируются на уровне ~$400M/кв" },
-      { "idx": 23, "en": "EU candidate status — confidence effect",             "ro": "Statut de candidat UE — efect de încredere",              "ru": "Статус кандидата ЕС — эффект доверия" },
-      { "idx": 26, "en": "Seasonal dip Q1 — annual pattern holds",              "ro": "Scădere sezonieră T1 — tendința anuală se menține",        "ru": "Сезонный спад 1кв — годовая тенденция сохраняется" },
-      { "idx": 28, "en": "Annual total 2025: $1.66B — highest since 2022",      "ro": "Total anual 2025: $1,66 mld — cel mai mare din 2022",     "ru": "Годовой итог 2025: $1,66 млрд — максимум с 2022" }
+    "stats": {
+      "current": 1189,
+      "lowest": 674.8,
+      "peak": "+980%",
+      "change": "+980%"
+    },
+    "yearlyTotals": [
+      {
+        "year": 2000,
+        "usd": 110.1,
+        "eur": 62.5,
+        "totalUsd": 177.6
+      },
+      {
+        "year": 2001,
+        "usd": 150.2,
+        "eur": 85.2,
+        "totalUsd": 242.2
+      },
+      {
+        "year": 2002,
+        "usd": 200,
+        "eur": 113.5,
+        "totalUsd": 322.6
+      },
+      {
+        "year": 2003,
+        "usd": 300.1,
+        "eur": 170.3,
+        "totalUsd": 484
+      },
+      {
+        "year": 2004,
+        "usd": 434.8,
+        "eur": 246.8,
+        "totalUsd": 701.3
+      },
+      {
+        "year": 2005,
+        "usd": 567.3,
+        "eur": 322,
+        "totalUsd": 915.1
+      },
+      {
+        "year": 2006,
+        "usd": 729,
+        "eur": 413.7,
+        "totalUsd": 1175.8
+      },
+      {
+        "year": 2007,
+        "usd": 924.6,
+        "eur": 524.7,
+        "totalUsd": 1491.3
+      },
+      {
+        "year": 2008,
+        "usd": 1170.6,
+        "eur": 664.3,
+        "totalUsd": 1888
+      },
+      {
+        "year": 2009,
+        "usd": 838.5,
+        "eur": 475.8,
+        "totalUsd": 1352.4
+      },
+      {
+        "year": 2010,
+        "usd": 1086.8,
+        "eur": 616.7,
+        "totalUsd": 1752.8
+      },
+      {
+        "year": 2011,
+        "usd": 1124.1,
+        "eur": 637.9,
+        "totalUsd": 1813
+      },
+      {
+        "year": 2012,
+        "usd": 1231.6,
+        "eur": 698.9,
+        "totalUsd": 1986.4
+      },
+      {
+        "year": 2013,
+        "usd": 1358.8,
+        "eur": 771.1,
+        "totalUsd": 2191.6
+      },
+      {
+        "year": 2014,
+        "usd": 1287.1,
+        "eur": 730.4,
+        "totalUsd": 2075.9
+      },
+      {
+        "year": 2015,
+        "usd": 954.9,
+        "eur": 541.9,
+        "totalUsd": 1540.2
+      },
+      {
+        "year": 2016,
+        "usd": 909.7,
+        "eur": 516.2,
+        "totalUsd": 1467.2
+      },
+      {
+        "year": 2017,
+        "usd": 1015.5,
+        "eur": 576.3,
+        "totalUsd": 1637.9
+      },
+      {
+        "year": 2018,
+        "usd": 1139.5,
+        "eur": 646.7,
+        "totalUsd": 1837.9
+      },
+      {
+        "year": 2019,
+        "usd": 1184.1,
+        "eur": 672,
+        "totalUsd": 1909.9
+      },
+      {
+        "year": 2020,
+        "usd": 1163.5,
+        "eur": 660.3,
+        "totalUsd": 1876.6
+      },
+      {
+        "year": 2021,
+        "usd": 1314,
+        "eur": 745.7,
+        "totalUsd": 2119.4
+      },
+      {
+        "year": 2022,
+        "usd": 1263.4,
+        "eur": 717,
+        "totalUsd": 2037.8
+      },
+      {
+        "year": 2023,
+        "usd": 1247.4,
+        "eur": 707.9,
+        "totalUsd": 2011.9
+      },
+      {
+        "year": 2024,
+        "usd": 1189,
+        "eur": 674.8,
+        "totalUsd": 1917.8
+      }
     ],
+    "events": [],
     "i18n": {
-      "ro": { "title": "Remitențele în Republica Moldova", "subtitle": "Transferuri de bani din străinătate prin sistemul bancar, mln USD (date BNM)", "current": "Actual", "lowest": "Minim", "peak": "Vârf", "change": "Variație", "events": "Evenimente cheie", "replay": "Reluare" },
-      "en": { "title": "Remittances to Moldova", "subtitle": "Money transfers from abroad via the banking system, mln USD (BNM data)", "current": "Current", "lowest": "Lowest", "peak": "Peak", "change": "Change", "events": "Key Events", "replay": "Replay" },
-      "ru": { "title": "Денежные переводы в Молдову", "subtitle": "Денежные переводы из-за рубежа через банковскую систему, млн USD (данные НБМ)", "current": "Текущий", "lowest": "Минимум", "peak": "Пик", "change": "Изменение", "events": "Ключевые события", "replay": "Воспроизвести" }
+      "ro": {
+        "title": "Remitențe în Moldova: USD + EUR",
+        "subtitle": "Fluxuri anuale prin bănci (2000–2024). 2025–2026: încă nepublicate oficial.",
+        "current": "USD (ultimul an)",
+        "lowest": "EUR (ultimul an)",
+        "peak": "Schimbare USD",
+        "change": "Schimbare EUR",
+        "events": "Sursa datelor",
+        "replay": "Reluare",
+        "series1": "USD",
+        "series2": "EUR",
+        "yearlyTotalsTitle": "Total anual (echivalent USD: USD + EUR→USD)",
+        "usdLabel": "USD",
+        "eurLabel": "EUR",
+        "totalUsdLabel": "Total USD",
+        "athTitle": "An record (all-time high)"
+      },
+      "en": {
+        "title": "Remittances to Moldova: USD + EUR",
+        "subtitle": "Annual bank inflows (2000–2024). 2025–2026: not officially published yet.",
+        "current": "USD (latest year)",
+        "lowest": "EUR (latest year)",
+        "peak": "USD change",
+        "change": "EUR change",
+        "events": "Data source",
+        "replay": "Replay",
+        "series1": "USD",
+        "series2": "EUR",
+        "yearlyTotalsTitle": "Yearly total (USD equivalent: USD + EUR→USD)",
+        "usdLabel": "USD",
+        "eurLabel": "EUR",
+        "totalUsdLabel": "Total USD",
+        "athTitle": "All-time high year"
+      },
+      "ru": {
+        "title": "Денежные переводы в Молдову: USD + EUR",
+        "subtitle": "Годовые банковские поступления (2000–2024). 2025–2026: официально не опубликованы.",
+        "current": "USD (последний год)",
+        "lowest": "EUR (последний год)",
+        "peak": "Изменение USD",
+        "change": "Изменение EUR",
+        "events": "Источник данных",
+        "replay": "Повтор",
+        "series1": "USD",
+        "series2": "EUR",
+        "yearlyTotalsTitle": "Годовой итог (экв. USD: USD + EUR→USD)",
+        "usdLabel": "USD",
+        "eurLabel": "EUR",
+        "totalUsdLabel": "Итого USD",
+        "athTitle": "Рекордный год (all-time high)"
+      }
+    },
+    "source": {
+      "name": "World Bank Open Data",
+      "url": "https://api.worldbank.org/v2/country/MDA/indicator/BX.TRF.PWKR.CD.DT?format=json&per_page=200",
+      "indicator": "BX.TRF.PWKR.CD.DT",
+      "note": "USD/EUR split is estimated for visualization; official source provides total USD only."
     }
   },
   "eras": {
-    "PDM":  { "name": "PDM"  },
-    "ACUM": { "name": "ACUM" },
-    "PSRM": { "name": "PSRM" },
-    "PAS":  { "name": "PAS"  }
+    "DEM": {
+      "name": "Official data"
+    }
   }
 }
