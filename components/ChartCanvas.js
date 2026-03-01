@@ -14,7 +14,8 @@ const PERIODS = [
 export default function ChartCanvas({ config, eras }) {
   const canvasRef = useRef(null);
   const cleanupRef = useRef(null);
-  const { lang } = useLang();
+  const apiRef = useRef(null);
+  const { lang, t } = useLang();
   const { theme } = useTheme();
   const [compactMode, setCompactMode] = useState(true);
   const [period, setPeriod] = useState('all');
@@ -68,8 +69,14 @@ export default function ChartCanvas({ config, eras }) {
       cleanupRef.current();
       cleanupRef.current = null;
     }
-    const cleanup = initChart(canvasRef.current, effectiveConfig, eras, lang, theme);
-    cleanupRef.current = cleanup;
+    const result = initChart(canvasRef.current, effectiveConfig, eras, lang, theme);
+    // initChart returns cleanup function; store API if returned as object
+    if (typeof result === 'function') {
+      cleanupRef.current = result;
+    } else if (result && typeof result.cleanup === 'function') {
+      cleanupRef.current = result.cleanup;
+      apiRef.current = result;
+    }
   }, [effectiveConfig, eras, lang, theme]);
 
   useEffect(() => {
@@ -78,6 +85,7 @@ export default function ChartCanvas({ config, eras }) {
       if (cleanupRef.current) {
         cleanupRef.current();
         cleanupRef.current = null;
+        apiRef.current = null;
       }
     };
   }, [mount]);
@@ -99,13 +107,13 @@ export default function ChartCanvas({ config, eras }) {
         <div className="chart-mobile-summary">
           <div>
             <div className="chart-mobile-kpi">{mobileSummary.value}</div>
-            <div className="chart-mobile-meta">Δ {mobileSummary.trend} · Updated {mobileSummary.updated}</div>
-            <div className="chart-mobile-compare">vs period start: {mobileSummary.versusStart}</div>
+            <div className="chart-mobile-meta">Δ {mobileSummary.trend} · {t('chartUpdated')} {mobileSummary.updated}</div>
+            <div className="chart-mobile-compare">{t('chartVsStart')}: {mobileSummary.versusStart}</div>
           </div>
-          <button className="ctrl-btn chart-open-full" onClick={() => setCompactMode(false)}>Open full chart</button>
+          <button className="ctrl-btn chart-open-full" onClick={() => setCompactMode(false)}>{t('chartOpenFull')}</button>
         </div>
 
-        <div className="chart-source-row">Source: Official Moldova institutional datasets</div>
+        <div className="chart-source-row">{t('chartSource')}</div>
 
         <div className="period-chips" aria-label="Chart period">
           {PERIODS.map((p) => (
@@ -124,10 +132,10 @@ export default function ChartCanvas({ config, eras }) {
         <div className="controls">
           <button className="ctrl-btn" id="replayBtn">&#8635; Replay</button>
           <button className="ctrl-btn" id="speedBtn">1x</button>
-          <button className="ctrl-btn" onClick={() => setCompactMode((v) => !v)}>{compactMode ? 'Full' : 'Compact'}</button>
+          <button className="ctrl-btn" onClick={() => setCompactMode((v) => !v)}>{compactMode ? t('chartFull') : t('chartCompact')}</button>
         </div>
 
-        <div className="stats-bar" id="statsBar"></div>
+        <div className="stats-bar" id="statsBar" role="region" aria-label="Chart statistics"></div>
 
         <div className={`chart-wrap${compactMode ? ' compact-mobile' : ''}`}>
           <canvas
@@ -140,11 +148,11 @@ export default function ChartCanvas({ config, eras }) {
           <div className="price-pill" id="pricePill"></div>
         </div>
 
-        <div className="legend" id="legend"></div>
+        <div className="legend" id="legend" role="region" aria-label="Chart legend"></div>
         <div className="extra-widget" id="extraWidget"></div>
         <div className="events-section">
           <h3 id="eventsTitle"></h3>
-          <div className="events-grid" id="eventsGrid"></div>
+          <div className="events-grid" id="eventsGrid" role="region" aria-label="Chart events"></div>
         </div>
         {dataRows.length > 0 && (
           <table className="sr-only">

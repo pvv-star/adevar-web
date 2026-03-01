@@ -137,7 +137,7 @@ export default function NewsPageClient() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('newsSearchPlaceholder')}
             className="news-search-input"
-            aria-label="Search live news"
+            aria-label={t('newsSearchPlaceholder')}
           />
         </div>
 
