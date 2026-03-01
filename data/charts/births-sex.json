@@ -1,0 +1,22 @@
+{
+  "source": {
+    "name": "National Bureau of Statistics of the Republic of Moldova (StatBank)",
+    "url": "https://statbank.statistica.md/PxWeb/api/v1/en/20%20Populatia%20si%20procesele%20demografice/POP030/POP030100.px",
+    "table": "POP030100.px",
+    "title": "Live-births by sex and areas, 1980-2024",
+    "updated": "2025-05-15"
+  },
+  "notes": "Whole country, annual live births, sex: Male/Female. Last 10 available years.",
+  "series": [
+    { "year": 2015, "male": 20975, "female": 19572 },
+    { "year": 2016, "male": 20414, "female": 19226 },
+    { "year": 2017, "male": 18722, "female": 17641 },
+    { "year": 2018, "male": 17790, "female": 16747 },
+    { "year": 2019, "male": 16637, "female": 15786 },
+    { "year": 2020, "male": 16167, "female": 14667 },
+    { "year": 2021, "male": 15113, "female": 14207 },
+    { "year": 2022, "male": 13950, "female": 13068 },
+    { "year": 2023, "male": 12294, "female": 11829 },
+    { "year": 2024, "male": 12126, "female": 11522 }
+  ]
+}

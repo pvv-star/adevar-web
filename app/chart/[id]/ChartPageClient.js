@@ -1,6 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 import ComingSoon from '@/components/ComingSoon';
+import BirthsSexChart from '@/components/BirthsSexChart';
 
 // Dynamically import ChartCanvas to avoid SSR issues with canvas
 const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
@@ -22,6 +23,10 @@ const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
 });
 
 export default function ChartPageClient({ chart, chartData }) {
+  if (chart?.id === 'births-sex') {
+    return <BirthsSexChart data={chartData} title={chart?.ro || 'Births by Sex'} />;
+  }
+
   if (!chartData || chart.soon) {
     return <ComingSoon chart={chart} />;
   }
