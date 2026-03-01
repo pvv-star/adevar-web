@@ -1,5 +1,5 @@
 {
-  "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in entire/*) echo 'Skipping preview build for entire/* checkpoint branch'; exit 0;; *) exit 1;; esac",
+  "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in entire/*) echo 'Skipping preview build for entire/* checkpoint branch'; exit 1;; *) exit 0;; esac",
   "headers": [
     {
       "source": "/(.*)",
