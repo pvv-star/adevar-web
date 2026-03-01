@@ -53,7 +53,7 @@ export default function SearchModal({ open, onClose }) {
 
   return (
     <div className="search-modal-backdrop" onClick={onClose}>
-      <div className="search-modal" onClick={e => e.stopPropagation()} role="dialog" aria-label={t('searchIndicators')}>
+      <div className="search-modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={t('searchIndicators')}>
         <div className="search-modal-header">
           <input
             ref={inputRef}
