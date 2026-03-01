@@ -29,6 +29,12 @@ npm run -s lint
 echo "== Preflight: build =="
 npm run -s build
 
+echo "== Preflight: data quality =="
+npm run -s check:data-quality
+
+echo "== Preflight: perf budget =="
+npm run -s check:perf-budget
+
 echo "== Preflight: start app on ${BASE_URL} =="
 PORT="$PORT" npm run -s start >/tmp/adevar-preflight.log 2>/tmp/adevar-preflight.err &
 echo $! > "$PID_FILE"
@@ -53,5 +59,6 @@ ADEVAR_BASE_URL="$BASE_URL" npm run -s smoke:health
 ADEVAR_BASE_URL="$BASE_URL" npm run -s smoke:dashboard
 ADEVAR_BASE_URL="$BASE_URL" npm run -s smoke:indicator
 ADEVAR_BASE_URL="$BASE_URL" npm run -s smoke:metadata
+SMOKE_BASE_URL="$BASE_URL" npm run -s smoke:mobile
 
 echo "✅ Preflight passed. Safe to deploy."

@@ -34,15 +34,19 @@ export default function ChartCanvas({ config, eras }) {
 
   const mobileSummary = useMemo(() => {
     const data = effectiveConfig?.data || [];
-    if (!data.length) return { value: '—', trend: '—', updated: '—' };
+    if (!data.length) return { value: '—', trend: '—', updated: '—', versusStart: '—' };
     const last = data[data.length - 1];
     const prev = data[data.length - 2];
+    const first = data[0];
     const diff = prev ? Number(last.y) - Number(prev.y) : 0;
+    const startDiff = first ? Number(last.y) - Number(first.y) : 0;
     const trend = Number.isFinite(diff) ? `${diff > 0 ? '+' : ''}${diff.toFixed(effectiveConfig?.decimals ?? 1)}` : '—';
+    const versusStart = Number.isFinite(startDiff) ? `${startDiff > 0 ? '+' : ''}${startDiff.toFixed(effectiveConfig?.decimals ?? 1)}${effectiveConfig?.unit || ''}` : '—';
     return {
       value: `${last.y}${effectiveConfig?.unit || ''}`,
       trend,
       updated: String(last.x || '—'),
+      versusStart,
     };
   }, [effectiveConfig]);
 
@@ -78,6 +82,7 @@ export default function ChartCanvas({ config, eras }) {
           <div>
             <div className="chart-mobile-kpi">{mobileSummary.value}</div>
             <div className="chart-mobile-meta">Δ {mobileSummary.trend} · Updated {mobileSummary.updated}</div>
+            <div className="chart-mobile-compare">vs period start: {mobileSummary.versusStart}</div>
           </div>
           <button className="ctrl-btn chart-open-full" onClick={() => setCompactMode(false)}>Open full chart</button>
         </div>

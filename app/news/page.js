@@ -122,11 +122,11 @@ export default function NewsPage() {
         {filteredItems.map((it) => (
           <a key={it.id} href={it.url} target="_blank" rel="noreferrer" className="news-row">
             <div className="news-row-top">
-              <span className="news-source">{it.source_slug}</span>
+              <span className="news-source">Source: {it.source_slug}</span>
               <span className="news-impact">Impact {Math.round(it.impact_score || 0)}</span>
             </div>
             <div className="news-title">{it.title}</div>
-            <div className="news-time">{it.published_at ? new Date(it.published_at).toLocaleString() : ''}</div>
+            <div className="news-time">Updated: {it.published_at ? new Date(it.published_at).toLocaleString() : 'not available'}</div>
           </a>
         ))}
 
