@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const FILTERS = ['all', 'high-impact', 'economy', 'energy', 'social'];
 
@@ -13,6 +13,7 @@ export default function NewsPage() {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [recentSearches, setRecentSearches] = useState([]);
   const [toast, setToast] = useState(null);
+  const loadingRef = useRef(false);
 
   useEffect(() => {
     try {
@@ -24,7 +25,8 @@ export default function NewsPage() {
   }, []);
 
   const loadMore = useCallback(async (reset = false) => {
-    if (loading) return;
+    if (loadingRef.current) return;
+    loadingRef.current = true;
     setLoading(true);
     try {
       const params = new URLSearchParams({ range: '72h', limit: '20' });
@@ -38,13 +40,16 @@ export default function NewsPage() {
     } catch {
       setToast({ type: 'error', text: 'Live feed refresh failed. Retrying soon.' });
     } finally {
+      loadingRef.current = false;
       setLoading(false);
     }
-  }, [loading, cursor]);
+  }, [cursor]);
 
   useEffect(() => {
     loadMore(true);
-  }, [loadMore]);
+    // run once on mount; cursor changes should not auto-refetch
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   useEffect(() => {

@@ -35,17 +35,29 @@ export default function ChartCanvas({ config, eras }) {
   const mobileSummary = useMemo(() => {
     const data = effectiveConfig?.data || [];
     if (!data.length) return { value: '—', trend: '—', updated: '—', versusStart: '—' };
+
+    const getVal = (p) => Number(p?.value ?? p?.y);
+    const getLabel = (p) => String(p?.label ?? p?.x ?? '—');
+
     const last = data[data.length - 1];
     const prev = data[data.length - 2];
     const first = data[0];
-    const diff = prev ? Number(last.y) - Number(prev.y) : 0;
-    const startDiff = first ? Number(last.y) - Number(first.y) : 0;
-    const trend = Number.isFinite(diff) ? `${diff > 0 ? '+' : ''}${diff.toFixed(effectiveConfig?.decimals ?? 1)}` : '—';
-    const versusStart = Number.isFinite(startDiff) ? `${startDiff > 0 ? '+' : ''}${startDiff.toFixed(effectiveConfig?.decimals ?? 1)}${effectiveConfig?.unit || ''}` : '—';
+
+    const lastVal = getVal(last);
+    const prevVal = prev ? getVal(prev) : NaN;
+    const firstVal = first ? getVal(first) : NaN;
+
+    const diff = Number.isFinite(lastVal) && Number.isFinite(prevVal) ? lastVal - prevVal : NaN;
+    const startDiff = Number.isFinite(lastVal) && Number.isFinite(firstVal) ? lastVal - firstVal : NaN;
+    const decimals = effectiveConfig?.decimals ?? 1;
+
+    const trend = Number.isFinite(diff) ? `${diff > 0 ? '+' : ''}${diff.toFixed(decimals)}` : '—';
+    const versusStart = Number.isFinite(startDiff) ? `${startDiff > 0 ? '+' : ''}${startDiff.toFixed(decimals)}${effectiveConfig?.unit || ''}` : '—';
+
     return {
-      value: `${last.y}${effectiveConfig?.unit || ''}`,
+      value: Number.isFinite(lastVal) ? `${lastVal.toFixed(decimals)}${effectiveConfig?.unit || ''}` : '—',
       trend,
-      updated: String(last.x || '—'),
+      updated: getLabel(last),
       versusStart,
     };
   }, [effectiveConfig]);
