@@ -48,8 +48,7 @@ export default function AboutContent() {
                   href={SOURCE_URLS[code]}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="about-source-name"
-                  style={{ textDecoration: 'underline', textUnderlineOffset: '2px' }}
+                  className="about-source-name about-source-link"
                 >
                   {info.name}
                 </a>
@@ -72,7 +71,7 @@ export default function AboutContent() {
         <h2 className="inst-card-title">{t('contactTitle')}</h2>
         <p className="about-text">
           {t('contactText')}{' '}
-          <a href="mailto:contact@adevar.ai" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>
+          <a href="mailto:contact@adevar.ai" className="about-contact-link">
             contact@adevar.ai
           </a>
         </p>

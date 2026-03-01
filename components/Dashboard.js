@@ -5,6 +5,7 @@ import { useLang } from '@/contexts/LangContext';
 import { getActiveCharts, getComingSoonCharts } from '@/lib/charts';
 import { useEffect, useState } from 'react';
 import IndicatorStatCard from './IndicatorStatCard';
+import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
 
 function DashboardSkeleton() {
   return (
@@ -22,9 +23,9 @@ function DashboardSkeleton() {
 export default function Dashboard() {
   const { lang, t } = useLang();
   const heroCta = {
-    primary: lang === 'ro' ? 'Explorează datele' : lang === 'ru' ? 'Изучить данные' : 'Explore data',
-    news: lang === 'ro' ? 'Noutăți' : lang === 'ru' ? 'Новости' : 'Latest news',
-    sources: lang === 'ro' ? 'Despre surse' : lang === 'ru' ? 'Об источниках' : 'About sources',
+    primary: t('exploreCta'),
+    news: t('newsCta'),
+    sources: t('sourcesCta'),
   };
   const [liveStats, setLiveStats] = useState(null);
   const [snapshot, setSnapshot] = useState(null);
@@ -58,13 +59,8 @@ export default function Dashboard() {
 
     async function fetchSnapshot() {
       try {
-        const res = await fetch('/api/widgets/live-snapshot', {
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-        const payload = await res.json();
-        if (!res.ok) throw new Error(payload?.details || payload?.error || 'Failed live snapshot');
-        setSnapshot(payload);
+        const payload = await fetchLiveSnapshot(controller.signal);
+        if (payload) setSnapshot(payload);
       } catch (error) {
         if (error.name !== 'AbortError') {
           if (process.env.NODE_ENV !== 'production') console.error(error);
@@ -116,7 +112,7 @@ export default function Dashboard() {
   return (
     <div className="page-scroll">
       <section className="mobile-hero">
-        <p className="mobile-hero-trust">Official Moldova data · transparent sources · no guesswork</p>
+        <p className="mobile-hero-trust">{t('heroTrust')}</p>
         <h1 className="view-heading mobile-hero-title">{t('dashTitle')}</h1>
         <p className="view-subheading mobile-hero-sub">{t('dashSub')}</p>
         <div className="mobile-hero-cta-row">
@@ -196,11 +192,11 @@ export default function Dashboard() {
         <h2 className="inst-card-title">{t('comingSoon')}</h2>
         <div className="soon-grid">
           {soonCharts.map((c) => (
-            <Link key={c.id} href={`/chart/${c.id}`} className="soon-card">
+            <div key={c.id} className="soon-card" aria-disabled="true">
               <div className="soon-card-icon">{c.icon}</div>
               <div className="soon-card-name">{c[lang] || c.en}</div>
               <span className="soon-badge">{t('plannedBadge')}</span>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

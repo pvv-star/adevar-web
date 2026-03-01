@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLang } from '@/contexts/LangContext';
+import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
 
 
 export default function Header({ onNavToggle }) {
@@ -19,9 +20,8 @@ export default function Header({ onNavToggle }) {
 
     async function fetchLiveMini() {
       try {
-        const res = await fetch('/api/widgets/live-snapshot', { cache: 'no-store' });
-        const payload = await res.json();
-        if (!active || !res.ok || !payload?.ok) return;
+        const payload = await fetchLiveSnapshot();
+        if (!active || !payload) return;
         setLiveMini({
           usd: payload?.fx?.rates?.USD ?? null,
           eur: payload?.fx?.rates?.EUR ?? null,

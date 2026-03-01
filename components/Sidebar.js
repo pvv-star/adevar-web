@@ -56,6 +56,7 @@ export default function Sidebar({ isCompact, isOpen, onClose }) {
                       href={getHref(c)}
                       className={`nav-item${active ? ' active' : ''}${c.soon ? ' soon' : ''}`}
                       onClick={onClose}
+                      {...(c.soon ? { 'aria-disabled': 'true', tabIndex: -1 } : {})}
                     >
                       <span className="nav-icon">{c.icon || ''}</span>
                       <span className="nav-label">{label}</span>

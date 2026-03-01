@@ -55,11 +55,11 @@ function icon(name, filled = false) {
 }
 
 const MORE_LINKS = [
-  { href: '/chart/gas', label: 'Energy' },
-  { href: '/chart/inflation', label: 'Economy' },
-  { href: '/chart/births-sex', label: 'Demography' },
-  { href: '/chart/internet', label: 'Infrastructure' },
-  { href: '/about', label: 'Platform' },
+  { href: '/chart/gas', labelKey: 'bnTabEnergy' },
+  { href: '/chart/inflation', labelKey: 'bnTabEconomy' },
+  { href: '/chart/births-sex', labelKey: 'bnTabDemography' },
+  { href: '/chart/internet', labelKey: 'bnTabInfrastructure' },
+  { href: '/about', labelKey: 'bnTabPlatform' },
 ];
 
 export default function BottomNav() {
@@ -81,8 +81,8 @@ export default function BottomNav() {
 
   const tabs = [
     { id: 'home', label: t('bnTabDashboard') || 'Home', iconName: 'home', href: '/', active: pathname === '/' },
-    { id: 'news', label: 'News', iconName: 'news', href: '/news?range=72h', active: isNews },
-    { id: 'data', label: 'Charts', iconName: 'data', href: '/chart/inflation', active: isData },
+    { id: 'news', label: t('newsTab'), iconName: 'news', href: '/news?range=72h', active: isNews },
+    { id: 'data', label: t('chartsTab'), iconName: 'data', href: '/chart/inflation', active: isData },
   ];
 
   function onActiveTap(e, href) {
@@ -118,7 +118,7 @@ export default function BottomNav() {
             >
               {icon(tab.iconName, tab.active)}
               <span className="bn-tab-label" title={tab.id === 'data' && chart ? dataLabel : tab.label}>
-                {tab.id === 'data' && chart ? 'Charts' : tab.label}
+                {tab.id === 'data' && chart ? t('chartsTab') : tab.label}
               </span>
             </Link>
           ))}
@@ -139,11 +139,11 @@ export default function BottomNav() {
       {moreOpen ? <button type="button" className="more-sheet-backdrop" onClick={closeMoreSheet} aria-label="Close menu" /> : null}
       <aside className={`more-sheet${moreOpen ? ' open' : ''}`} aria-hidden={!moreOpen}>
         <div className="more-sheet-handle" />
-        <div className="more-sheet-title">Quick destinations</div>
+        <div className="more-sheet-title">{t('quickDestinations')}</div>
         <div className="more-sheet-list">
           {MORE_LINKS.map((item) => (
             <Link key={item.href} href={item.href} className="more-sheet-link" onClick={closeMoreSheet}>
-              <span>{item.label}</span>
+              <span>{t(item.labelKey)}</span>
               <span aria-hidden="true">→</span>
             </Link>
           ))}

@@ -1,10 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useLang } from '@/contexts/LangContext';
 
 const FILTERS = ['all', 'high-impact', 'economy', 'energy', 'social'];
 
 export default function NewsPage() {
+  const { t } = useLang();
   const [items, setItems] = useState([]);
   const [cursor, setCursor] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -108,15 +110,15 @@ export default function NewsPage() {
 
   return (
     <div className="page-scroll" ref={scrollRef}>
-      <div className="view-heading">Live News Feed · 72h</div>
-      <div className="view-subheading">Deduped, impact-ranked Moldova sources</div>
+      <div className="view-heading">{t('newsTitle')}</div>
+      <div className="view-subheading">{t('newsSub')}</div>
 
       <div className="news-sticky-tools">
         <div className="news-search-wrap">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search news, source, keyword"
+            placeholder={t('newsSearchPlaceholder')}
             className="news-search-input"
             aria-label="Search live news"
           />
@@ -149,13 +151,13 @@ export default function NewsPage() {
 
       <div className="inst-card news-feed-card">
         {filteredItems.map((it) => (
-          <a key={it.id} href={it.url} target="_blank" rel="noreferrer" className="news-row">
+          <a key={it.id} href={it.url} target="_blank" rel="noreferrer" className="news-row" aria-label={`${it.title} (${t('opensNewTab')})`}>
             <div className="news-row-top">
-              <span className="news-source">Source: {it.source_slug}</span>
-              <span className="news-impact">Impact {Math.round(it.impact_score || 0)}</span>
+              <span className="news-source">{it.source_slug}</span>
+              <span className="news-impact" title={t('impactScoreHelp')}>{Math.round(it.impact_score || 0)}/100</span>
             </div>
-            <div className="news-title">{it.title}</div>
-            <div className="news-time">Updated: {it.published_at ? new Date(it.published_at).toLocaleString() : 'not available'}</div>
+            <div className="news-title">{it.title} <span className="news-external-icon" aria-hidden="true">↗</span></div>
+            <div className="news-time">{t('lastUpdate')}: {it.published_at ? new Date(it.published_at).toLocaleString() : '—'}</div>
           </a>
         ))}
 
@@ -171,19 +173,19 @@ export default function NewsPage() {
           <div className="news-loading" style={{ color: 'var(--negative, #ef4444)' }}>
             Error: {error}
             <button className="ctrl-btn" style={{ marginLeft: 8 }} onClick={() => loadMore(items.length === 0)}>
-              Retry
+              {t('retry')}
             </button>
           </div>
         ) : null}
 
-        {!loading && !error && !filteredItems.length ? <div className="news-loading">No results for this filter.</div> : null}
+        {!loading && !error && !filteredItems.length ? <div className="news-loading">{t('newsNoResults')}</div> : null}
 
         {!loading && !error && hasMore ? (
-          <button className="ctrl-btn" onClick={() => loadMore(false)}>Load more</button>
+          <button className="ctrl-btn" onClick={() => loadMore(false)}>{t('loadMore')}</button>
         ) : null}
 
         {!loading && !error && items.length === 0 ? (
-          <div className="news-loading">No news available</div>
+          <div className="news-loading">{t('newsEmpty')}</div>
         ) : null}
 
         {/* Sentinel for IntersectionObserver-based infinite scroll */}
