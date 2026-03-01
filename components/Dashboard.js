@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [inflationSummary, setInflationSummary] = useState(null);
   const [inflationMeta, setInflationMeta] = useState(null);
   const [liveStats, setLiveStats] = useState({});
+  const [snapshot, setSnapshot] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -88,7 +89,24 @@ export default function Dashboard() {
       }
     }
 
+    async function fetchSnapshot() {
+      try {
+        const res = await fetch('/api/widgets/live-snapshot', {
+          signal: controller.signal,
+          cache: 'no-store',
+        });
+        const payload = await res.json();
+        if (!res.ok) throw new Error(payload?.details || payload?.error || 'Failed live snapshot');
+        setSnapshot(payload);
+      } catch (error) {
+        if (error.name !== 'AbortError') {
+          console.error(error);
+        }
+      }
+    }
+
     fetchDashboardStats();
+    fetchSnapshot();
 
     return () => controller.abort();
   }, []);
@@ -113,6 +131,23 @@ export default function Dashboard() {
     <div className="page-scroll">
       <div className="view-heading">{t('dashTitle')}</div>
       <div className="view-subheading">{t('dashSub')}</div>
+
+      {snapshot?.ok ? (
+        <div className="live-snapshot-card">
+          <div className="live-snapshot-title">Live Snapshot · FX + Weather</div>
+          <div className="live-snapshot-grid">
+            <div className="live-chip"><span>EUR/MDL</span><b>{snapshot.fx?.rates?.EUR ?? '—'}</b></div>
+            <div className="live-chip"><span>USD/MDL</span><b>{snapshot.fx?.rates?.USD ?? '—'}</b></div>
+            <div className="live-chip"><span>RON/MDL</span><b>{snapshot.fx?.rates?.RON ?? '—'}</b></div>
+            <div className="live-chip"><span>{snapshot.weather?.city || 'Chișinău'} °C</span><b>{snapshot.weather?.temperatureC ?? '—'}</b></div>
+          </div>
+          <div className="live-snapshot-meta">
+            Sources: <a href={snapshot.fx?.source?.url} target="_blank" rel="noreferrer">BNM</a> ·{' '}
+            <a href={snapshot.weather?.source?.url} target="_blank" rel="noreferrer">Open-Meteo</a>
+          </div>
+        </div>
+      ) : null}
+
       {inflationError ? <div className="inflation-banner inflation-banner--error">Inflation data unavailable: {inflationError}</div> : null}
 
       {inflationSummary ? (
