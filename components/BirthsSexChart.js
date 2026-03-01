@@ -34,12 +34,12 @@ export default function BirthsSexChart({ data, title }) {
           <line x1={pad} y1={pad} x2={pad} y2={h - pad} stroke="var(--border)" />
 
           <path d={path('male')} fill="none" stroke="#3b82f6" strokeWidth="3" />
-          <path d={path('female')} fill="none" stroke="#ec4899" strokeWidth="3" />
+          <path d={path('female')} fill="none" stroke="#22c55e" strokeWidth="3" />
 
           {series.map((d, i) => (
             <g key={d.year}>
               <circle cx={x(i)} cy={y(d.male)} r="2.5" fill="#3b82f6" />
-              <circle cx={x(i)} cy={y(d.female)} r="2.5" fill="#ec4899" />
+              <circle cx={x(i)} cy={y(d.female)} r="2.5" fill="#22c55e" />
               {i % 2 === 0 || i === series.length - 1 ? (
                 <text x={x(i)} y={h - 12} textAnchor="middle" fontSize="10" fill="var(--text-secondary)">
                   {d.year}
@@ -51,7 +51,7 @@ export default function BirthsSexChart({ data, title }) {
 
         <div style={{ display: 'flex', gap: 16, marginTop: 8, fontSize: 14 }}>
           <span><b style={{ color: '#3b82f6' }}>●</b> Boys</span>
-          <span><b style={{ color: '#ec4899' }}>●</b> Girls</span>
+          <span><b style={{ color: '#22c55e' }}>●</b> Girls</span>
         </div>
 
         <div style={{ marginTop: 12, fontSize: 14 }}>
