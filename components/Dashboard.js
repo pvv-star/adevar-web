@@ -8,6 +8,19 @@ import IndicatorStatCard from './IndicatorStatCard';
 import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
 import { cachedFetch } from '@/lib/fetch-cache';
 
+const upArrow = (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+    <line x1="12" y1="19" x2="12" y2="5" />
+    <polyline points="5 12 12 5 19 12" />
+  </svg>
+);
+const downArrow = (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <polyline points="19 12 12 19 5 12" />
+  </svg>
+);
+
 function DashboardSkeleton() {
   return (
     <div className="dashboard-skeleton" aria-hidden="true">
@@ -100,19 +113,6 @@ export default function Dashboard() {
 
   const activeCharts = getActiveCharts();
   const soonCharts = getComingSoonCharts();
-
-  const upArrow = (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-      <line x1="12" y1="19" x2="12" y2="5" />
-      <polyline points="5 12 12 5 19 12" />
-    </svg>
-  );
-  const downArrow = (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <polyline points="19 12 12 19 5 12" />
-    </svg>
-  );
 
   const isLoading = liveStats === null && !statsError;
 
