@@ -110,7 +110,8 @@ export default function NewsPageClient() {
   // Infinite scroll via IntersectionObserver on sentinel element
   useEffect(() => {
     const sentinel = sentinelRef.current;
-    if (!sentinel) return;
+    const scrollRoot = scrollRef.current;
+    if (!sentinel || !scrollRoot) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -118,7 +119,7 @@ export default function NewsPageClient() {
           loadMoreRef.current(false);
         }
       },
-      { root: scrollRef.current, rootMargin: '400px' }
+      { root: scrollRoot, rootMargin: '400px' }
     );
 
     observer.observe(sentinel);

@@ -51,6 +51,7 @@ export default function ClientLayout({ children }) {
     <ThemeProvider>
       <LangProvider>
         <div className="app-layout">
+          <a href="#main-content" className="skip-link">Skip to content</a>
           <Header onNavToggle={handleNavToggle} />
           <div className="app-body">
             {ready && (
@@ -61,12 +62,14 @@ export default function ClientLayout({ children }) {
               />
             )}
             {sidebarOpen && (
-              <div
+              <button
+                type="button"
                 className="sidebar-overlay show"
                 onClick={closeSidebar}
+                aria-label="Close navigation"
               />
             )}
-            <main className="main-content">
+            <main id="main-content" className="main-content">
               {children}
             </main>
           </div>
