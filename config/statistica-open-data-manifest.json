@@ -1,0 +1,486 @@
+{
+  "version": 1,
+  "owner": "adevar-web",
+  "sourcePolicy": {
+    "ingestionOnly": true,
+    "answerSourceOfTruth": "supabase",
+    "missingDataBehavior": "not_available"
+  },
+  "sources": [
+    {
+      "id": "bns-statbank",
+      "name": "BNS StatBank (PxWeb)",
+      "url": "https://statbank.statistica.md/PxWeb/pxweb/ro/",
+      "type": "database",
+      "format": [
+        "pxweb",
+        "json-stat",
+        "csv"
+      ],
+      "access": "public"
+    },
+    {
+      "id": "bns-communiques",
+      "name": "BNS Communiques",
+      "url": "https://statistica.gov.md/ro",
+      "type": "news_release",
+      "format": [
+        "html"
+      ],
+      "access": "public"
+    },
+    {
+      "id": "bns-calendar",
+      "name": "BNS Dissemination Calendar",
+      "url": "https://statistica.gov.md/ro",
+      "type": "calendar",
+      "format": [
+        "html"
+      ],
+      "access": "public"
+    }
+  ],
+  "categories": [
+    {
+      "id": "energy",
+      "label": {
+        "ro": "Energie",
+        "en": "Energy",
+        "ru": "Энергетика"
+      },
+      "priority": "P1",
+      "datasets": [
+        {
+          "id": "energy-resources-main",
+          "name": "Resurse energetice, indicatori principali",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "monthly",
+          "geoLevel": "national",
+          "unitExamples": [
+            "tep",
+            "MWh",
+            "%"
+          ],
+          "status": "p1_ready",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        }
+      ]
+    },
+    {
+      "id": "economy",
+      "label": {
+        "ro": "Economie",
+        "en": "Economy",
+        "ru": "Экономика"
+      },
+      "priority": "P1",
+      "datasets": [
+        {
+          "id": "gdp-quarterly-annual",
+          "name": "Produsul intern brut",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "quarterly",
+          "geoLevel": "national",
+          "unitExamples": [
+            "mil. lei",
+            "%"
+          ],
+          "status": "p1_ready",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        },
+        {
+          "id": "inflation-cpi",
+          "name": "Indicii prețurilor de consum",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "monthly",
+          "geoLevel": "national",
+          "unitExamples": [
+            "index",
+            "%"
+          ],
+          "status": "active_or_planned",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        },
+        {
+          "id": "salary-average",
+          "name": "Câștigul salarial mediu lunar brut",
+          "sourceId": "bns-communiques",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "quarterly",
+          "geoLevel": "national",
+          "unitExamples": [
+            "lei"
+          ],
+          "status": "active_or_planned",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        },
+        {
+          "id": "labor-force-unemployment",
+          "name": "Forța de muncă, ocuparea și șomajul",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "quarterly",
+          "geoLevel": "national",
+          "unitExamples": [
+            "%",
+            "mii persoane"
+          ],
+          "status": "active_or_planned",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        }
+      ]
+    },
+    {
+      "id": "demography",
+      "label": {
+        "ro": "Demografie",
+        "en": "Demographics",
+        "ru": "Демография"
+      },
+      "priority": "P1",
+      "datasets": [
+        {
+          "id": "resident-population",
+          "name": "Populația cu reședință obișnuită",
+          "sourceId": "bns-communiques",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "annual",
+          "geoLevel": "national/regional",
+          "unitExamples": [
+            "persoane"
+          ],
+          "status": "active_or_planned",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        },
+        {
+          "id": "births-by-sex",
+          "name": "Născuți-vii pe sexe",
+          "sourceId": "bns-statbank",
+          "sourceUrl": "https://statbank.statistica.md/PxWeb/pxweb/ro/",
+          "frequency": "annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "persoane"
+          ],
+          "status": "active_or_planned",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        }
+      ]
+    },
+    {
+      "id": "infrastructure-investments",
+      "label": {
+        "ro": "Infrastructură & Investiții",
+        "en": "Infrastructure & Investments",
+        "ru": "Инфраструктура и инвестиции"
+      },
+      "priority": "P1",
+      "datasets": [
+        {
+          "id": "fixed-assets-investments",
+          "name": "Investiții în active imobilizate",
+          "sourceId": "bns-communiques",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "quarterly/annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "mil. lei",
+            "%"
+          ],
+          "status": "p1_ready",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        },
+        {
+          "id": "construction-price-indices",
+          "name": "Indicii prețurilor în construcții",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "quarterly",
+          "geoLevel": "national",
+          "unitExamples": [
+            "index"
+          ],
+          "status": "p1_ready",
+          "owner": "data-pipeline",
+          "freshnessSlaHours": 48,
+          "qualityGate": "strict",
+          "alertOnDelayHours": 12
+        }
+      ]
+    },
+    {
+      "id": "industry",
+      "label": {
+        "ro": "Industrie",
+        "en": "Industry",
+        "ru": "Промышленность"
+      },
+      "priority": "P2",
+      "datasets": [
+        {
+          "id": "industrial-production-indices",
+          "name": "Indicii producției industriale",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "monthly",
+          "geoLevel": "national",
+          "unitExamples": [
+            "index"
+          ],
+          "status": "planned_ingestion"
+        },
+        {
+          "id": "industrial-producer-prices",
+          "name": "Indicii prețurilor producției industriale",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "monthly",
+          "geoLevel": "national",
+          "unitExamples": [
+            "index"
+          ],
+          "status": "planned_ingestion"
+        }
+      ]
+    },
+    {
+      "id": "agriculture",
+      "label": {
+        "ro": "Agricultură",
+        "en": "Agriculture",
+        "ru": "Сельское хозяйство"
+      },
+      "priority": "P2",
+      "datasets": [
+        {
+          "id": "agricultural-output",
+          "name": "Activitatea agricolă",
+          "sourceId": "bns-communiques",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "%",
+            "mii tone"
+          ],
+          "status": "planned_ingestion"
+        },
+        {
+          "id": "agri-sale-price-indices",
+          "name": "Prețurile și indicii prețurilor de vânzare a producției agricole",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "quarterly/annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "index",
+            "lei"
+          ],
+          "status": "planned_ingestion"
+        }
+      ]
+    },
+    {
+      "id": "external-trade",
+      "label": {
+        "ro": "Comerț exterior",
+        "en": "External Trade",
+        "ru": "Внешняя торговля"
+      },
+      "priority": "P2",
+      "datasets": [
+        {
+          "id": "exports-imports-balance",
+          "name": "Export, import, balanța comercială",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "monthly",
+          "geoLevel": "national/country-groups",
+          "unitExamples": [
+            "mil. USD"
+          ],
+          "status": "planned_ingestion"
+        }
+      ]
+    },
+    {
+      "id": "transport-tourism",
+      "label": {
+        "ro": "Transport & Turism",
+        "en": "Transport & Tourism",
+        "ru": "Транспорт и туризм"
+      },
+      "priority": "P3",
+      "datasets": [
+        {
+          "id": "passenger-freight-transport",
+          "name": "Transportul de pasageri și mărfuri",
+          "sourceId": "bns-communiques",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "mii pasageri",
+            "mii tone"
+          ],
+          "status": "planned_ingestion"
+        },
+        {
+          "id": "tourist-accommodation-capacity",
+          "name": "Capacitatea structurilor de primire turistică",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "locuri",
+            "unități"
+          ],
+          "status": "planned_ingestion"
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "label": {
+        "ro": "Social (Educație, Sănătate, Mediu)",
+        "en": "Social (Education, Health, Environment)",
+        "ru": "Социальная сфера"
+      },
+      "priority": "P3",
+      "datasets": [
+        {
+          "id": "education-vocational-higher",
+          "name": "Învățământ profesional și superior",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "persoane",
+            "instituții"
+          ],
+          "status": "planned_ingestion"
+        }
+      ]
+    },
+    {
+      "id": "justice-finance",
+      "label": {
+        "ro": "Justiție & Finanțe",
+        "en": "Justice & Finance",
+        "ru": "Правосудие и финансы"
+      },
+      "priority": "P3",
+      "datasets": [
+        {
+          "id": "crime-level",
+          "name": "Nivelul infracționalității",
+          "sourceId": "bns-communiques",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "număr cazuri",
+            "la 10k locuitori"
+          ],
+          "status": "planned_ingestion"
+        },
+        {
+          "id": "finance-annual",
+          "name": "Finanțe",
+          "sourceId": "bns-calendar",
+          "sourceUrl": "https://statistica.gov.md/ro",
+          "frequency": "annual",
+          "geoLevel": "national",
+          "unitExamples": [
+            "mil. lei",
+            "%"
+          ],
+          "status": "planned_ingestion"
+        }
+      ]
+    }
+  ],
+  "ingestionPhases": {
+    "P1": [
+      "energy",
+      "economy",
+      "demography",
+      "infrastructure-investments"
+    ],
+    "P2": [
+      "industry",
+      "agriculture",
+      "external-trade"
+    ],
+    "P3": [
+      "transport-tourism",
+      "social",
+      "justice-finance"
+    ]
+  },
+  "ingestionRules": {
+    "global": {
+      "timezone": "Europe/Chisinau",
+      "fallbackOnFailure": "keep_last_good_value",
+      "maxAllowedConsecutiveFailures": 3
+    },
+    "byPhase": {
+      "P1": {
+        "requiredOwner": true,
+        "requiredFreshnessSlaHours": true,
+        "freshnessSlaHoursDefault": 48,
+        "qualityGate": "strict"
+      },
+      "P2": {
+        "requiredOwner": true,
+        "requiredFreshnessSlaHours": false,
+        "qualityGate": "standard"
+      },
+      "P3": {
+        "requiredOwner": false,
+        "requiredFreshnessSlaHours": false,
+        "qualityGate": "best_effort"
+      }
+    }
+  },
+  "executionPlan": {
+    "phase": "P1",
+    "objective": "Ingest core public indicators into Supabase with strict freshness and ownership",
+    "steps": [
+      "Create Supabase tables + upsert keys for P1 datasets",
+      "Implement source adapters for StatBank/communiques/calendar",
+      "Schedule ingestion jobs (hourly/daily by dataset frequency)",
+      "Enable freshness monitors + delay alerts",
+      "Expose read APIs from curated Supabase tables only"
+    ]
+  }
+}

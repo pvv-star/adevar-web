@@ -1,10 +1,11 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLang } from '@/contexts/LangContext';
 import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
+import { getChartById, CATEGORIES, CHARTS } from '@/lib/charts';
 import SearchModal from './SearchModal';
 
 
@@ -17,6 +18,29 @@ export default function Header({ onNavToggle }) {
   const router = useRouter();
   const canGoBack = pathname && pathname !== '/';
   const [liveMini, setLiveMini] = useState({ usd: null, eur: null, temp: null });
+
+  const activeChartId = (() => {
+    const match = pathname?.match(/^\/chart\/([^/]+)/);
+    return match?.[1] || null;
+  })();
+
+  const activeChart = activeChartId ? getChartById(activeChartId) : null;
+  const activeCategoryKey = activeChart?.category || 'energy';
+
+  const subjectOptions = useMemo(() => {
+    const items = CHARTS.filter((c) => c.category === activeCategoryKey && !c.special)
+      .map((c) => ({
+        id: c.id,
+        label: c[lang] || c.en,
+        href: c.soon ? null : `/chart/${c.id}`,
+      }));
+
+    if (!items.length) {
+      return CHARTS.filter((c) => c.file && !c.soon && !c.special)
+        .map((c) => ({ id: c.id, label: c[lang] || c.en, href: `/chart/${c.id}` }));
+    }
+    return items;
+  }, [activeCategoryKey, lang]);
 
   useEffect(() => {
     let active = true;
@@ -87,11 +111,21 @@ export default function Header({ onNavToggle }) {
           <span className="brand-dot">.</span>
           <span className="brand-ext">ai</span>
         </Link>
-        <div className="live-mini-group" aria-label={t('liveRatesWeather')}>
-          <span className="live-mini-chip">USD {liveMini.usd ?? '—'}</span>
-          <span className="live-mini-chip">EUR {liveMini.eur ?? '—'}</span>
-          <span className="live-mini-chip">{liveMini.temp ?? '—'}°C</span>
-        </div>
+        <label className="sr-only" htmlFor="header-category-switch">{t('category')}</label>
+        <select
+          id="header-category-switch"
+          className="category-chip category-chip-select"
+          aria-label={t('category')}
+          value={activeChartId || subjectOptions.find((s) => s.href)?.id || ''}
+          onChange={(e) => {
+            const selected = subjectOptions.find((s) => s.id === e.target.value);
+            if (selected?.href) router.push(selected.href);
+          }}
+        >
+          {subjectOptions.map((opt) => (
+            <option key={opt.id} value={opt.id} disabled={!opt.href}>{opt.label}{!opt.href ? ` (${t('plannedBadge')})` : ''}</option>
+          ))}
+        </select>
       </div>
       <div className="header-right">
         <button className="search-toggle" onClick={() => setSearchOpen(true)} aria-label={t('searchIndicators')} title="⌘K">
@@ -100,6 +134,11 @@ export default function Header({ onNavToggle }) {
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
         </button>
+        <div className="live-mini-group" aria-label={t('liveRatesWeather')}>
+          <span className="live-mini-chip">USD {liveMini.usd ?? '—'}</span>
+          <span className="live-mini-chip">EUR {liveMini.eur ?? '—'}</span>
+          <span className="live-mini-chip">{liveMini.temp ?? '—'}°C</span>
+        </div>
         <div className="lang-group" role="group" aria-label="Language">
           {['ro','en','ru'].map(l => (
             <button

@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "source": "BNS Statistica taxonomy draft (local)",
+  "categories": [
+    {
+      "id": "energy",
+      "label": {
+        "ro": "Energie",
+        "en": "Energy",
+        "ru": "Энергетика"
+      },
+      "icon": "flame",
+      "priority": "mvp",
+      "subjects": [
+        "gas",
+        "electricity",
+        "heating"
+      ]
+    },
+    {
+      "id": "economy",
+      "label": {
+        "ro": "Economie",
+        "en": "Economy",
+        "ru": "Экономика"
+      },
+      "icon": "chart-column",
+      "priority": "mvp",
+      "subjects": [
+        "inflation",
+        "salary",
+        "gdp",
+        "exchange",
+        "remittances",
+        "unemployment"
+      ]
+    },
+    {
+      "id": "demography",
+      "label": {
+        "ro": "Demografie",
+        "en": "Demographics",
+        "ru": "Демография"
+      },
+      "icon": "users",
+      "priority": "mvp",
+      "subjects": [
+        "births-sex",
+        "population",
+        "emigration",
+        "urbanization"
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "label": {
+        "ro": "Infrastructură & Investiții",
+        "en": "Infrastructure & Investments",
+        "ru": "Инфраструктура и инвестиции"
+      },
+      "icon": "network",
+      "priority": "mvp",
+      "subjects": [
+        "internet",
+        "roads"
+      ]
+    },
+    {
+      "id": "platform",
+      "label": {
+        "ro": "Platformă",
+        "en": "Platform",
+        "ru": "Платформа"
+      },
+      "icon": "layout-grid",
+      "priority": "mvp",
+      "subjects": [
+        "dashboard",
+        "about"
+      ]
+    },
+    {
+      "id": "health",
+      "label": {
+        "ro": "Sănătate",
+        "en": "Health",
+        "ru": "Здравоохранение"
+      },
+      "icon": "heart-pulse",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "education",
+      "label": {
+        "ro": "Educație",
+        "en": "Education",
+        "ru": "Образование"
+      },
+      "icon": "graduation-cap",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "agriculture",
+      "label": {
+        "ro": "Agricultură",
+        "en": "Agriculture",
+        "ru": "Сельское хозяйство"
+      },
+      "icon": "sprout",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "industry",
+      "label": {
+        "ro": "Industrie",
+        "en": "Industry",
+        "ru": "Промышленность"
+      },
+      "icon": "factory",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "transport",
+      "label": {
+        "ro": "Transport",
+        "en": "Transport",
+        "ru": "Транспорт"
+      },
+      "icon": "truck",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "domestic-trade-services",
+      "label": {
+        "ro": "Comerț intern & Servicii",
+        "en": "Domestic Trade & Services",
+        "ru": "Внутренняя торговля и услуги"
+      },
+      "icon": "store",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "foreign-trade",
+      "label": {
+        "ro": "Comerț exterior",
+        "en": "Foreign Trade",
+        "ru": "Внешняя торговля"
+      },
+      "icon": "ship",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "tourism",
+      "label": {
+        "ro": "Turism",
+        "en": "Tourism",
+        "ru": "Туризм"
+      },
+      "icon": "plane",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "housing-utilities",
+      "label": {
+        "ro": "Locuințe & Utilități",
+        "en": "Housing & Utilities",
+        "ru": "Жилье и коммунальные услуги"
+      },
+      "icon": "house",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "justice-crime",
+      "label": {
+        "ro": "Justiție & Infracționalitate",
+        "en": "Justice & Crime",
+        "ru": "Правосудие и преступность"
+      },
+      "icon": "shield",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "ict",
+      "label": {
+        "ro": "TIC / Comunicații",
+        "en": "ICT / Communications",
+        "ru": "ИКТ / Коммуникации"
+      },
+      "icon": "wifi",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "environment",
+      "label": {
+        "ro": "Mediu",
+        "en": "Environment",
+        "ru": "Окружающая среда"
+      },
+      "icon": "leaf",
+      "priority": "phase2",
+      "subjects": []
+    },
+    {
+      "id": "finance",
+      "label": {
+        "ro": "Finanțe",
+        "en": "Finance",
+        "ru": "Финансы"
+      },
+      "icon": "landmark",
+      "priority": "phase2",
+      "subjects": []
+    }
+  ]
+}

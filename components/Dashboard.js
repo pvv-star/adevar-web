@@ -41,7 +41,7 @@ export default function Dashboard() {
     news: t('newsCta'),
     sources: t('sourcesCta'),
   };
-  const [liveStats, setLiveStats] = useState(null);
+  const [liveStats, setLiveStats] = useState({});
   const [snapshot, setSnapshot] = useState(null);
   const [liveNews, setLiveNews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -178,7 +178,7 @@ export default function Dashboard() {
             </div>
           ) : (
             activeCharts.map((c) => {
-              const stat = liveStats[c.id];
+              const stat = liveStats?.[c.id];
               if (!stat) return null;
               return (
                 <IndicatorStatCard
