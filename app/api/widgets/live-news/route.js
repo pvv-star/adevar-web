@@ -27,9 +27,9 @@ export async function GET(request) {
 
     if (error) throw error;
 
-    return NextResponse.json({ ok: true, updatedAt: new Date().toISOString(), items: data || [], ...DATA_GOVERNANCE }, { headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json({ ok: true, updatedAt: new Date().toISOString(), items: data || [], ...DATA_GOVERNANCE }, { headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120' } });
   } catch (err) {
     console.error('[api] live-news failed:', err?.message || err);
-    return NextResponse.json(notAvailableResponse(), { status: 200, headers: { 'Cache-Control': 'no-store' } });
+    return NextResponse.json(notAvailableResponse(), { status: 200, headers: { 'Cache-Control': 'public, s-maxage=15, stale-while-revalidate=60' } });
   }
 }

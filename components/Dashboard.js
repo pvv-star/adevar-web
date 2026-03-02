@@ -70,6 +70,9 @@ export default function Dashboard() {
           if (process.env.NODE_ENV !== 'production') console.error(error);
           setStatsError(true);
         }
+      } finally {
+        // Do not block first paint on news/weather widgets.
+        setLoading(false);
       }
     }
 
@@ -104,9 +107,9 @@ export default function Dashboard() {
       }
     }
 
-    Promise.allSettled([fetchDashboardStats(), fetchSnapshot(), fetchLiveNews()]).finally(() => {
-      setLoading(false);
-    });
+    fetchDashboardStats();
+    fetchSnapshot();
+    fetchLiveNews();
 
     return () => controller.abort();
   }, []);

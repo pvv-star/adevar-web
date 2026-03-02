@@ -66,12 +66,8 @@ export default function ChartCanvas({ config, eras }) {
           <div className="price-pill" id="pricePill"></div>
         </div>
 
-        <div className="legend" id="legend" role="region" aria-label={t('chartLegend')}></div>
         <div className="extra-widget" id="extraWidget"></div>
-        <div className="events-section">
-          <h3 id="eventsTitle"></h3>
-          <div className="events-grid" id="eventsGrid" role="region" aria-label={t('chartEvents')}></div>
-        </div>
+
         {dataRows.length > 0 && (
           <table className="sr-only">
             <caption>{chartLabel}</caption>

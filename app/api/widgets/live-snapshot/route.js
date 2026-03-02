@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
 const CHISINAU = { lat: 47.0105, lon: 28.8638 };
-const FETCH_TIMEOUT_MS = Number(process.env.FETCH_TIMEOUT_MS || 8000);
+const FETCH_TIMEOUT_MS = Number(process.env.FETCH_TIMEOUT_MS || 2500);
 
 function formatDateForBnm(date = new Date()) {
   const dd = String(date.getDate()).padStart(2, '0');
@@ -78,7 +78,7 @@ export async function GET(request) {
         fx,
         weather,
       },
-      { status: 200, headers: { 'Cache-Control': 'no-store' } }
+      { status: 200, headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120' } }
     );
   } catch (err) {
     console.error('[api] live-snapshot failed:', err?.message || err);

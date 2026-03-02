@@ -550,9 +550,9 @@ canvas{display:block;width:100%;cursor:crosshair}
 [data-theme="dark"] .tooltip .t-pm{color:#6b6b6b}
 
 .price-pill{position:absolute;pointer-events:none;opacity:0;font-size:16px;font-weight:700;color:var(--accent);transition:opacity .2s;font-variant-numeric:tabular-nums}
-.legend{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:20px}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--text-primary);font-weight:500}
-.legend-item .ldot{width:10px;height:10px;border-radius:2px}
+.legend{display:flex;justify-content:flex-start;gap:12px;flex-wrap:wrap;margin:8px 0 10px;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg-secondary)}
+.legend-item{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-primary);font-weight:600;line-height:1}
+.legend-item .ldot{width:10px;height:10px;border-radius:3px}
 .extra-widget{margin-bottom:16px}
 .yearly-widget-card{background:var(--card-bg,var(--bg-secondary));border:1px solid var(--card-border,var(--border));border-radius:8px;padding:12px}
 .yearly-widget-title{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:8px}
