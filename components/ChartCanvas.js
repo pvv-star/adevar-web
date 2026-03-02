@@ -8,7 +8,7 @@ const PERIODS = [
   { id: '1y', label: '1Y', points: 12 },
   { id: '3y', label: '3Y', points: 36 },
   { id: '5y', label: '5Y', points: 60 },
-  { id: 'all', label: 'All', points: null },
+  { id: 'all', label: null, points: null },
 ];
 
 export default function ChartCanvas({ config, eras }) {
@@ -90,7 +90,7 @@ export default function ChartCanvas({ config, eras }) {
     };
   }, [mount]);
 
-  const chartLabel = config?.i18n?.[lang]?.title || config?.i18n?.ro?.title || 'Data chart';
+  const chartLabel = config?.i18n?.[lang]?.title || config?.i18n?.ro?.title || t('dataChart');
   const chartUnit = config?.unit || '';
 
   // Build sr-only data table for screen readers
@@ -115,7 +115,7 @@ export default function ChartCanvas({ config, eras }) {
 
         <div className="chart-source-row">{t('chartSource')}</div>
 
-        <div className="period-chips" aria-label="Chart period">
+        <div className="period-chips" aria-label={t('chartPeriodLabel')}>
           {PERIODS.map((p) => (
             <button
               key={p.id}
@@ -124,7 +124,7 @@ export default function ChartCanvas({ config, eras }) {
               onClick={() => setPeriod(p.id)}
               aria-pressed={period === p.id}
             >
-              {p.label}
+              {p.label || t('periodAll')}
             </button>
           ))}
         </div>
@@ -135,7 +135,7 @@ export default function ChartCanvas({ config, eras }) {
           <button className="ctrl-btn" onClick={() => setCompactMode((v) => !v)}>{compactMode ? t('chartFull') : t('chartCompact')}</button>
         </div>
 
-        <div className="stats-bar" id="statsBar" role="region" aria-label="Chart statistics"></div>
+        <div className="stats-bar" id="statsBar" role="region" aria-label={t('chartStats')}></div>
 
         <div className={`chart-wrap${compactMode ? ' compact-mobile' : ''}`}>
           <canvas
@@ -148,11 +148,11 @@ export default function ChartCanvas({ config, eras }) {
           <div className="price-pill" id="pricePill"></div>
         </div>
 
-        <div className="legend" id="legend" role="region" aria-label="Chart legend"></div>
+        <div className="legend" id="legend" role="region" aria-label={t('chartLegend')}></div>
         <div className="extra-widget" id="extraWidget"></div>
         <div className="events-section">
           <h3 id="eventsTitle"></h3>
-          <div className="events-grid" id="eventsGrid" role="region" aria-label="Chart events"></div>
+          <div className="events-grid" id="eventsGrid" role="region" aria-label={t('chartEvents')}></div>
         </div>
         {dataRows.length > 0 && (
           <table className="sr-only">

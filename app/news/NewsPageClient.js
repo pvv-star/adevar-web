@@ -194,7 +194,7 @@ export default function NewsPageClient() {
 
         {error ? (
           <div className="news-loading" style={{ color: 'var(--negative, #ef4444)' }}>
-            Error: {error}
+            {t('errorLabel')}: {error}
             <button className="ctrl-btn" style={{ marginLeft: 8 }} onClick={() => loadMore(items.length === 0)}>
               {t('retry')}
             </button>

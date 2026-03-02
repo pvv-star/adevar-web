@@ -87,7 +87,7 @@ export default function Header({ onNavToggle }) {
           <span className="brand-dot">.</span>
           <span className="brand-ext">ai</span>
         </Link>
-        <div className="live-mini-group" aria-label="Live rates and weather">
+        <div className="live-mini-group" aria-label={t('liveRatesWeather')}>
           <span className="live-mini-chip">USD {liveMini.usd ?? '—'}</span>
           <span className="live-mini-chip">EUR {liveMini.eur ?? '—'}</span>
           <span className="live-mini-chip">{liveMini.temp ?? '—'}°C</span>

@@ -148,7 +148,7 @@ export default function BottomNav() {
         </div>
       </nav>
 
-      {moreOpen ? <button type="button" className="more-sheet-backdrop" onClick={closeMoreSheet} aria-label="Close menu" /> : null}
+      {moreOpen ? <button type="button" className="more-sheet-backdrop" onClick={closeMoreSheet} aria-label={t('closeMenu')} /> : null}
       <aside className={`more-sheet${moreOpen ? ' open' : ''}`} aria-hidden={!moreOpen}>
         <div className="more-sheet-handle" />
         <div className="more-sheet-title">{t('quickDestinations')}</div>
