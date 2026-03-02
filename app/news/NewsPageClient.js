@@ -13,7 +13,7 @@ const FILTERS = [
 ];
 
 export default function NewsPageClient() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [items, setItems] = useState([]);
   const [cursor, setCursor] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -93,6 +93,22 @@ export default function NewsPageClient() {
 
     return () => clearTimeout(id);
   }, [query, recentSearches]);
+
+  const locale = lang === 'ru' ? 'ru-MD' : lang === 'en' ? 'en-GB' : 'ro-MD';
+
+  const formatPublishedAt = useCallback((value) => {
+    if (!value) return '—';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return '—';
+    return d.toLocaleString(locale, {
+      timeZone: 'Europe/Chisinau',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }, [locale]);
 
   const filteredItems = useMemo(() => {
     return items.filter((it) => {
@@ -181,7 +197,7 @@ export default function NewsPageClient() {
               <span className="news-impact" title={t('impactScoreHelp')}>{Math.round(it.impact_score || 0)}/100</span>
             </div>
             <div className="news-title">{it.title} <span className="news-external-icon" aria-hidden="true">↗</span></div>
-            <div className="news-time">{t('lastUpdate')}: {it.published_at ? new Date(it.published_at).toLocaleString() : '—'}</div>
+            <div className="news-time">{t('lastUpdate')}: {formatPublishedAt(it.published_at)}</div>
           </a>
         ))}
 
