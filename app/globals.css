@@ -721,16 +721,7 @@ canvas{display:block;width:100%;cursor:crosshair}
 /* News loading skeleton */
 .news-loading-skeleton{padding:8px 0}
 
-/* Bottom nav scroll fade affordance */
-.bottom-nav-inner{
-  -webkit-mask-image:linear-gradient(to right, black calc(100% - 24px), transparent);
-  mask-image:linear-gradient(to right, black calc(100% - 24px), transparent);
-  padding-right:24px;
-}
-.bottom-nav-inner:not(:hover){
-  -webkit-mask-image:linear-gradient(to right, black calc(100% - 24px), transparent);
-  mask-image:linear-gradient(to right, black calc(100% - 24px), transparent);
-}
+
 
 /* ============================================================
    SEARCH MODAL

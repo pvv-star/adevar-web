@@ -11,13 +11,17 @@ export default function SearchModal({ open, onClose }) {
   const { lang, t } = useLang();
   const [query, setQuery] = useState('');
   const inputRef = useRef(null);
+  const triggerRef = useRef(null);
 
   useEffect(() => {
     if (open) {
+      triggerRef.current = document.activeElement;
       setQuery('');
-      // Delay focus to after animation
       const id = setTimeout(() => inputRef.current?.focus(), 50);
       return () => clearTimeout(id);
+    } else if (triggerRef.current) {
+      triggerRef.current.focus();
+      triggerRef.current = null;
     }
   }, [open]);
 

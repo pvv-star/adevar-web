@@ -100,8 +100,8 @@ export default function ChartCanvas({ config, eras }) {
     <div className="chart-section">
       <div className="chart-container">
         <div className="chart-header">
-          <h1 id="chartTitle"></h1>
-          <p id="chartSubtitle"></p>
+          <h1 id="chartTitle">{config?.i18n?.[lang]?.title || config?.i18n?.ro?.title || ''}</h1>
+          <p id="chartSubtitle">{config?.i18n?.[lang]?.subtitle || config?.i18n?.ro?.subtitle || ''}</p>
         </div>
 
         <div className="chart-mobile-summary">
