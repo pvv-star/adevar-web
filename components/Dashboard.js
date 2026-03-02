@@ -114,8 +114,6 @@ export default function Dashboard() {
   const activeCharts = getActiveCharts();
   const soonCharts = getComingSoonCharts();
 
-  const isLoading = liveStats === null && !statsError;
-
   return (
     <div className="page-scroll">
       <section className="mobile-hero">
@@ -163,7 +161,7 @@ export default function Dashboard() {
       <div className="inst-card">
         <h2 className="inst-card-title">{t('availableCharts')}</h2>
         <div className="dash-grid">
-          {isLoading ? (
+          {loading ? (
             activeCharts.map((c) => (
               <div key={c.id} className="dash-stat-skeleton">
                 <div className="skel-bar skel-bar" />
