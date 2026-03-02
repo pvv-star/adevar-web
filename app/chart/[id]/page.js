@@ -1,4 +1,4 @@
-import { getChartById, getChartData } from '@/lib/charts';
+import { getChartById, getChartData, CHART_DESCS } from '@/lib/charts';
 import ChartPageClient from './ChartPageClient';
 import { notFound } from 'next/navigation';
 
@@ -19,7 +19,8 @@ export async function generateMetadata({ params }) {
     return { title: 'adevar.ai' };
   }
   const title = `${chart.ro} — adevar.ai`;
-  const description = chart.desc?.ro || chart.desc?.en || '';
+  const descObj = CHART_DESCS[chart.id];
+  const description = descObj?.ro || descObj?.en || '';
   return {
     title,
     description,

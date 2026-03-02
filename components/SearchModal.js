@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useLang } from '@/contexts/LangContext';
-import { CHARTS, CATEGORIES } from '@/lib/charts';
+import { CHARTS, CATEGORIES, CHART_DESCS } from '@/lib/charts';
 
 const searchableCharts = CHARTS.filter(c => !c.special);
 
@@ -53,7 +53,8 @@ export default function SearchModal({ open, onClose }) {
     if (!q) return searchableCharts;
     return searchableCharts.filter(c => {
       const name = (c[lang] || c.en || '').toLowerCase();
-      const desc = (c.desc?.[lang] || c.desc?.en || '').toLowerCase();
+      const descObj = CHART_DESCS[c.id];
+      const desc = (descObj?.[lang] || descObj?.en || '').toLowerCase();
       const cat = (CATEGORIES[c.category]?.[lang] || '').toLowerCase();
       return name.includes(q) || desc.includes(q) || cat.includes(q) || c.id.includes(q);
     });

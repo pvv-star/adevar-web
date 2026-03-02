@@ -5,7 +5,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLang } from '@/contexts/LangContext';
 import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
-import SearchModal from './SearchModal';
+import dynamic from 'next/dynamic';
+const SearchModal = dynamic(() => import('./SearchModal'), { ssr: false });
 
 
 export default function Header({ onNavToggle }) {

@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
-import { I18N, translate } from '@/lib/i18n';
+import { SUPPORTED_LANGS, loadLang, translate } from '@/lib/i18n';
 import { storageGet, storageSet } from '@/lib/storage';
 
 const LangContext = createContext({
@@ -14,16 +14,20 @@ export function LangProvider({ children }) {
 
   useEffect(() => {
     const saved = storageGet('adevar-lang');
-    if (saved && I18N[saved]) setLangState(saved);
+    if (saved && SUPPORTED_LANGS.includes(saved)) {
+      loadLang(saved).then(() => setLangState(saved));
+    }
   }, []);
 
   function setLang(l) {
-    if (!I18N[l]) return;
-    setLangState(l);
-    storageSet('adevar-lang', l);
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = l;
-    }
+    if (!SUPPORTED_LANGS.includes(l)) return;
+    loadLang(l).then(() => {
+      setLangState(l);
+      storageSet('adevar-lang', l);
+      if (typeof document !== 'undefined') {
+        document.documentElement.lang = l;
+      }
+    });
   }
 
   function t(key) {

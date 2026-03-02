@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "smoke:indicator": "node scripts/smoke-indicator-series.mjs",
@@ -33,6 +34,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.1.6",
     "eslint": "^8.57.0",
     "eslint-config-next": "15.5.10"
   }

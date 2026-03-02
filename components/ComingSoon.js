@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useLang } from '@/contexts/LangContext';
+import { CHART_DESCS } from '@/lib/charts';
 
 const NOTIFY_MSG = {
   ro: 'Funcție în dezvoltare — vă vom notifica.',
@@ -11,7 +12,8 @@ const NOTIFY_MSG = {
 export default function ComingSoon({ chart }) {
   const { lang, t } = useLang();
   const label = chart[lang] || chart.en;
-  const desc = chart.desc ? (chart.desc[lang] || chart.desc.en) : '';
+  const descObj = CHART_DESCS[chart.id];
+  const desc = descObj ? (descObj[lang] || descObj.en) : '';
   const [notified, setNotified] = useState(false);
 
   return (
