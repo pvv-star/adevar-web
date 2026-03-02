@@ -20,7 +20,8 @@ export async function GET(request) {
       .limit(8);
 
     let { data, error } = await runQuery(getSupabaseReadClient());
-    if (error && /permission|rls|denied|42501/i.test(String(error.message || error.code || ''))) {
+    // Fallback to service-role client when anon/RLS returns errors OR empty sets unexpectedly.
+    if (error || !Array.isArray(data) || data.length === 0) {
       ({ data, error } = await runQuery(getSupabaseServerClient()));
     }
 
