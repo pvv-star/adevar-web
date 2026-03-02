@@ -1,6 +1,6 @@
 'use client';
-import { useMemo, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useLang } from '@/contexts/LangContext';
 import { getChartById } from '@/lib/charts';
 import Link from 'next/link';
@@ -65,7 +65,6 @@ const MORE_LINKS = [
 export default function BottomNav() {
   const { lang, t } = useLang();
   const pathname = usePathname();
-  const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
 
   const chartMatch = pathname.match(/^\/chart\/([^/]+)/);
@@ -92,14 +91,27 @@ export default function BottomNav() {
     }
   }
 
+  useEffect(() => {
+    if (!moreOpen) return;
+    function onKey(e) {
+      if (e.key === 'Escape') closeMoreSheet();
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [moreOpen]);
+
   function openMoreSheet() {
     setMoreOpen(true);
+    const count = (window.__scrollLockCount || 0) + 1;
+    window.__scrollLockCount = count;
     document.body.style.overflow = 'hidden';
   }
 
   function closeMoreSheet() {
     setMoreOpen(false);
-    document.body.style.overflow = '';
+    const next = Math.max(0, (window.__scrollLockCount || 1) - 1);
+    window.__scrollLockCount = next;
+    if (next === 0) document.body.style.overflow = '';
   }
 
   return (

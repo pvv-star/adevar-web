@@ -63,8 +63,8 @@ function normalizeQuarterLabel(label = '') {
   };
 }
 
-function buildFromChartJson(chartId) {
-  const raw = getChartData(chartId);
+async function buildFromChartJson(chartId) {
+  const raw = await getChartData(chartId);
   const config = raw?.config;
   const points = Array.isArray(config?.data) ? config.data : [];
   if (!points.length) return null;
@@ -126,7 +126,7 @@ export async function getDashboardStats() {
       // fallback to JSON below
     }
 
-    const jsonStat = buildFromChartJson(slug);
+    const jsonStat = await buildFromChartJson(slug);
     if (jsonStat) {
       stats[slug] = jsonStat;
     }

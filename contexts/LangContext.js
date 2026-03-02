@@ -7,7 +7,6 @@ const LangContext = createContext({
   lang: 'ro',
   setLang: () => {},
   t: (key) => key,
-  I18N,
 });
 
 export function LangProvider({ children }) {
@@ -32,7 +31,7 @@ export function LangProvider({ children }) {
   }
 
   return (
-    <LangContext.Provider value={{ lang, setLang, t, I18N }}>
+    <LangContext.Provider value={{ lang, setLang, t }}>
       {children}
     </LangContext.Provider>
   );

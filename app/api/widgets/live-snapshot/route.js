@@ -13,7 +13,7 @@ function formatDateForBnm(date = new Date()) {
 
 function parseBnmRate(xml, code) {
   const blocks = xml.match(/<Valute[\s\S]*?<\/Valute>/gi) || [];
-  const block = blocks.find((b) => new RegExp(`<CharCode>\s*${code}\s*<\/CharCode>`, 'i').test(b));
+  const block = blocks.find((b) => new RegExp(`<CharCode>\\s*${code}\\s*</CharCode>`, 'i').test(b));
   if (!block) return null;
 
   const nominal = Number((block.match(/<Nominal>(.*?)<\/Nominal>/i) || [])[1] || '1');

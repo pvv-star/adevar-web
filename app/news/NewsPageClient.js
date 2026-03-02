@@ -4,7 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLang } from '@/contexts/LangContext';
 import { cachedFetch } from '@/lib/fetch-cache';
 
-const FILTERS = ['all', 'high-impact', 'economy', 'energy', 'social'];
+const FILTERS = [
+  { key: 'all', i18n: 'filterAll' },
+  { key: 'high-impact', i18n: 'filterHighImpact' },
+  { key: 'economy', i18n: 'filterEconomy' },
+  { key: 'energy', i18n: 'filterEnergy' },
+  { key: 'social', i18n: 'filterSocial' },
+];
 
 export default function NewsPageClient() {
   const { t } = useLang();
@@ -144,12 +150,12 @@ export default function NewsPageClient() {
         <div className="news-filter-row">
           {FILTERS.map((f) => (
             <button
-              key={f}
-              className={`news-chip${selectedFilter === f ? ' selected' : ''}`}
-              onClick={() => setSelectedFilter(f)}
+              key={f.key}
+              className={`news-chip${selectedFilter === f.key ? ' selected' : ''}`}
+              onClick={() => setSelectedFilter(f.key)}
               type="button"
             >
-              {f}
+              {t(f.i18n)}
             </button>
           ))}
           <button className="news-chip reset" type="button" onClick={() => { setSelectedFilter('all'); setQuery(''); }}>

@@ -30,11 +30,17 @@ export default function SearchModal({ open, onClose }) {
     return () => document.removeEventListener('keydown', onKey);
   }, [open, onClose]);
 
-  // Prevent body scroll when modal is open
+  // Prevent body scroll when modal is open (ref-counted)
   useEffect(() => {
     if (open) {
+      const count = (window.__scrollLockCount || 0) + 1;
+      window.__scrollLockCount = count;
       document.body.style.overflow = 'hidden';
-      return () => { document.body.style.overflow = ''; };
+      return () => {
+        const next = Math.max(0, (window.__scrollLockCount || 1) - 1);
+        window.__scrollLockCount = next;
+        if (next === 0) document.body.style.overflow = '';
+      };
     }
   }, [open]);
 
@@ -53,8 +59,9 @@ export default function SearchModal({ open, onClose }) {
 
   return (
     <div className="search-modal-backdrop" onClick={onClose}>
-      <div className="search-modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={t('searchIndicators')}>
+      <div className="search-modal" onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
         <div className="search-modal-header">
+          <span id="search-modal-title" className="sr-only">{t('searchIndicators')}</span>
           <input
             ref={inputRef}
             type="text"
