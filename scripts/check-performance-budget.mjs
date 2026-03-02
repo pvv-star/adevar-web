@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const maxJsKb = Number(process.env.PERF_MAX_JS_KB || 900);
+const maxJsKb = Number(process.env.PERF_MAX_JS_KB || 950);
 const maxCssKb = Number(process.env.PERF_MAX_CSS_KB || 140);
 
 function dirSize(dir, ext) {

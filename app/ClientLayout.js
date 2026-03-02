@@ -23,13 +23,15 @@ function useIsDesktop() {
 
 export default function ClientLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [navMode, setNavMode] = useState('compact');
+  const [navMode, setNavMode] = useState('expanded');
   const [mounted, setMounted] = useState(false);
   const { isDesktop, ready } = useIsDesktop();
 
   useEffect(() => {
     const mode = getInitialNavMode();
-    setNavMode(mode);
+    const normalized = mode === 'compact' ? 'expanded' : mode;
+    setNavMode(normalized);
+    persistNavMode(normalized);
     setMounted(true);
   }, []);
 
@@ -47,6 +49,16 @@ export default function ClientLayout({ children }) {
     setSidebarOpen(false);
   }, []);
 
+  const handleMainAreaClick = useCallback(() => {
+    if (isDesktop && navMode === 'expanded') {
+      setNavMode('compact');
+      persistNavMode('compact');
+    }
+    if (!isDesktop && sidebarOpen) {
+      setSidebarOpen(false);
+    }
+  }, [isDesktop, navMode, sidebarOpen]);
+
   return (
     <ThemeProvider>
       <LangProvider>
@@ -59,6 +71,12 @@ export default function ClientLayout({ children }) {
                 isCompact={mounted && navMode === 'compact'}
                 isOpen={sidebarOpen}
                 onClose={closeSidebar}
+                onExpand={() => {
+                  if (isDesktop && navMode === 'compact') {
+                    setNavMode('expanded');
+                    persistNavMode('expanded');
+                  }
+                }}
               />
             )}
             {sidebarOpen && (
@@ -69,7 +87,7 @@ export default function ClientLayout({ children }) {
                 aria-label="Close navigation"
               />
             )}
-            <main id="main-content" className="main-content">
+            <main id="main-content" className="main-content" onClick={handleMainAreaClick}>
               {children}
             </main>
           </div>

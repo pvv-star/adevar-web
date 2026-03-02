@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useLang } from '@/contexts/LangContext';
 import { CHARTS, CATEGORIES } from '@/lib/charts';
 
-export default function Sidebar({ isCompact, isOpen, onClose }) {
+export default function Sidebar({ isCompact, isOpen, onClose, onExpand }) {
   const { lang, t } = useLang();
   const pathname = usePathname();
 
@@ -34,6 +34,9 @@ export default function Sidebar({ isCompact, isOpen, onClose }) {
         className={`sidebar${isCompact ? ' compact' : ''}${isOpen ? ' open' : ''}`}
         role="navigation"
         aria-label="Main navigation"
+        onClickCapture={() => {
+          if (isCompact && typeof onExpand === 'function') onExpand();
+        }}
       >
         <div className="sidebar-scroll">
           <div className="sidebar-section-title">{t('overview')}</div>
