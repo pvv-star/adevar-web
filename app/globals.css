@@ -579,7 +579,7 @@ canvas{display:block;width:100%;cursor:crosshair}
 .footer-sources{font-size:12px;font-weight:400;color:var(--text-secondary);line-height:1.6;max-width:640px;margin:0 auto 8px}
 .footer-contact{font-size:12px;font-weight:400;color:var(--text-tertiary)}
 
-.news-sticky-tools{position:sticky;top:var(--header-h);z-index:25;background:var(--bg-primary);background:color-mix(in srgb,var(--bg-primary) 92%, transparent);backdrop-filter:blur(8px);padding-bottom:10px;border-bottom:1px solid var(--border);border-bottom:1px solid color-mix(in srgb,var(--border) 70%, transparent);box-shadow:0 6px 20px rgba(0,0,0,.04)}
+.news-sticky-tools{position:static;z-index:25;background:var(--bg-primary);background:color-mix(in srgb,var(--bg-primary) 92%, transparent);backdrop-filter:blur(8px);padding-bottom:10px;border-bottom:1px solid var(--border);border-bottom:1px solid color-mix(in srgb,var(--border) 70%, transparent);box-shadow:0 6px 20px rgba(0,0,0,.04)}
 .news-search-wrap{margin-bottom:10px}
 .news-search-input{width:100%;min-height:48px;border:1px solid var(--border);border-radius:12px;padding:0 14px;font-size:16px;background:var(--bg-secondary)}
 .news-filter-row{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:2px}
@@ -685,6 +685,7 @@ canvas{display:block;width:100%;cursor:crosshair}
   .bottom-nav{display:block}
   .app-body{padding-bottom:var(--bottom-nav-h)}
   .page-scroll{padding:14px}
+  .news-sticky-tools{position:sticky;top:var(--header-h)}
   .dash-grid{grid-template-columns:1fr;gap:10px}
   .soon-grid{grid-template-columns:1fr 1fr}
   .dash-stat-card{padding:14px;min-height:88px}
