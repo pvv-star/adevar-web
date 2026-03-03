@@ -12,6 +12,39 @@ const FILTERS = [
   { key: 'social', i18n: 'filterSocial' },
 ];
 
+const TAG_KEYWORDS = {
+  economy: ['economie', 'economy', 'pib', 'gdp', 'salariu', 'salary', 'inflați', 'inflation', 'buget', 'budget', 'bnm', 'bns', 'curs', 'exchange', 'remiten', 'remittanc', 'șomaj', 'unemploy', 'export', 'import', 'fiscal', 'credit', 'банк', 'экономик'],
+  energy: ['energie', 'energy', 'gaz', 'gas', 'electricit', 'tarif', 'anre', 'moldovagaz', 'termic', 'thermal', 'энерг', 'газ'],
+  social: ['social', 'sănătate', 'health', 'educați', 'education', 'pensii', 'pension', 'demograf', 'demograph', 'migrați', 'migrat', 'populație', 'population', 'naștere', 'birth', 'социальн', 'здоров'],
+};
+
+function inferTags(title) {
+  if (!title) return [];
+  const lower = title.toLowerCase();
+  const tags = [];
+  for (const [tag, keywords] of Object.entries(TAG_KEYWORDS)) {
+    if (keywords.some(kw => lower.includes(kw))) tags.push(tag);
+  }
+  return tags;
+}
+
+const MAX_RETRIES = 3;
+const RETRY_DELAYS = [1000, 3000, 8000];
+
+async function fetchWithRetry(url, retries = MAX_RETRIES) {
+  for (let attempt = 0; attempt < retries; attempt++) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      const data = await res.json();
+      if (!res.ok || !data?.ok) throw new Error(data?.error || 'feed failed');
+      return data;
+    } catch (err) {
+      if (attempt === retries - 1) throw err;
+      await new Promise(r => setTimeout(r, RETRY_DELAYS[attempt]));
+    }
+  }
+}
+
 export default function NewsPageClient() {
   const { t, lang } = useLang();
   const [items, setItems] = useState([]);
@@ -26,7 +59,6 @@ export default function NewsPageClient() {
   const sentinelRef = useRef(null);
   const scrollRef = useRef(null);
   const loadingRef = useRef(false);
-  const isInitialLoad = useRef(true);
 
   useEffect(() => {
     try {
@@ -47,35 +79,26 @@ export default function NewsPageClient() {
       if (!reset && cursor) params.set('cursor', cursor);
       const url = `/api/news/feed?${params.toString()}`;
 
-      let payload;
-      if (reset && isInitialLoad.current) {
-        // Cache only the initial load
-        payload = await cachedFetch(`news-feed-initial`, async () => {
-          const res = await fetch(url, { cache: 'no-store' });
-          const data = await res.json();
-          if (!res.ok || !data?.ok) throw new Error(data?.error || 'feed failed');
-          return data;
-        }, { ttl: 60_000, swr: 120_000 });
-        isInitialLoad.current = false;
-      } else {
-        const res = await fetch(url, { cache: 'no-store' });
-        payload = await res.json();
-        if (!res.ok || !payload?.ok) throw new Error(payload?.error || 'feed failed');
-      }
+      // Cache all requests keyed by cursor position
+      const cacheKey = `news-feed-${cursor || 'initial'}`;
+      const payload = await cachedFetch(cacheKey, () => fetchWithRetry(url), {
+        ttl: 60_000,
+        swr: 120_000,
+      });
 
       setItems((prev) => (reset ? payload.items : [...prev, ...payload.items]));
       setCursor(payload.nextCursor || null);
       setHasMore(Boolean(payload.hasMore));
     } catch (err) {
       setError(err.message || 'Failed to load news');
-      setToast({ type: 'error', text: 'Live feed refresh failed. Retrying soon.' });
+      setToast({ type: 'error', text: t('statsError') });
     } finally {
       loadingRef.current = false;
       setLoading(false);
     }
-  }, [cursor]);
+  }, [cursor, t]);
 
-  // Initial load — stable ref avoids dependency loop
+  // Initial load
   const loadMoreRef = useRef(loadMore);
   loadMoreRef.current = loadMore;
   useEffect(() => {
@@ -118,8 +141,10 @@ export default function NewsPageClient() {
       if (!matchesQuery) return false;
 
       if (selectedFilter === 'all') return true;
-      if (selectedFilter === 'high-impact') return Number(it.impact_score || 0) >= 70;
-      return it.tags?.includes?.(selectedFilter) || it.source_slug?.toLowerCase?.().includes(selectedFilter);
+      if (selectedFilter === 'high-impact') return Number(it.impact_score || 0) >= 50;
+
+      const tags = inferTags(it.title);
+      return tags.includes(selectedFilter);
     });
   }, [items, query, selectedFilter]);
 
