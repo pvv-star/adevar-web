@@ -1,6 +1,9 @@
 'use client';
+import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import ComingSoon from '@/components/ComingSoon';
+import ShareButtons from '@/components/ShareButtons';
+import { useLang } from '@/contexts/LangContext';
 
 // Dynamically import ChartCanvas to avoid SSR issues with canvas
 const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
@@ -22,14 +25,27 @@ const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
 });
 
 export default function ChartPageClient({ chart, chartData }) {
+  const chartRef = useRef(null);
+  const { lang } = useLang();
+
   if (!chartData || chart.soon) {
     return <ComingSoon chart={chart} />;
   }
 
+  const title = chart[lang] || chart.ro;
+
   return (
-    <ChartCanvas
-      config={chartData.config}
-      eras={chartData.eras}
-    />
+    <>
+      <ShareButtons
+        chartId={chart.id}
+        title={title}
+        chartRef={chartRef}
+      />
+      <ChartCanvas
+        ref={chartRef}
+        config={chartData.config}
+        eras={chartData.eras}
+      />
+    </>
   );
 }
