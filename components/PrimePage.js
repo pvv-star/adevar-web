@@ -8,19 +8,19 @@ const COPY = {
     run: 'Run', reset: 'Reset', sample: 'Exemplu', autoRun: 'Auto-run',
     html: 'HTML', css: 'CSS', js: 'JS', preview: 'Preview live',
     github: 'GitHub Sources', repo: 'Repo', load: 'Load', add: 'Save source',
-    token: 'GitHub Token', authStatus: 'Auth', clear: 'Clear',
+    token: 'GitHub Token', authStatus: 'Auth', clear: 'Clear', websiteMode: 'Website mode', sandboxMode: 'Sandbox mode',
   },
   en: {
     run: 'Run', reset: 'Reset', sample: 'Sample', autoRun: 'Auto-run',
     html: 'HTML', css: 'CSS', js: 'JS', preview: 'Live preview',
     github: 'GitHub Sources', repo: 'Repo', load: 'Load', add: 'Save source',
-    token: 'GitHub Token', authStatus: 'Auth', clear: 'Clear',
+    token: 'GitHub Token', authStatus: 'Auth', clear: 'Clear', websiteMode: 'Website mode', sandboxMode: 'Sandbox mode',
   },
   ru: {
     run: 'Run', reset: 'Reset', sample: 'Пример', autoRun: 'Auto-run',
     html: 'HTML', css: 'CSS', js: 'JS', preview: 'Live preview',
     github: 'GitHub Sources', repo: 'Repo', load: 'Load', add: 'Save source',
-    token: 'GitHub Token', authStatus: 'Auth', clear: 'Clear',
+    token: 'GitHub Token', authStatus: 'Auth', clear: 'Clear', websiteMode: 'Website mode', sandboxMode: 'Sandbox mode',
   },
 };
 
@@ -31,6 +31,7 @@ const SAMPLE = {
 };
 
 const DEFAULT_SOURCES = [{ name: 'adevar.ai', repo: 'pvv-star/adevar-web' }];
+const DEFAULT_WEBSITE_URL = 'http://localhost:3111';
 
 function buildDoc(html, css, js) {
   return `<!doctype html>\n<html>\n<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><style>${css}</style></head>\n<body>${html}<script>${js}<\/script></body>\n</html>`;
@@ -54,6 +55,8 @@ export default function PrimePage() {
   const [githubToken, setGithubToken] = useState('');
   const [authInfo, setAuthInfo] = useState(null);
   const [checkingAuth, setCheckingAuth] = useState(false);
+  const [previewMode, setPreviewMode] = useState('sandbox');
+  const [websiteUrl, setWebsiteUrl] = useState(DEFAULT_WEBSITE_URL);
 
   useEffect(() => {
     try {
@@ -64,6 +67,10 @@ export default function PrimePage() {
       }
       const savedToken = localStorage.getItem('primecanvas-github-token');
       if (savedToken) setGithubToken(savedToken);
+      const savedMode = localStorage.getItem('primecanvas-preview-mode');
+      if (savedMode === 'website' || savedMode === 'sandbox') setPreviewMode(savedMode);
+      const savedWebsiteUrl = localStorage.getItem('primecanvas-website-url');
+      if (savedWebsiteUrl) setWebsiteUrl(savedWebsiteUrl);
     } catch {}
   }, []);
 
@@ -77,6 +84,13 @@ export default function PrimePage() {
       else localStorage.removeItem('primecanvas-github-token');
     } catch {}
   }, [githubToken]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('primecanvas-preview-mode', previewMode);
+      localStorage.setItem('primecanvas-website-url', websiteUrl);
+    } catch {}
+  }, [previewMode, websiteUrl]);
 
   useEffect(() => {
     if (!autoRun) return;
@@ -138,6 +152,9 @@ export default function PrimePage() {
         stars: data.stargazers_count,
         url: data.html_url,
       });
+      if (normalized === 'pvv-star/adevar-web') {
+        setWebsiteUrl('http://localhost:3111');
+      }
     } catch (e) {
       setRepoInfo({ error: String(e.message || e) });
     } finally {
@@ -150,6 +167,8 @@ export default function PrimePage() {
       <div className="prime-toolbar">
         <h1 className="view-heading" style={{ marginBottom: 0 }}>PrimeCanvas</h1>
         <div className="prime-actions">
+          <button className={`inst-btn ${previewMode === 'sandbox' ? 'inst-btn-primary' : ''}`} onClick={() => setPreviewMode('sandbox')} type="button">{c.sandboxMode}</button>
+          <button className={`inst-btn ${previewMode === 'website' ? 'inst-btn-primary' : ''}`} onClick={() => setPreviewMode('website')} type="button">{c.websiteMode}</button>
           <label className="prime-toggle"><input type="checkbox" checked={autoRun} onChange={(e) => setAutoRun(e.target.checked)} /><span>{c.autoRun}</span></label>
           <button className="inst-btn" onClick={loadSample} type="button">{c.sample}</button>
           <button className="inst-btn" onClick={resetAll} type="button">{c.reset}</button>
@@ -194,7 +213,21 @@ export default function PrimePage() {
 
       <section className="prime-preview-card">
         <div className="prime-editor-head">{c.preview}</div>
-        <iframe title="PrimeCanvas Preview" className="prime-preview" srcDoc={srcDoc} sandbox="allow-scripts allow-modals" />
+        {previewMode === 'website' && (
+          <div className="prime-actions" style={{ padding: 12 }}>
+            <input
+              className="prime-repo-input"
+              value={websiteUrl}
+              onChange={(e) => setWebsiteUrl(e.target.value)}
+              placeholder="http://localhost:3111"
+            />
+          </div>
+        )}
+        {previewMode === 'website' ? (
+          <iframe title="PrimeCanvas Website Preview" className="prime-preview" src={websiteUrl} />
+        ) : (
+          <iframe title="PrimeCanvas Sandbox Preview" className="prime-preview" srcDoc={srcDoc} sandbox="allow-scripts allow-modals" />
+        )}
       </section>
     </div>
   );
