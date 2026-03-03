@@ -1,8 +1,8 @@
 {
   "config": {
     "unit": "mil. MDL",
-    "yMax": 500000000,
-    "gridSteps": 5,
+    "yMax": 400000000,
+    "gridSteps": 4,
     "decimals": 0,
     "timeRange": "2014 — 2024",
     "data": [

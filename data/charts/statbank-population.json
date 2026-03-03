@@ -1,8 +1,8 @@
 {
   "config": {
     "unit": "persons",
-    "yMax": 3000000,
-    "gridSteps": 5,
+    "yMax": 4000000,
+    "gridSteps": 4,
     "decimals": 0,
     "timeRange": "2014 — 2025",
     "data": [

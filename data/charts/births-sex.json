@@ -1,21 +1,81 @@
 {
   "config": {
     "unit": "births",
-    "yMax": 22000,
-    "gridSteps": 6,
+    "yMax": 25000,
+    "gridSteps": 4,
     "decimals": 0,
     "timeRange": "2015 — 2024",
     "data": [
-      { "label": "2015", "value": 20975, "value2": 19572, "era": "DEM", "pm": "" },
-      { "label": "2016", "value": 20414, "value2": 19226, "era": "DEM", "pm": "" },
-      { "label": "2017", "value": 18722, "value2": 17641, "era": "DEM", "pm": "" },
-      { "label": "2018", "value": 17790, "value2": 16747, "era": "DEM", "pm": "" },
-      { "label": "2019", "value": 16637, "value2": 15786, "era": "DEM", "pm": "" },
-      { "label": "2020", "value": 16167, "value2": 14667, "era": "DEM", "pm": "" },
-      { "label": "2021", "value": 15113, "value2": 14207, "era": "DEM", "pm": "" },
-      { "label": "2022", "value": 13950, "value2": 13068, "era": "DEM", "pm": "" },
-      { "label": "2023", "value": 12294, "value2": 11829, "era": "DEM", "pm": "" },
-      { "label": "2024", "value": 12126, "value2": 11522, "era": "DEM", "pm": "" }
+      {
+        "label": "2015",
+        "value": 20975,
+        "value2": 19572,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 20414,
+        "value2": 19226,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 18722,
+        "value2": 17641,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 17790,
+        "value2": 16747,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 16637,
+        "value2": 15786,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 16167,
+        "value2": 14667,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 15113,
+        "value2": 14207,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 13950,
+        "value2": 13068,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 12294,
+        "value2": 11829,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 12126,
+        "value2": 11522,
+        "era": "DEM",
+        "pm": ""
+      }
     ],
     "stats": {
       "current": 12126,
@@ -69,6 +129,8 @@
     }
   },
   "eras": {
-    "DEM": { "name": "Official data" }
+    "DEM": {
+      "name": "Official data"
+    }
   }
 }

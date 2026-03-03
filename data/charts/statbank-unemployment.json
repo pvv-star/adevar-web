@@ -1,8 +1,8 @@
 {
   "config": {
     "unit": "%",
-    "yMax": 8,
-    "gridSteps": 8,
+    "yMax": 6,
+    "gridSteps": 4,
     "decimals": 1,
     "timeRange": "2019 — 2024",
     "data": [

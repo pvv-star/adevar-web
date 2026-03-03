@@ -2,7 +2,7 @@
   "config": {
     "unit": "MDL",
     "yMax": 20000,
-    "gridSteps": 5,
+    "gridSteps": 4,
     "decimals": 0,
     "timeRange": "2013 — 2024",
     "data": [

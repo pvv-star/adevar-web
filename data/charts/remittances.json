@@ -1,9 +1,9 @@
 {
   "config": {
     "unit": "mln",
-    "yMax": 2300,
-    "gridSteps": 8,
-    "decimals": 1,
+    "yMax": 2000,
+    "gridSteps": 4,
+    "decimals": 0,
     "timeRange": "2000 — 2024",
     "data": [
       {

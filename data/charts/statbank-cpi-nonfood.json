@@ -2,7 +2,7 @@
   "config": {
     "unit": "%",
     "yMax": 5000,
-    "gridSteps": 5,
+    "gridSteps": 4,
     "decimals": 1,
     "timeRange": "1991 — 2025",
     "data": [

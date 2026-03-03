@@ -1,72 +1,347 @@
 {
   "config": {
     "unit": "MDL",
-    "yMax": 18000,
-    "gridSteps": 6,
+    "yMax": 20000,
+    "gridSteps": 4,
     "decimals": 0,
     "timeRange": "2014 — 2026",
     "data": [
-      { "label": "Q1 2014", "value": 3880,  "era": "PDM",  "pm": "Iurie Leancă" },
-      { "label": "Q3 2014", "value": 4255,  "era": "PDM",  "pm": "Iurie Leancă" },
-      { "label": "Q1 2015", "value": 4288,  "era": "PDM",  "pm": "Chiril Gaburici" },
-      { "label": "Q3 2015", "value": 4703,  "era": "PDM",  "pm": "Valeriu Streleț" },
-      { "label": "Q1 2016", "value": 4728,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q3 2016", "value": 5186,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q1 2017", "value": 5270,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q3 2017", "value": 5809,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q1 2018", "value": 5961,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q3 2018", "value": 6507,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q1 2019", "value": 6923,  "era": "PDM",  "pm": "Pavel Filip" },
-      { "label": "Q3 2019", "value": 7385,  "era": "ACUM", "pm": "Maia Sandu" },
-      { "label": "Q4 2019", "value": 7813,  "era": "PSRM", "pm": "Ion Chicu" },
-      { "label": "Q1 2020", "value": 6999,  "era": "PSRM", "pm": "Ion Chicu" },
-      { "label": "Q3 2020", "value": 8074,  "era": "PSRM", "pm": "Ion Chicu" },
-      { "label": "Q4 2020", "value": 8860,  "era": "PSRM", "pm": "Ion Chicu" },
-      { "label": "Q1 2021", "value": 8351,  "era": "PSRM", "pm": "Aureliu Ciocoi" },
-      { "label": "Q3 2021", "value": 9070,  "era": "PAS",  "pm": "Natalia Gavrilița" },
-      { "label": "Q1 2022", "value": 9561,  "era": "PAS",  "pm": "Natalia Gavrilița" },
-      { "label": "Q3 2022", "value": 10668, "era": "PAS",  "pm": "Natalia Gavrilița" },
-      { "label": "Q4 2022", "value": 11539, "era": "PAS",  "pm": "Natalia Gavrilița" },
-      { "label": "Q1 2023", "value": 11478, "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q3 2023", "value": 12363, "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q4 2023", "value": 13401, "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q1 2024", "value": 13170, "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q3 2024", "value": 14120, "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q4 2024", "value": 15025, "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q1 2025", "value": 14568, "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q3 2025", "value": 15488, "era": "PAS",  "pm": "Dorin Recean" },
-      { "label": "Q1 2026", "value": 16356, "era": "PAS",  "pm": "Alexandru Munteanu" }
+      {
+        "label": "Q1 2014",
+        "value": 3880,
+        "era": "PDM",
+        "pm": "Iurie Leancă"
+      },
+      {
+        "label": "Q3 2014",
+        "value": 4255,
+        "era": "PDM",
+        "pm": "Iurie Leancă"
+      },
+      {
+        "label": "Q1 2015",
+        "value": 4288,
+        "era": "PDM",
+        "pm": "Chiril Gaburici"
+      },
+      {
+        "label": "Q3 2015",
+        "value": 4703,
+        "era": "PDM",
+        "pm": "Valeriu Streleț"
+      },
+      {
+        "label": "Q1 2016",
+        "value": 4728,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q3 2016",
+        "value": 5186,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q1 2017",
+        "value": 5270,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q3 2017",
+        "value": 5809,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q1 2018",
+        "value": 5961,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q3 2018",
+        "value": 6507,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q1 2019",
+        "value": 6923,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q3 2019",
+        "value": 7385,
+        "era": "ACUM",
+        "pm": "Maia Sandu"
+      },
+      {
+        "label": "Q4 2019",
+        "value": 7813,
+        "era": "PSRM",
+        "pm": "Ion Chicu"
+      },
+      {
+        "label": "Q1 2020",
+        "value": 6999,
+        "era": "PSRM",
+        "pm": "Ion Chicu"
+      },
+      {
+        "label": "Q3 2020",
+        "value": 8074,
+        "era": "PSRM",
+        "pm": "Ion Chicu"
+      },
+      {
+        "label": "Q4 2020",
+        "value": 8860,
+        "era": "PSRM",
+        "pm": "Ion Chicu"
+      },
+      {
+        "label": "Q1 2021",
+        "value": 8351,
+        "era": "PSRM",
+        "pm": "Aureliu Ciocoi"
+      },
+      {
+        "label": "Q3 2021",
+        "value": 9070,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q1 2022",
+        "value": 9561,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q3 2022",
+        "value": 10668,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q4 2022",
+        "value": 11539,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q1 2023",
+        "value": 11478,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q3 2023",
+        "value": 12363,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q4 2023",
+        "value": 13401,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q1 2024",
+        "value": 13170,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q3 2024",
+        "value": 14120,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q4 2024",
+        "value": 15025,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q1 2025",
+        "value": 14568,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q3 2025",
+        "value": 15488,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q1 2026",
+        "value": 16356,
+        "era": "PAS",
+        "pm": "Alexandru Munteanu"
+      }
     ],
-    "stats": { "current": 15488, "lowest": 3880, "peak": 16356, "change": "+322%" },
+    "stats": {
+      "current": 15488,
+      "lowest": 3880,
+      "peak": 16356,
+      "change": "+322%"
+    },
     "events": [
-      { "idx": 0,  "en": "Average gross salary: 4,172 MDL/yr",           "ro": "Salariul mediu brut: 4.172 MDL/an",                  "ru": "Средняя зарплата: 4 172 MDL/год" },
-      { "idx": 2,  "en": "$1B bank fraud — wages stagnate",              "ro": "Frauda bancară de $1 mld — salariile stagnează",       "ru": "Банковское мошенничество $1 млрд — зарплаты стагнируют" },
-      { "idx": 4,  "en": "Filip gov't: public sector pay reform",        "ro": "Guvernul Filip: reforma salarizării în sectorul public","ru": "Правительство Филипа: реформа оплаты в бюджетном секторе" },
-      { "idx": 6,  "en": "Minimum wage raised to 2,610 MDL",             "ro": "Salariul minim majorat la 2.610 MDL",                  "ru": "Минимальная зарплата повышена до 2 610 MDL" },
-      { "idx": 8,  "en": "Salary fund +14% year-on-year",                "ro": "Fondul salarial +14% față de anul precedent",          "ru": "Фонд зарплаты +14% к прошлому году" },
-      { "idx": 10, "en": "Wage growth accelerates to 17%",               "ro": "Creșterea salariilor se accelerează la 17%",           "ru": "Рост зарплат ускоряется до 17%" },
-      { "idx": 11, "en": "ACUM coalition — short-lived reforms",         "ro": "Coaliția ACUM — reforme de scurtă durată",             "ru": "Коалиция ACUM — кратковременные реформы" },
-      { "idx": 12, "en": "PSRM takes power, Chicu gov't",               "ro": "PSRM preia puterea, guvernul Chicu",                   "ru": "ПСРМ приходит к власти, правительство Кику" },
-      { "idx": 13, "en": "COVID-19: Q1 salary dip",                      "ro": "COVID-19: scădere salarială în T1",                    "ru": "COVID-19: снижение зарплат в 1кв" },
-      { "idx": 15, "en": "Post-COVID recovery, wages rebound",           "ro": "Redresare post-COVID, salariile revin",                "ru": "Восстановление после COVID, зарплаты растут" },
-      { "idx": 17, "en": "PAS wins — public sector wage hikes",          "ro": "PAS câștigă — majorări salariale în sectorul public",  "ru": "PAS побеждает — повышение зарплат в бюджетном секторе" },
-      { "idx": 19, "en": "Inflation erodes real wages by 10%",           "ro": "Inflația erodează salariile reale cu 10%",             "ru": "Инфляция съедает 10% реальных зарплат" },
-      { "idx": 20, "en": "Nominal wages rise, real wages fall",          "ro": "Salariile nominale cresc, cele reale scad",            "ru": "Номинальные зарплаты растут, реальные падают" },
-      { "idx": 22, "en": "Real wage recovery begins",                    "ro": "Începe redresarea salariilor reale",                   "ru": "Начинается восстановление реальных зарплат" },
-      { "idx": 24, "en": "Salary passes 13,000 MDL milestone",           "ro": "Salariul depășește pragul de 13.000 MDL",              "ru": "Зарплата превышает порог 13 000 MDL" },
-      { "idx": 27, "en": "Annual average: 14,097 MDL in 2024",           "ro": "Media anuală: 14.097 MDL în 2024",                     "ru": "Среднегодовая: 14 097 MDL в 2024" },
-      { "idx": 29, "en": "Gov't forecast: 17,400 MDL for 2026",          "ro": "Prognoza guvernului: 17.400 MDL pentru 2026",           "ru": "Прогноз правительства: 17 400 MDL на 2026" }
+      {
+        "idx": 0,
+        "en": "Average gross salary: 4,172 MDL/yr",
+        "ro": "Salariul mediu brut: 4.172 MDL/an",
+        "ru": "Средняя зарплата: 4 172 MDL/год"
+      },
+      {
+        "idx": 2,
+        "en": "$1B bank fraud — wages stagnate",
+        "ro": "Frauda bancară de $1 mld — salariile stagnează",
+        "ru": "Банковское мошенничество $1 млрд — зарплаты стагнируют"
+      },
+      {
+        "idx": 4,
+        "en": "Filip gov't: public sector pay reform",
+        "ro": "Guvernul Filip: reforma salarizării în sectorul public",
+        "ru": "Правительство Филипа: реформа оплаты в бюджетном секторе"
+      },
+      {
+        "idx": 6,
+        "en": "Minimum wage raised to 2,610 MDL",
+        "ro": "Salariul minim majorat la 2.610 MDL",
+        "ru": "Минимальная зарплата повышена до 2 610 MDL"
+      },
+      {
+        "idx": 8,
+        "en": "Salary fund +14% year-on-year",
+        "ro": "Fondul salarial +14% față de anul precedent",
+        "ru": "Фонд зарплаты +14% к прошлому году"
+      },
+      {
+        "idx": 10,
+        "en": "Wage growth accelerates to 17%",
+        "ro": "Creșterea salariilor se accelerează la 17%",
+        "ru": "Рост зарплат ускоряется до 17%"
+      },
+      {
+        "idx": 11,
+        "en": "ACUM coalition — short-lived reforms",
+        "ro": "Coaliția ACUM — reforme de scurtă durată",
+        "ru": "Коалиция ACUM — кратковременные реформы"
+      },
+      {
+        "idx": 12,
+        "en": "PSRM takes power, Chicu gov't",
+        "ro": "PSRM preia puterea, guvernul Chicu",
+        "ru": "ПСРМ приходит к власти, правительство Кику"
+      },
+      {
+        "idx": 13,
+        "en": "COVID-19: Q1 salary dip",
+        "ro": "COVID-19: scădere salarială în T1",
+        "ru": "COVID-19: снижение зарплат в 1кв"
+      },
+      {
+        "idx": 15,
+        "en": "Post-COVID recovery, wages rebound",
+        "ro": "Redresare post-COVID, salariile revin",
+        "ru": "Восстановление после COVID, зарплаты растут"
+      },
+      {
+        "idx": 17,
+        "en": "PAS wins — public sector wage hikes",
+        "ro": "PAS câștigă — majorări salariale în sectorul public",
+        "ru": "PAS побеждает — повышение зарплат в бюджетном секторе"
+      },
+      {
+        "idx": 19,
+        "en": "Inflation erodes real wages by 10%",
+        "ro": "Inflația erodează salariile reale cu 10%",
+        "ru": "Инфляция съедает 10% реальных зарплат"
+      },
+      {
+        "idx": 20,
+        "en": "Nominal wages rise, real wages fall",
+        "ro": "Salariile nominale cresc, cele reale scad",
+        "ru": "Номинальные зарплаты растут, реальные падают"
+      },
+      {
+        "idx": 22,
+        "en": "Real wage recovery begins",
+        "ro": "Începe redresarea salariilor reale",
+        "ru": "Начинается восстановление реальных зарплат"
+      },
+      {
+        "idx": 24,
+        "en": "Salary passes 13,000 MDL milestone",
+        "ro": "Salariul depășește pragul de 13.000 MDL",
+        "ru": "Зарплата превышает порог 13 000 MDL"
+      },
+      {
+        "idx": 27,
+        "en": "Annual average: 14,097 MDL in 2024",
+        "ro": "Media anuală: 14.097 MDL în 2024",
+        "ru": "Среднегодовая: 14 097 MDL в 2024"
+      },
+      {
+        "idx": 29,
+        "en": "Gov't forecast: 17,400 MDL for 2026",
+        "ro": "Prognoza guvernului: 17.400 MDL pentru 2026",
+        "ru": "Прогноз правительства: 17 400 MDL на 2026"
+      }
     ],
     "i18n": {
-      "ro": { "title": "Salariul Mediu Brut în Moldova", "subtitle": "Câștigul salarial mediu lunar brut pe economie, MDL (date BNS)", "current": "Actual", "lowest": "Minim", "peak": "Vârf", "change": "Variație", "events": "Evenimente cheie", "replay": "Reluare" },
-      "en": { "title": "Average Gross Salary in Moldova", "subtitle": "Average gross monthly earnings, MDL (BNS data)", "current": "Current", "lowest": "Lowest", "peak": "Peak", "change": "Change", "events": "Key Events", "replay": "Replay" },
-      "ru": { "title": "Средняя зарплата в Молдове", "subtitle": "Среднемесячная номинальная заработная плата, MDL (данные НБС)", "current": "Текущий", "lowest": "Минимум", "peak": "Пик", "change": "Изменение", "events": "Ключевые события", "replay": "Воспроизвести" }
+      "ro": {
+        "title": "Salariul Mediu Brut în Moldova",
+        "subtitle": "Câștigul salarial mediu lunar brut pe economie, MDL (date BNS)",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Evenimente cheie",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Average Gross Salary in Moldova",
+        "subtitle": "Average gross monthly earnings, MDL (BNS data)",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Key Events",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Средняя зарплата в Молдове",
+        "subtitle": "Среднемесячная номинальная заработная плата, MDL (данные НБС)",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Ключевые события",
+        "replay": "Воспроизвести"
+      }
     }
   },
   "eras": {
-    "PDM":  { "name": "PDM"  },
-    "ACUM": { "name": "ACUM" },
-    "PSRM": { "name": "PSRM" },
-    "PAS":  { "name": "PAS"  }
+    "PDM": {
+      "name": "PDM"
+    },
+    "ACUM": {
+      "name": "ACUM"
+    },
+    "PSRM": {
+      "name": "PSRM"
+    },
+    "PAS": {
+      "name": "PAS"
+    }
   }
 }

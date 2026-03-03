@@ -1,23 +1,83 @@
 {
   "config": {
     "unit": "%",
-    "yMax": 3.2,
-    "gridSteps": 8,
-    "decimals": 2,
+    "yMax": 2.5,
+    "gridSteps": 5,
+    "decimals": 1,
     "timeRange": "2014 — 2025",
     "data": [
-      { "label": "2014", "value": 1.45, "era": "DEM", "pm": "" },
-      { "label": "2015", "value": 1.781, "era": "DEM", "pm": "" },
-      { "label": "2016", "value": 1.591, "era": "DEM", "pm": "" },
-      { "label": "2017", "value": 1.622, "era": "DEM", "pm": "" },
-      { "label": "2018", "value": 1.239, "era": "DEM", "pm": "" },
-      { "label": "2019", "value": 1.502, "era": "DEM", "pm": "" },
-      { "label": "2020", "value": 1.206, "era": "DEM", "pm": "" },
-      { "label": "2021", "value": 0.794, "era": "DEM", "pm": "" },
-      { "label": "2022", "value": 0.909, "era": "DEM", "pm": "" },
-      { "label": "2023", "value": 1.57, "era": "DEM", "pm": "" },
-      { "label": "2024", "value": 1.427, "era": "DEM", "pm": "" },
-      { "label": "2025", "value": 1.505, "era": "DEM", "pm": "" }
+      {
+        "label": "2014",
+        "value": 1.45,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 1.781,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 1.591,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 1.622,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 1.239,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 1.502,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 1.206,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 0.794,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 0.909,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 1.57,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 1.427,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2025",
+        "value": 1.505,
+        "era": "DEM",
+        "pm": ""
+      }
     ],
     "stats": {
       "current": 1.505,
@@ -65,6 +125,8 @@
     }
   },
   "eras": {
-    "DEM": { "name": "Official data" }
+    "DEM": {
+      "name": "Official data"
+    }
   }
 }

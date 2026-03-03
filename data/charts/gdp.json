@@ -1,31 +1,126 @@
 {
   "config": {
     "unit": "USD",
-    "yMax": 8000,
-    "gridSteps": 8,
+    "yMax": 10000,
+    "gridSteps": 4,
     "decimals": 0,
     "timeRange": "2014 — 2024",
     "data": [
-      { "label": "2014", "value": 3290, "era": "DEM", "pm": "" },
-      { "label": "2015", "value": 2750, "era": "DEM", "pm": "" },
-      { "label": "2016", "value": 2847, "era": "DEM", "pm": "" },
-      { "label": "2017", "value": 3453, "era": "DEM", "pm": "" },
-      { "label": "2018", "value": 4156, "era": "DEM", "pm": "" },
-      { "label": "2019", "value": 4405, "era": "DEM", "pm": "" },
-      { "label": "2020", "value": 4376, "era": "DEM", "pm": "" },
-      { "label": "2021", "value": 5275, "era": "DEM", "pm": "" },
-      { "label": "2022", "value": 5744, "era": "DEM", "pm": "" },
-      { "label": "2023", "value": 6800, "era": "DEM", "pm": "" },
-      { "label": "2024", "value": 7576, "era": "DEM", "pm": "" }
+      {
+        "label": "2014",
+        "value": 3290,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 2750,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 2847,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 3453,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 4156,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 4405,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 4376,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 5275,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 5744,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 6800,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 7576,
+        "era": "DEM",
+        "pm": ""
+      }
     ],
-    "stats": { "current": 7576, "lowest": 2750, "peak": 7576, "change": "+130%" },
+    "stats": {
+      "current": 7576,
+      "lowest": 2750,
+      "peak": 7576,
+      "change": "+130%"
+    },
     "events": [],
     "i18n": {
-      "ro": { "title": "Produsul Intern Brut (PIB)", "subtitle": "Evoluția economică a țării, în prețuri curente de piață", "current": "Actual", "lowest": "Minim", "peak": "Vârf", "change": "Variație", "events": "Sursa datelor", "replay": "Reluare" },
-      "en": { "title": "Gross Domestic Product (GDP)", "subtitle": "The country's economic evolution, in current market prices", "current": "Current", "lowest": "Lowest", "peak": "Peak", "change": "Change", "events": "Data source", "replay": "Replay" },
-      "ru": { "title": "Валовой внутренний продукт (ВВП)", "subtitle": "Экономическое развитие страны в текущих рыночных ценах", "current": "Текущий", "lowest": "Минимум", "peak": "Пик", "change": "Изменение", "events": "Источник данных", "replay": "Повтор" }
+      "ro": {
+        "title": "Produsul Intern Brut (PIB)",
+        "subtitle": "Evoluția economică a țării, în prețuri curente de piață",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Gross Domestic Product (GDP)",
+        "subtitle": "The country's economic evolution, in current market prices",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Валовой внутренний продукт (ВВП)",
+        "subtitle": "Экономическое развитие страны в текущих рыночных ценах",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
     },
-    "source": { "name": "World Bank Open Data", "url": "https://api.worldbank.org/v2/country/MDA/indicator/NY.GDP.PCAP.CD?format=json&per_page=100", "indicator": "NY.GDP.PCAP.CD" }
+    "source": {
+      "name": "World Bank Open Data",
+      "url": "https://api.worldbank.org/v2/country/MDA/indicator/NY.GDP.PCAP.CD?format=json&per_page=100",
+      "indicator": "NY.GDP.PCAP.CD"
+    }
   },
-  "eras": { "DEM": { "name": "Official data" } }
+  "eras": {
+    "DEM": {
+      "name": "Official data"
+    }
+  }
 }

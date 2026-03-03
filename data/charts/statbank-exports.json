@@ -2,7 +2,7 @@
   "config": {
     "unit": "mil. USD",
     "yMax": 5000000,
-    "gridSteps": 5,
+    "gridSteps": 4,
     "decimals": 0,
     "timeRange": "1997 — 2024",
     "data": [

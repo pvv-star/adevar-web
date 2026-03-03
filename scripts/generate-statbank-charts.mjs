@@ -12,6 +12,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createClient } from '@supabase/supabase-js';
+import { niceCeiling, chooseGridSteps, chooseDecimals } from '../lib/chart-utils.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -48,35 +49,6 @@ function getSupabase() {
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
-}
-
-/** Round up to a "nice" ceiling for yMax */
-function niceCeiling(peak) {
-  if (peak <= 0) return 10;
-  const magnitude = Math.pow(10, Math.floor(Math.log10(peak)));
-  const normalized = peak / magnitude;
-  let nice;
-  if (normalized <= 1.2) nice = 1.5;
-  else if (normalized <= 2) nice = 2;
-  else if (normalized <= 3) nice = 3;
-  else if (normalized <= 5) nice = 5;
-  else if (normalized <= 7.5) nice = 8;
-  else nice = 10;
-  return nice * magnitude;
-}
-
-/** Choose grid steps based on yMax */
-function chooseGridSteps(yMax) {
-  for (const steps of [5, 6, 7, 8]) {
-    if (yMax % steps === 0) return steps;
-  }
-  return 5;
-}
-
-/** Choose decimal places based on unit */
-function chooseDecimals(unit) {
-  if (unit === '%') return 1;
-  return 0; // MDL, persons, mil. MDL, mil. USD
 }
 
 /** Format change percentage */
