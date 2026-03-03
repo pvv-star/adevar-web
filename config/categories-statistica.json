@@ -32,7 +32,13 @@
         "gdp",
         "exchange",
         "remittances",
-        "unemployment"
+        "unemployment",
+        "statbank-gdp",
+        "statbank-gdp-growth",
+        "statbank-industrial-production",
+        "statbank-salary",
+        "statbank-exports",
+        "statbank-imports"
       ]
     },
     {
@@ -48,7 +54,9 @@
         "births-sex",
         "population",
         "emigration",
-        "urbanization"
+        "urbanization",
+        "statbank-population",
+        "statbank-unemployment"
       ]
     },
     {
@@ -63,6 +71,22 @@
       "subjects": [
         "internet",
         "roads"
+      ]
+    },
+    {
+      "id": "prices",
+      "label": {
+        "ro": "Prețuri",
+        "en": "Prices",
+        "ru": "Цены"
+      },
+      "icon": "tag",
+      "priority": "mvp",
+      "subjects": [
+        "statbank-cpi",
+        "statbank-cpi-food",
+        "statbank-cpi-nonfood",
+        "statbank-cpi-services"
       ]
     },
     {
@@ -109,8 +133,10 @@
         "ru": "Сельское хозяйство"
       },
       "icon": "sprout",
-      "priority": "phase2",
-      "subjects": []
+      "priority": "mvp",
+      "subjects": [
+        "statbank-agriculture"
+      ]
     },
     {
       "id": "industry",

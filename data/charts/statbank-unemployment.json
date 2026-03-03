@@ -1,0 +1,95 @@
+{
+  "config": {
+    "unit": "%",
+    "yMax": 8,
+    "gridSteps": 8,
+    "decimals": 1,
+    "timeRange": "2019 — 2024",
+    "data": [
+      {
+        "label": "2019",
+        "value": 5.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 3.8,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 3.2,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 3.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 4.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 4,
+        "era": "BNS",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 4,
+      "lowest": 3.1,
+      "peak": 5.1,
+      "change": "-21.6%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Rata șomajului (media anuală)",
+        "subtitle": "Rata șomajului (media anuală)",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Unemployment Rate (annual average)",
+        "subtitle": "Unemployment Rate (annual average)",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Уровень безработицы (среднегодовой)",
+        "subtitle": "Уровень безработицы (среднегодовой)",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "Biroul Național de Statistică (StatBank)",
+      "url": "https://statbank.statistica.md/PxWeb/pxweb/ro/30%20Statistica%20sociala/30%20Statistica%20sociala__03%20FM__03%20MUN__MUN060/MUN160100.px/"
+    }
+  },
+  "eras": {
+    "BNS": {
+      "name": "BNS StatBank"
+    }
+  }
+}

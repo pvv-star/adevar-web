@@ -1,0 +1,149 @@
+{
+  "config": {
+    "unit": "%",
+    "yMax": 150,
+    "gridSteps": 5,
+    "decimals": 1,
+    "timeRange": "2011 — 2025",
+    "data": [
+      {
+        "label": "2011",
+        "value": 113.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2012",
+        "value": 97.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2013",
+        "value": 108.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2014",
+        "value": 107.3,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 100.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 100.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 103.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 103.7,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 102,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 94.5,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 112.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 94.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 96.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 98.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2025",
+        "value": 105.4,
+        "era": "BNS",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 105.4,
+      "lowest": 94.5,
+      "peak": 113.4,
+      "change": "-7.1%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Indicele producției industriale (an prec. = 100)",
+        "subtitle": "Indicele producției industriale (an prec. = 100)",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Industrial Production Index (prev year = 100)",
+        "subtitle": "Industrial Production Index (prev year = 100)",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Индекс промышленного производства (пред. год = 100)",
+        "subtitle": "Индекс промышленного производства (пред. год = 100)",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "Biroul Național de Statistică (StatBank)",
+      "url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__14%20IND__IND010__serii%20anuale/IND010100.px/"
+    }
+  },
+  "eras": {
+    "BNS": {
+      "name": "BNS StatBank"
+    }
+  }
+}

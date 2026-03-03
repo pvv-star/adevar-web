@@ -25,7 +25,8 @@
     "deploy:prod:safe": "bash scripts/boss-deploy.sh",
     "news:pipeline": "node scripts/news-pipeline.mjs",
     "tokens:sync": "node scripts/sync-ui-tokens.mjs",
-    "sync:statbank": "node scripts/sync-statbank.mjs"
+    "sync:statbank": "node scripts/sync-statbank.mjs",
+    "generate:statbank-charts": "node scripts/generate-statbank-charts.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",

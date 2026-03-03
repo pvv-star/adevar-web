@@ -160,6 +160,15 @@ async function main() {
   console.log(`\n📊 Summary: ${results.ok} ok, ${results.failed} failed, ${results.skipped} skipped, ${results['dry-run']} dry-run`);
   console.log('');
 
+  // Auto-generate chart JSONs after successful sync
+  if (results.ok > 0 && !DRY_RUN) {
+    console.log('🔄 Generating chart JSON files from synced data...\n');
+    const { generateAllCharts } = await import('./generate-statbank-charts.mjs');
+    const chartResults = await generateAllCharts();
+    console.log(`\n📋 Charts: ${chartResults.ok} generated, ${chartResults.failed} failed, ${chartResults.skipped} skipped`);
+    console.log('');
+  }
+
   if (results.failed > 0) process.exitCode = 1;
 }
 
