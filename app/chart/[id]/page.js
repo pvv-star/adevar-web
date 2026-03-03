@@ -20,13 +20,24 @@ export async function generateMetadata({ params }) {
   }
   const title = `${chart.ro} — adevar.ai`;
   const description = chart.desc?.ro || chart.desc?.en || '';
+  const chartUrl = `https://www.adevar.ai/chart/${id}`;
+  const ogImage = `https://www.adevar.ai/api/og/${id}`;
   return {
     title,
     description,
+    alternates: { canonical: chartUrl },
     openGraph: {
       title,
       description,
-      images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
+      url: chartUrl,
+      type: 'article',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: chart.ro }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
     },
   };
 }

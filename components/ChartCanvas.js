@@ -1,11 +1,15 @@
 'use client';
-import { useMemo, useRef, useEffect, useCallback } from 'react';
+import { useMemo, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 import { useLang } from '@/contexts/LangContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { initChart } from '@/lib/engine';
 
-export default function ChartCanvas({ config, eras }) {
+const ChartCanvas = forwardRef(function ChartCanvas({ config, eras }, ref) {
   const canvasRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    get canvas() { return canvasRef.current; },
+  }), []);
   const cleanupRef = useRef(null);
   const apiRef = useRef(null);
   const { lang, t } = useLang();
@@ -90,4 +94,6 @@ export default function ChartCanvas({ config, eras }) {
       </div>
     </div>
   );
-}
+});
+
+export default ChartCanvas;
