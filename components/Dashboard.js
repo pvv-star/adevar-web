@@ -182,7 +182,12 @@ export default function Dashboard() {
                   key={c.id}
                   href={`/chart/${c.id}`}
                   label={c[lang] || c.en}
-                  stat={{ ...stat, date: stat.date?.[lang] || stat.date?.en || '' }}
+                  stat={{
+                    ...stat,
+                    date: stat.date?.[lang] || stat.date?.en || '',
+                    sparkline: stat.sparkline,
+                    changeFrom: stat.changeFrom,
+                  }}
                   lastUpdateLabel={t('lastUpdate')}
                   upArrow={upArrow}
                   downArrow={downArrow}

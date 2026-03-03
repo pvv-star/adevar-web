@@ -44,14 +44,25 @@ function buildFromApiSeries(chartId, payload) {
   const decimals = chartId === 'inflation' ? 1 : 2;
   const { change, dir } = formatChangePercent(firstValue, lastValue);
 
+  const sparkline = series
+    .map(p => toFiniteNumber(p?.value))
+    .filter(v => v !== null);
+
   return {
     value: formatValue(lastValue, decimals),
     unit: payload?.indicator?.unit || (chartId === 'inflation' ? '%' : ''),
     change,
     dir,
+    changeFrom: String(first?.year ?? ''),
     date: labelForYear(last?.year),
+    sparkline,
     source: 'api',
   };
+}
+
+function extractYear(label = '') {
+  const match = String(label).match(/\d{4}/);
+  return match ? match[0] : '';
 }
 
 function normalizeQuarterLabel(label = '') {
@@ -84,16 +95,25 @@ async function buildFromChartJson(chartId) {
     const to = toFiniteNumber(yl?.totalUsd);
     const computed = formatChangePercent(from, to);
     const yearLabel = String(yl?.year || 'n/a');
+    const sparkline = yearly
+      .map(p => toFiniteNumber(p?.totalUsd))
+      .filter(v => v !== null);
 
     return {
       value: formatValue(to, 1),
       unit: 'mln USD (eq)',
       change: computed.change,
       dir: computed.dir,
+      changeFrom: String(yf?.year || ''),
       date: { ro: yearLabel, en: yearLabel, ru: yearLabel },
+      sparkline,
       source: 'json',
     };
   }
+
+  const sparkline = points
+    .map(p => toFiniteNumber(p?.value))
+    .filter(v => v !== null);
 
   const computed = formatChangePercent(firstValue, lastValue);
   const date = normalizeQuarterLabel(last?.label || 'n/a');
@@ -103,7 +123,9 @@ async function buildFromChartJson(chartId) {
     unit: config?.unit || '',
     change: computed.change,
     dir: computed.dir,
+    changeFrom: extractYear(first?.label),
     date,
+    sparkline,
     source: 'json',
   };
 }
