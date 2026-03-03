@@ -35,7 +35,7 @@ export default function ChartPageClient({ chart, chartData }) {
   const title = chart[lang] || chart.ro;
 
   return (
-    <>
+    <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <ShareButtons
         chartId={chart.id}
         title={title}
@@ -46,6 +46,6 @@ export default function ChartPageClient({ chart, chartData }) {
         config={chartData.config}
         eras={chartData.eras}
       />
-    </>
+    </div>
   );
 }
