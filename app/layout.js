@@ -30,6 +30,13 @@ export const metadata = {
     ],
   },
   manifest: '/manifest.json',
+  alternates: {
+    languages: {
+      ro: 'https://www.adevar.ai?lang=ro',
+      en: 'https://www.adevar.ai?lang=en',
+      ru: 'https://www.adevar.ai?lang=ru',
+    },
+  },
 };
 
 const jsonLd = {

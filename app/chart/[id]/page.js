@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-static';
 
+const BASE = 'https://www.adevar.ai';
+
 export async function generateStaticParams() {
   // Include all charts (active + soon) for SSG
   const { CHARTS } = await import('@/lib/charts');
@@ -20,12 +22,19 @@ export async function generateMetadata({ params }) {
   }
   const title = `${chart.ro} — adevar.ai`;
   const description = chart.desc?.ro || chart.desc?.en || '';
-  const chartUrl = `https://www.adevar.ai/chart/${id}`;
-  const ogImage = `https://www.adevar.ai/api/og/${id}`;
+  const chartUrl = `${BASE}/chart/${id}`;
+  const ogImage = `${BASE}/api/og/${id}`;
   return {
     title,
     description,
-    alternates: { canonical: chartUrl },
+    alternates: {
+      canonical: chartUrl,
+      languages: {
+        ro: `${chartUrl}?lang=ro`,
+        en: `${chartUrl}?lang=en`,
+        ru: `${chartUrl}?lang=ru`,
+      },
+    },
     openGraph: {
       title,
       description,
@@ -42,6 +51,45 @@ export async function generateMetadata({ params }) {
   };
 }
 
+function buildDatasetJsonLd(chart, chartData) {
+  const chartUrl = `${BASE}/chart/${chart.id}`;
+  const config = chartData?.config;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: chart.en || chart.ro,
+    description: chart.desc?.en || chart.desc?.ro || '',
+    url: chartUrl,
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    creator: {
+      '@type': 'Organization',
+      name: 'National Bureau of Statistics of the Republic of Moldova',
+      url: 'https://statistica.gov.md',
+    },
+  };
+
+  if (config?.timeRange) {
+    // timeRange is like "2014 — 2024", convert to ISO 8601 interval
+    const cleaned = config.timeRange.replace(/\s*[—–-]\s*/g, '/');
+    jsonLd.temporalCoverage = cleaned;
+  }
+
+  if (config?.unit) {
+    jsonLd.variableMeasured = config.unit;
+  }
+
+  if (config?.source?.url) {
+    jsonLd.distribution = {
+      '@type': 'DataDownload',
+      contentUrl: config.source.url,
+      encodingFormat: 'application/json',
+    };
+  }
+
+  return jsonLd;
+}
+
 export default async function ChartPage({ params }) {
   const { id } = await params;
   const chart = getChartById(id);
@@ -50,10 +98,20 @@ export default async function ChartPage({ params }) {
   // For coming-soon charts, pass null data
   const chartData = chart.soon ? null : await getChartData(id);
 
+  const datasetJsonLd = chartData ? buildDatasetJsonLd(chart, chartData) : null;
+
   return (
-    <ChartPageClient
-      chart={chart}
-      chartData={chartData}
-    />
+    <>
+      {datasetJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetJsonLd) }}
+        />
+      )}
+      <ChartPageClient
+        chart={chart}
+        chartData={chartData}
+      />
+    </>
   );
 }

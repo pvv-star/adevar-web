@@ -13,6 +13,13 @@ export function LangProvider({ children }) {
   const [lang, setLangState] = useState('ro');
 
   useEffect(() => {
+    // Query param takes priority (for hreflang SEO URLs like ?lang=en)
+    const params = new URLSearchParams(window.location.search);
+    const paramLang = params.get('lang');
+    if (paramLang && I18N[paramLang]) {
+      setLang(paramLang);
+      return;
+    }
     const saved = storageGet('adevar-lang');
     if (saved && I18N[saved]) setLangState(saved);
   }, []);
