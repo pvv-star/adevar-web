@@ -10,7 +10,7 @@
     "name_en": "Gross Domestic Product (current prices)",
     "name_ru": "Валовой внутренний продукт (текущие цены)",
     "unit": "mil. MDL",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__13%20CNT__CNT210__Resurse/CNT210066.px/"
   },
@@ -24,7 +24,7 @@
     "name_en": "Real GDP Growth (%)",
     "name_ru": "Рост реального ВВП (%)",
     "unit": "%",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__13%20CNT__CNT208/CNT208100.px/"
   },
@@ -38,7 +38,7 @@
     "name_en": "Consumer Price Index (Dec prev year = 100)",
     "name_ru": "Индекс потребительских цен (дек. пред. года = 100)",
     "unit": "%",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
   },
@@ -52,7 +52,7 @@
     "name_en": "Industrial Production Index (prev year = 100)",
     "name_ru": "Индекс промышленного производства (пред. год = 100)",
     "unit": "%",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__14%20IND__IND010__serii%20anuale/IND010100.px/"
   },
@@ -69,7 +69,7 @@
     "name_en": "Average Monthly Gross Salary",
     "name_ru": "Средняя месячная заработная плата (брутто)",
     "unit": "MDL",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/30%20Statistica%20sociala/30%20Statistica%20sociala__03%20FM__SAL010__serii%20anuale/SAL010100.px/"
   },
@@ -85,7 +85,7 @@
     "name_en": "Unemployment Rate (annual average)",
     "name_ru": "Уровень безработицы (среднегодовой)",
     "unit": "%",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/30%20Statistica%20sociala/30%20Statistica%20sociala__03%20FM__03%20MUN__MUN060/MUN160100.px/"
   },
@@ -100,7 +100,7 @@
     "name_en": "Total Exports",
     "name_ru": "Общий экспорт",
     "unit": "mil. USD",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__21%20EXT__EXT010__serii%20anuale/EXT010100.px/"
   },
@@ -115,7 +115,7 @@
     "name_en": "Total Imports",
     "name_ru": "Общий импорт",
     "unit": "mil. USD",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__21%20EXT__EXT010__serii%20anuale/EXT010100.px/"
   },
@@ -131,7 +131,7 @@
     "name_en": "Total Agricultural Production",
     "name_ru": "Общий объём сельскохозяйственного производства",
     "unit": "mil. MDL",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__16%20AGR__AGR010/AGR010100.px/"
   },
@@ -146,7 +146,7 @@
     "name_en": "Resident Population",
     "name_ru": "Население с обычным местом жительства",
     "unit": "persons",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/20%20Populatia%20si%20procesele%20demografice/20%20Populatia%20si%20procesele%20demografice__POP010__POPro/POP010100rcl.px/"
   },
@@ -160,7 +160,7 @@
     "name_en": "CPI — Food Products (Dec prev year = 100)",
     "name_ru": "ИПЦ — продовольственные товары (дек. пред. года = 100)",
     "unit": "%",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
   },
@@ -174,7 +174,7 @@
     "name_en": "CPI — Non-food Goods (Dec prev year = 100)",
     "name_ru": "ИПЦ — непродовольственные товары (дек. пред. года = 100)",
     "unit": "%",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
   },
@@ -188,7 +188,7 @@
     "name_en": "CPI — Services (Dec prev year = 100)",
     "name_ru": "ИПЦ — услуги (дек. пред. года = 100)",
     "unit": "%",
-    "frequency": "annual",
+    "frequency": "yearly",
     "source_name": "Biroul Național de Statistică (StatBank)",
     "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
   }

@@ -8,14 +8,37 @@
  *   node scripts/sync-statbank.mjs --dry-run   # test API + parsing, no DB writes
  */
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createClient } from '@supabase/supabase-js';
 import { fetchTable, parseJsonStat2 } from '../lib/statbank.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = resolve(__dirname, '..');
 const DRY_RUN = process.argv.includes('--dry-run');
+
+// Load .env.local (same file Next.js reads) without external dependencies
+function loadEnvFile(filePath) {
+  if (!existsSync(filePath)) return;
+  const lines = readFileSync(filePath, 'utf-8').split('\n');
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eqIdx = trimmed.indexOf('=');
+    if (eqIdx === -1) continue;
+    const key = trimmed.slice(0, eqIdx).trim();
+    let val = trimmed.slice(eqIdx + 1).trim();
+    // Strip surrounding quotes
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    if (!process.env[key]) process.env[key] = val;
+  }
+}
+
+loadEnvFile(resolve(ROOT, '.env.local'));
+loadEnvFile(resolve(ROOT, '.env'));
 
 // --- Supabase client (mirrors lib/supabase-server.js for standalone script) ---
 
@@ -74,6 +97,7 @@ async function syncIndicator(supabase, config) {
         slug,
         name: name_ro,
         unit,
+        frequency,
         update_frequency: frequency,
         source_name,
         source_url,

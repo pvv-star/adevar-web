@@ -43,6 +43,7 @@ export async function GET(request) {
             slug: config.slug,
             name: config.name_ro,
             unit: config.unit,
+            frequency: config.frequency,
             update_frequency: config.frequency,
             source_name: config.source_name,
             source_url: config.source_url,
