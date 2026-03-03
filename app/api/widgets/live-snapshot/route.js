@@ -78,7 +78,7 @@ export async function GET(request) {
         fx,
         weather,
       },
-      { status: 200, headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120' } }
+      { status: 200, headers: { 'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=300' } }
     );
   } catch (err) {
     console.error('[api] live-snapshot failed:', err?.message || err);

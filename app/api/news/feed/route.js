@@ -44,7 +44,9 @@ export async function GET(request) {
     const items = hasMore ? rows.slice(0, limit) : rows;
     const nextCursor = hasMore ? items[items.length - 1]?.published_at : null;
 
-    return NextResponse.json({ ok: true, items, nextCursor, hasMore, range, ...DATA_GOVERNANCE });
+    return NextResponse.json({ ok: true, items, nextCursor, hasMore, range, ...DATA_GOVERNANCE }, {
+      headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' },
+    });
   } catch (err) {
     console.error('[api] news-feed failed:', err?.message || err);
     return NextResponse.json(notAvailableResponse(), { status: 200 });

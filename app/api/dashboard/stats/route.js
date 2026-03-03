@@ -12,7 +12,7 @@ export async function GET(request) {
     const payload = await getDashboardStats();
     return NextResponse.json(payload, {
       status: 200,
-      headers: { 'Cache-Control': 'no-store' },
+      headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' },
     });
   } catch (err) {
     console.error('[api] dashboard-stats failed:', err?.message || err);
