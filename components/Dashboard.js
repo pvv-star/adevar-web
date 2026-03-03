@@ -62,7 +62,7 @@ export default function Dashboard() {
             throw new Error(data?.details || data?.error || 'Failed to load dashboard stats');
           }
           return data;
-        }, { ttl: 60_000, swr: 120_000 });
+        }, { ttl: 300_000, swr: 600_000 });
 
         setLiveStats(payload?.stats || {});
       } catch (error) {

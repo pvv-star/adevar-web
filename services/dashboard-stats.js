@@ -108,29 +108,32 @@ async function buildFromChartJson(chartId) {
   };
 }
 
+async function fetchSingleStat(slug) {
+  try {
+    const payload = await getIndicatorSeriesBySlug(slug, { from: 2018 });
+    const apiStat = buildFromApiSeries(slug, payload);
+    if (apiStat) return apiStat;
+  } catch {
+    // fallback to JSON below
+  }
+
+  return buildFromChartJson(slug);
+}
+
 export async function getDashboardStats() {
   const charts = getActiveCharts();
+
+  const results = await Promise.allSettled(
+    charts.map(c => fetchSingleStat(c.id))
+  );
+
   const stats = {};
-
-  for (const chart of charts) {
-    const slug = chart.id;
-
-    try {
-      const payload = await getIndicatorSeriesBySlug(slug, { from: 2018 });
-      const apiStat = buildFromApiSeries(slug, payload);
-      if (apiStat) {
-        stats[slug] = apiStat;
-        continue;
-      }
-    } catch {
-      // fallback to JSON below
+  charts.forEach((c, i) => {
+    const r = results[i];
+    if (r.status === 'fulfilled' && r.value) {
+      stats[c.id] = r.value;
     }
-
-    const jsonStat = await buildFromChartJson(slug);
-    if (jsonStat) {
-      stats[slug] = jsonStat;
-    }
-  }
+  });
 
   return {
     updatedAt: new Date().toISOString(),
