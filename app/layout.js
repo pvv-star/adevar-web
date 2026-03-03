@@ -1,5 +1,6 @@
 import './globals.css';
 import { Onest } from 'next/font/google';
+import Script from 'next/script';
 import ClientLayout from './ClientLayout';
 
 const onest = Onest({
@@ -71,6 +72,16 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
+      <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-9M4BK1H7K3"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-9M4BK1H7K3');`}
+        </Script>
       <body className={onest.className}>
         <ClientLayout>{children}</ClientLayout>
       </body>
