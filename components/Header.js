@@ -7,6 +7,7 @@ import { useLang } from '@/contexts/LangContext';
 import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
 import { getChartById, CATEGORIES, CHARTS } from '@/lib/charts';
 import SearchModal from './SearchModal';
+import Logo from './Logo';
 
 
 export default function Header({ onNavToggle }) {
@@ -107,9 +108,7 @@ export default function Header({ onNavToggle }) {
           </button>
         ) : null}
         <Link className="brand" href="/">
-          <span className="brand-name">adevar</span>
-          <span className="brand-dot">.</span>
-          <span className="brand-ext">ai</span>
+          <Logo height={36} />
         </Link>
         <label className="sr-only" htmlFor="header-category-switch">{t('category')}</label>
         <select
