@@ -1,0 +1,195 @@
+[
+  {
+    "slug": "statbank-gdp",
+    "statbankTable": "40 Statistica economica/13 CNT/CNT210/Resurse/CNT210066.px",
+    "query": [
+      { "code": "Activitati economice", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Preturi", "selection": { "filter": "item", "values": ["1"] } }
+    ],
+    "name_ro": "Produsul Intern Brut (prețuri curente)",
+    "name_en": "Gross Domestic Product (current prices)",
+    "name_ru": "Валовой внутренний продукт (текущие цены)",
+    "unit": "mil. MDL",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__13%20CNT__CNT210__Resurse/CNT210066.px/"
+  },
+  {
+    "slug": "statbank-gdp-growth",
+    "statbankTable": "40 Statistica economica/13 CNT/CNT208/CNT208100.px",
+    "query": [
+      { "code": "Indicatori", "selection": { "filter": "item", "values": ["06"] } }
+    ],
+    "name_ro": "Creșterea PIB real (%)",
+    "name_en": "Real GDP Growth (%)",
+    "name_ru": "Рост реального ВВП (%)",
+    "unit": "%",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__13%20CNT__CNT208/CNT208100.px/"
+  },
+  {
+    "slug": "statbank-cpi",
+    "statbankTable": "40 Statistica economica/05 PRE/PRE010/serii anuale/PRE010200.px",
+    "query": [
+      { "code": "Grupe majore", "selection": { "filter": "item", "values": ["0"] } }
+    ],
+    "name_ro": "Indicele prețurilor de consum (dec. an prec. = 100)",
+    "name_en": "Consumer Price Index (Dec prev year = 100)",
+    "name_ru": "Индекс потребительских цен (дек. пред. года = 100)",
+    "unit": "%",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
+  },
+  {
+    "slug": "statbank-industrial-production",
+    "statbankTable": "40 Statistica economica/14 IND/IND010/serii anuale/IND010100.px",
+    "query": [
+      { "code": "Activitati economice", "selection": { "filter": "item", "values": ["0"] } }
+    ],
+    "name_ro": "Indicele producției industriale (an prec. = 100)",
+    "name_en": "Industrial Production Index (prev year = 100)",
+    "name_ru": "Индекс промышленного производства (пред. год = 100)",
+    "unit": "%",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__14%20IND__IND010__serii%20anuale/IND010100.px/"
+  },
+  {
+    "slug": "statbank-salary",
+    "statbankTable": "30 Statistica sociala/03 FM/SAL010/serii anuale/SAL010100.px",
+    "query": [
+      { "code": "Activitati economice", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Sector", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Indicatori", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Sexe", "selection": { "filter": "item", "values": ["0"] } }
+    ],
+    "name_ro": "Salariul mediu lunar brut",
+    "name_en": "Average Monthly Gross Salary",
+    "name_ru": "Средняя месячная заработная плата (брутто)",
+    "unit": "MDL",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/30%20Statistica%20sociala/30%20Statistica%20sociala__03%20FM__SAL010__serii%20anuale/SAL010100.px/"
+  },
+  {
+    "slug": "statbank-unemployment",
+    "statbankTable": "30 Statistica sociala/03 FM/03 MUN/MUN060/MUN160100.px",
+    "query": [
+      { "code": "Sexe", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Medii", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Trimestre", "selection": { "filter": "item", "values": ["0"] } }
+    ],
+    "name_ro": "Rata șomajului (media anuală)",
+    "name_en": "Unemployment Rate (annual average)",
+    "name_ru": "Уровень безработицы (среднегодовой)",
+    "unit": "%",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/30%20Statistica%20sociala/30%20Statistica%20sociala__03%20FM__03%20MUN__MUN060/MUN160100.px/"
+  },
+  {
+    "slug": "statbank-exports",
+    "statbankTable": "40 Statistica economica/21 EXT/EXT010/serii anuale/EXT010100.px",
+    "query": [
+      { "code": "Indicatori", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Grupe de tari", "selection": { "filter": "item", "values": ["0"] } }
+    ],
+    "name_ro": "Exporturi totale",
+    "name_en": "Total Exports",
+    "name_ru": "Общий экспорт",
+    "unit": "mil. USD",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__21%20EXT__EXT010__serii%20anuale/EXT010100.px/"
+  },
+  {
+    "slug": "statbank-imports",
+    "statbankTable": "40 Statistica economica/21 EXT/EXT010/serii anuale/EXT010100.px",
+    "query": [
+      { "code": "Indicatori", "selection": { "filter": "item", "values": ["1"] } },
+      { "code": "Grupe de tari", "selection": { "filter": "item", "values": ["0"] } }
+    ],
+    "name_ro": "Importuri totale",
+    "name_en": "Total Imports",
+    "name_ru": "Общий импорт",
+    "unit": "mil. USD",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__21%20EXT__EXT010__serii%20anuale/EXT010100.px/"
+  },
+  {
+    "slug": "statbank-agriculture",
+    "statbankTable": "40 Statistica economica/16 AGR/AGR010/AGR010100.px",
+    "query": [
+      { "code": "Ramuri ale agriculturii", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Categorii de gospodarii", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Unitatea de masura", "selection": { "filter": "item", "values": ["0"] } }
+    ],
+    "name_ro": "Producția agricolă globală",
+    "name_en": "Total Agricultural Production",
+    "name_ru": "Общий объём сельскохозяйственного производства",
+    "unit": "mil. MDL",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__16%20AGR__AGR010/AGR010100.px/"
+  },
+  {
+    "slug": "statbank-population",
+    "statbankTable": "20 Populatia si procesele demografice/POP010/POPro/POP010100rcl.px",
+    "query": [
+      { "code": "Medii", "selection": { "filter": "item", "values": ["0"] } },
+      { "code": "Sexe", "selection": { "filter": "item", "values": ["0"] } }
+    ],
+    "name_ro": "Populația cu reședință obișnuită",
+    "name_en": "Resident Population",
+    "name_ru": "Население с обычным местом жительства",
+    "unit": "persons",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/20%20Populatia%20si%20procesele%20demografice/20%20Populatia%20si%20procesele%20demografice__POP010__POPro/POP010100rcl.px/"
+  },
+  {
+    "slug": "statbank-cpi-food",
+    "statbankTable": "40 Statistica economica/05 PRE/PRE010/serii anuale/PRE010200.px",
+    "query": [
+      { "code": "Grupe majore", "selection": { "filter": "item", "values": ["1"] } }
+    ],
+    "name_ro": "IPC — produse alimentare (dec. an prec. = 100)",
+    "name_en": "CPI — Food Products (Dec prev year = 100)",
+    "name_ru": "ИПЦ — продовольственные товары (дек. пред. года = 100)",
+    "unit": "%",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
+  },
+  {
+    "slug": "statbank-cpi-nonfood",
+    "statbankTable": "40 Statistica economica/05 PRE/PRE010/serii anuale/PRE010200.px",
+    "query": [
+      { "code": "Grupe majore", "selection": { "filter": "item", "values": ["2"] } }
+    ],
+    "name_ro": "IPC — mărfuri nealimentare (dec. an prec. = 100)",
+    "name_en": "CPI — Non-food Goods (Dec prev year = 100)",
+    "name_ru": "ИПЦ — непродовольственные товары (дек. пред. года = 100)",
+    "unit": "%",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
+  },
+  {
+    "slug": "statbank-cpi-services",
+    "statbankTable": "40 Statistica economica/05 PRE/PRE010/serii anuale/PRE010200.px",
+    "query": [
+      { "code": "Grupe majore", "selection": { "filter": "item", "values": ["3"] } }
+    ],
+    "name_ro": "IPC — servicii (dec. an prec. = 100)",
+    "name_en": "CPI — Services (Dec prev year = 100)",
+    "name_ru": "ИПЦ — услуги (дек. пред. года = 100)",
+    "unit": "%",
+    "frequency": "annual",
+    "source_name": "Biroul Național de Statistică (StatBank)",
+    "source_url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
+  }
+]

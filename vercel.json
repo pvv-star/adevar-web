@@ -1,5 +1,8 @@
 {
   "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in entire/*) echo 'Skipping checkpoint branch'; exit 0;; *) exit 1;; esac",
+  "crons": [
+    { "path": "/api/cron/sync-statbank", "schedule": "0 3 * * *" }
+  ],
   "headers": [
     {
       "source": "/((?!api/).*)",
