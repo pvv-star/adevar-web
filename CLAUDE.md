@@ -6,6 +6,7 @@ Economic data dashboard for the Republic of Moldova. Independent monitoring of m
 
 - `npm run build` — Build the project (always run before committing)
 - `npm run news:pipeline` — Manual news pipeline run (Vercel cron handles this every 5 min)
+- `/clean-code` — Safe codebase cleanup (scan first, ask before changing)
 
 ## Architecture
 
@@ -17,6 +18,14 @@ Economic data dashboard for the Republic of Moldova. Independent monitoring of m
 - **Deploy**: Vercel Pro, auto-deploy from `main`
 - **News sources**: 9 active RSS feeds (`config/news-sources.json`)
 - **Telegram bot**: Public channel @adevar_ai + daily digest to admin
+
+## Cost Tracking
+
+Paid services:
+- **Vercel Pro** — function invocations, bandwidth, cron jobs
+- **Supabase** — database size, API requests, bandwidth
+
+Just be aware these cost money. No restrictions — just keep it in mind.
 
 ## Vercel Cron Jobs
 
@@ -41,14 +50,11 @@ All cron routes are protected by `CRON_SECRET` (Bearer token auth).
 | Path | Purpose |
 |------|---------|
 | `config/news-sources.json` | RSS source list (add/disable sources here) |
-| `scripts/news-pipeline.mjs` | Manual pipeline fallback (same logic as cron route) |
 | `lib/telegram.js` | Telegram bot library (sendMessage, formatDailyDigest, formatIndicatorUpdate) |
 | `lib/charts.js` | Chart registry (CHARTS array) and data loaders |
 | `lib/engine.js` | Canvas chart rendering engine |
 | `lib/i18n.js` | Translation strings (RO/EN/RU) |
 | `lib/supabase-server.js` | Server-side Supabase client (service-role + anon/RLS) |
-| `lib/fetch-cache.js` | Client-side TTL + stale-while-revalidate cache |
-| `lib/server-rate-limit.js` | In-memory per-IP rate limiter for API routes |
 | `components/Dashboard.js` | Homepage layout (news widget, chart spotlight) |
 | `app/news/NewsPageClient.js` | Full news page (infinite scroll, search, filters) |
 | `data/statbank-indicators.json` | StatBank indicator mappings |
@@ -95,8 +101,10 @@ All cron routes are protected by `CRON_SECRET` (Bearer token auth).
 
 ## Morning Checklist
 
-When I say "morning check" or "status", run these:
-1. `curl -s https://www.adevar.ai/api/health/news` — pipeline health
-2. `git status` — any uncommitted changes
-3. Check recent `news_runs` for errors
-4. Report any issues found
+When I say "morning check", "status", or "bună dimineața":
+1. Check pipeline health: `curl -s https://www.adevar.ai/api/health/news`
+2. Check git status for uncommitted changes
+3. Query news_errors table for last 24h failures
+4. Query news_runs for last 5 runs — show status and counts
+5. Check if any RSS sources have been failing consistently
+6. Give me a one-paragraph summary: what's working, what needs attention
