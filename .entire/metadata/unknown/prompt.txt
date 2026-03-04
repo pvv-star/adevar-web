@@ -26,3 +26,39 @@ Run npm run build after changes.
 ---
 
 commit this
+
+---
+
+Add related news to individual chart pages. When a user opens a chart like /chart/gas, show tagged news articles next to the chart.
+
+## How it works:
+
+1. **Map chart slugs to news tags** in a config:
+   - Charts with slugs containing "gas", "electricity", "heating", "energy" → tag "energie"
+   - Charts with slugs containing "inflation", "gdp", "pib", "curs", "exchange", "salary" → tag "economie"  
+   - Charts with slugs containing "population", "birth", "migration", "pension" → tag "social"
+   - Create this mapping in a new file: lib/chart-tag-map.js
+
+2. **Create an API endpoint** `/api/news/by-tag?tag=energie&limit=5` that:
+   - Queries news_items from Supabase where the tags array contains the requested tag
+   - Orders by published_at DESC
+   - Returns the 5 most recent matching articles
+   - Returns: title, source_name, published_at, link, impact_score
+
+3. **Update the chart page** `app/chart/[id]/page.js` (or its client component):
+   - Import the chart-tag mapping
+   - Look up which tag matches the current chart slug
+   - Fetch related news from /api/news/by-tag?tag=X
+   - Display a "Știri relevante" (Related News) sidebar/section next to or below the chart
+   - Each news item shows: source name, title (linked), time ago, impact score
+   - If no tag matches the chart, don't show the news section
+
+4. **Styling**: 
+   - On desktop: news appears as a right sidebar next to the chart (70/30 split)
+   - On mobile: news appears below the chart
+   - Keep it clean and minimal, matching existing site design
+   - Use the existing CSS patterns from globals.css
+
+5. **News are already saved** in Supabase news_items table with a tags text[] column. The news pipeline already classifies articles using TAG_KEYWORDS. No changes needed to the pipeline.
+
+Run npm run build after all changes.

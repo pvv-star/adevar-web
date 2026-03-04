@@ -1,7 +1,7 @@
 # Session Context
 
 Session ID: unknown
-Commit Message: Commit this
+Commit Message: Add related news to individual chart pages. When a user opens a chart li
 
 ## Prompts
 
@@ -36,11 +36,69 @@ Run npm run build after changes.
 
 commit this
 
+### Prompt 4
+
+Add related news to individual chart pages. When a user opens a chart like /chart/gas, show tagged news articles next to the chart.
+
+## How it works:
+
+1. **Map chart slugs to news tags** in a config:
+   - Charts with slugs containing "gas", "electricity", "heating", "energy" → tag "energie"
+   - Charts with slugs containing "inflation", "gdp", "pib", "curs", "exchange", "salary" → tag "economie"  
+   - Charts with slugs containing "population", "birth", "migration", "pension" → tag "social"
+   - Create this mapping in a new file: lib/chart-tag-map.js
+
+2. **Create an API endpoint** `/api/news/by-tag?tag=energie&limit=5` that:
+   - Queries news_items from Supabase where the tags array contains the requested tag
+   - Orders by published_at DESC
+   - Returns the 5 most recent matching articles
+   - Returns: title, source_name, published_at, link, impact_score
+
+3. **Update the chart page** `app/chart/[id]/page.js` (or its client component):
+   - Import the chart-tag mapping
+   - Look up which tag matches the current chart slug
+   - Fetch related news from /api/news/by-tag?tag=X
+   - Display a "Știri relevante" (Related News) sidebar/section next to or below the chart
+   - Each news item shows: source name, title (linked), time ago, impact score
+   - If no tag matches the chart, don't show the news section
+
+4. **Styling**: 
+   - On desktop: news appears as a right sidebar next to the chart (70/30 split)
+   - On mobile: news appears below the chart
+   - Keep it clean and minimal, matching existing site design
+   - Use the existing CSS patterns from globals.css
+
+5. **News are already saved** in Supabase news_items table with a tags text[] column. The news pipeline already classifies articles using TAG_KEYWORDS. No changes needed to the pipeline.
+
+Run npm run build after all changes.
+
 ## Summary
 
-Committed on `main` as **947e1eb**:
+Summary of what was implemented:
 
-**fix(dashboard): tighten homepage layout and chart section**
+### 1. **`lib/chart-tag-map.js`**
+- **Energy** (→ tag `energie`): slugs containing `gas`, `electricity`, `heating`, `energy`
+- **Economy** (→ tag `economie`): slugs containing `inflation`, `gdp`, `pib`, `curs`, `exchange`, `salary`, `remittances`, `unemployment`, `statbank`
+- **Social** (→ tag `social`): slugs containing `population`, `birth`, `migration`, `pension`
+- `getTagForChartSlug(slug)` returns the tag or `null` if none match
 
-- 2 files changed: `app/globals.css`, `components/Dashboard.js`
-- Summary: less padding/margins and bottom space, duplicate chart subtitle hidden, compact chart card and link spacing, 72h default unchanged
+### 2. **API `/api/news/by-tag`**
+- Query params: `tag` (required), `limit` (default 5, max 20)
+- Allowed tags: `energie`, `economie`, `social`
+- Reads from `news_items` with Supabase `.contains('tags', [tag])`, ordered by `published_at` DESC
+- Response: `{ ok, items: [{ title, source_name, published_at, link, impact_score }] }`
+- Uses read client with service-role fallback; cache headers: `s-maxage=60, stale-while-revalidate=120`
+
+### 3. **Chart page integration**
+- **`components/ChartRelatedNews.js`**: client component that takes `chartSlug`, resolves tag via `getTagForChartSlug`, fetches `/api/news/by-tag?tag=…&limit=5`, shows “Știri relevante” (or “Related news” / “Похожие новости”) with source, title (link), time ago, impact score. Renders nothing if there is no tag or no items; shows a small skeleton while loading.
+- **`app/chart/[id]/ChartPageClient.js`**: layout wrapped in `.chart-page-with-news`; main chart area in `.chart-page-main`, `<ChartRelatedNews chartSlug={chart.id} />` added beside/below.
+
+### 4. **i18n**
+- `relatedNews`: RO “Știri relevante”, EN “Related news”, RU “Похожие новости”
+
+### 5. **Styling** (`app/globals.css`)
+- **Mobile**: single column; related news below the chart with top border and `bg-secondary`
+- **Desktop (≥1025px)**: `.chart-page-with-news` is a row; `.chart-page-main` 70%, `.chart-related-news` 30% (min 260px, max 360px), left border, scrollable
+- Reuses existing tokens (borders, text colors, accent); list uses source label, 2-line clamp on title, meta line with time ago and score
+
+`npm run build` completes successfully. Charts like `/chart/gas` or `/chart/inflation` now show the related-news block when a tag exists; charts without a mapping (e.g. some statbank or niche slugs) do not show it.
