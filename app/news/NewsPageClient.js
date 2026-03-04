@@ -119,7 +119,8 @@ export default function NewsPageClient() {
 
       if (selectedFilter === 'all') return true;
       if (selectedFilter === 'high-impact') return Number(it.impact_score || 0) >= 70;
-      return it.tags?.includes?.(selectedFilter) || it.source_slug?.toLowerCase?.().includes(selectedFilter);
+      const tagMap = { economy: 'economie', energy: 'energie', social: 'social' };
+      return it.tags?.includes(tagMap[selectedFilter]);
     });
   }, [items, query, selectedFilter]);
 

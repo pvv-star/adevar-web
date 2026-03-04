@@ -39,6 +39,21 @@ function parseRss(xml = '') {
   return items;
 }
 
+const TAG_KEYWORDS = {
+  economie: ['economie', 'pib', 'buget', 'banca', 'bnm', 'inflatie', 'salariu', 'credit', 'investitii', 'fiscal'],
+  energie: ['energie', 'gaz', 'electricitate', 'tarif', 'anre', 'termic'],
+  social: ['sanatate', 'educatie', 'pensii', 'somaj', 'populatie', 'demografie', 'migratie'],
+};
+
+function classifyTags(title = '', summary = '') {
+  const text = `${title} ${summary}`.toLowerCase();
+  const tags = [];
+  for (const [tag, keywords] of Object.entries(TAG_KEYWORDS)) {
+    if (keywords.some((k) => text.includes(k))) tags.push(tag);
+  }
+  return tags;
+}
+
 function scoreImpact(title = '', summary = '', priority = 'medium') {
   const text = `${title} ${summary}`.toLowerCase();
   let score = priority === 'high' ? 50 : priority === 'medium' ? 30 : 10;
@@ -85,6 +100,7 @@ async function run() {
           published_at: item.pubDate,
           language: source.language,
           impact_score: scoreImpact(item.title, item.description, source.priority),
+          tags: classifyTags(item.title, item.description),
           duplicate_group: duplicateGroup,
           seen_sources: [source.slug],
         };

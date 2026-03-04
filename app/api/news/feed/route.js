@@ -21,7 +21,7 @@ export async function GET(request) {
     const runQuery = (client) => {
       let q = client
         .from('news_items')
-        .select('id,title,summary,url,source_slug,published_at,impact_score,duplicate_group')
+        .select('id,title,summary,url,source_slug,published_at,impact_score,tags,duplicate_group')
         .gte('published_at', from)
         .order('published_at', { ascending: false })
         .limit(limit + 1);
