@@ -128,7 +128,7 @@ export default function Dashboard() {
                   <div className="news-time">{t('lastUpdate')}: {formatPublishedAt(it.published_at)}</div>
                 </a>
               ))}
-              <Link href="/news?range=72h" className="ctrl-btn" style={{ marginTop: 8, display: 'inline-block' }}>
+              <Link href="/news?range=72h" className="ctrl-btn" style={{ marginTop: 4, display: 'inline-block' }}>
                 {t('tapFullFeed')}
               </Link>
             </div>
@@ -140,12 +140,12 @@ export default function Dashboard() {
 
       {/* ── Random chart spotlight ── */}
       {randomChart && chartData && (
-        <div className="inst-card">
+        <div className="inst-card dash-chart-card">
           <h2 className="inst-card-title">{t('discoverChart')}</h2>
           <div className="dash-random-chart">
             <ChartCanvas config={chartData.config} eras={chartData.eras} />
           </div>
-          <Link href={`/chart/${randomChart.id}`} className="ctrl-btn" style={{ marginTop: 8, display: 'inline-block' }}>
+          <Link href={`/chart/${randomChart.id}`} className="ctrl-btn" style={{ marginTop: 4, display: 'inline-block' }}>
             {t('viewFullChart')} — {randomChart[lang] || randomChart.en}
           </Link>
         </div>
