@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useLang } from '@/contexts/LangContext';
-import { getActiveCharts, getComingSoonCharts, getChartData } from '@/lib/charts';
+import { getActiveCharts, getChartData } from '@/lib/charts';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { cachedFetch } from '@/lib/fetch-cache';
 
@@ -30,7 +30,6 @@ export default function Dashboard() {
   const [chartData, setChartData] = useState(null);
 
   const activeCharts = useMemo(() => getActiveCharts(), []);
-  const soonCharts = getComingSoonCharts();
 
   const locale = lang === 'ru' ? 'ru-MD' : lang === 'en' ? 'en-GB' : 'ro-MD';
 
@@ -118,13 +117,14 @@ export default function Dashboard() {
           <h2 className="inst-card-title">{t('newsCta')}</h2>
           {newsItems.length ? (
             <div className="news-feed-card">
-              {newsItems.map((it) => (
+              {newsItems.slice(0, 5).map((it) => (
                 <a key={it.id} href={it.url} target="_blank" rel="noreferrer" className="news-row" aria-label={`${it.title} (${t('opensNewTab')})`}>
                   <div className="news-row-top">
                     <span className="news-source">{it.source_slug}</span>
                     <span className="news-impact" title={t('impactScoreHelp')}>{Math.round(it.impact_score || 0)}/100</span>
                   </div>
                   <div className="news-title">{it.title} <span className="news-external-icon" aria-hidden="true">↗</span></div>
+                  {it.summary && <div className="news-summary">{it.summary}</div>}
                   <div className="news-time">{t('lastUpdate')}: {formatPublishedAt(it.published_at)}</div>
                 </a>
               ))}
@@ -145,24 +145,11 @@ export default function Dashboard() {
           <div className="dash-random-chart">
             <ChartCanvas config={chartData.config} eras={chartData.eras} />
           </div>
-          <Link href={`/chart/${randomChart.id}`} className="ctrl-btn" style={{ marginTop: 4, display: 'inline-block' }}>
+          <Link href={`/chart/${randomChart.id}`} className="ctrl-btn dash-chart-cta">
             {t('viewFullChart')} — {randomChart[lang] || randomChart.en}
           </Link>
         </div>
       )}
-
-      <div className="inst-card">
-        <h2 className="inst-card-title">{t('comingSoon')}</h2>
-        <div className="soon-grid">
-          {soonCharts.map((c) => (
-            <div key={c.id} className="soon-card" aria-disabled="true">
-              <div className="soon-card-icon">{c.icon}</div>
-              <div className="soon-card-name">{c[lang] || c.en}</div>
-              <span className="soon-badge">{t('plannedBadge')}</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }

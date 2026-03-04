@@ -17,7 +17,7 @@ export async function GET(request) {
     const runQuery = (client) =>
       client
         .from('news_items')
-        .select('id,title,url,source_slug,published_at,impact_score')
+        .select('id,title,url,source_slug,published_at,impact_score,summary')
         .contains('tags', [tag])
         .order('published_at', { ascending: false })
         .limit(limit);
@@ -34,6 +34,7 @@ export async function GET(request) {
       published_at: row.published_at,
       link: row.url,
       impact_score: row.impact_score ?? 0,
+      summary: row.summary ?? null,
     }));
 
     return NextResponse.json(

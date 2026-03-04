@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import crypto from 'node:crypto';
 import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { extractSummary } from '@/lib/extract-summary';
 
 export const maxDuration = 60;
 
@@ -89,16 +90,29 @@ export async function GET(request) {
       const parsed = parseRss(xml).slice(0, 50);
       fetched += parsed.length;
 
+      const urlHashes = parsed.map((i) => hash(i.link.split('?')[0]));
+      const { data: existingRows } = await supabase.from('news_items').select('url_hash').in('url_hash', urlHashes);
+      const existingSet = new Set((existingRows || []).map((r) => r.url_hash));
+      const newItems = parsed.filter((_, idx) => !existingSet.has(urlHashes[idx]));
+      const summaryResults = await Promise.allSettled(newItems.map((i) => extractSummary(i.link)));
+      const summaryByLink = {};
+      newItems.forEach((item, idx) => {
+        const r = summaryResults[idx];
+        const value = r.status === 'fulfilled' && r.value ? r.value : null;
+        summaryByLink[item.link] = value || undefined;
+      });
+
       for (const item of parsed) {
         const canonicalUrl = item.link.split('?')[0];
         const urlHash = hash(canonicalUrl);
         const titleHash = hash(item.title.toLowerCase());
         const duplicateGroup = hash(item.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').split(' ').slice(0, 8).join(' '));
+        const summaryValue = summaryByLink[item.link] ?? item.description ?? null;
 
         const payload = {
           source_slug: source.slug,
           title: item.title,
-          summary: item.description || null,
+          summary: summaryValue,
           url: item.link,
           canonical_url: canonicalUrl,
           url_hash: urlHash,
