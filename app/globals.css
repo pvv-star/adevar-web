@@ -506,16 +506,6 @@ a{color:inherit;text-decoration:none}
 .dash-stat-change.up{color:var(--positive)}
 .dash-stat-change.down{color:var(--negative)}
 
-.dash-random-chart{position:relative;border-radius:10px;overflow:hidden;min-height:200px;max-height:350px}
-.dash-random-chart .chart-container{padding:0;margin-bottom:0}
-.dash-random-chart .chart-header{margin-bottom:4px}
-.dash-random-chart .chart-header h1{font-size:16px;margin-bottom:0}
-.dash-random-chart .chart-header p{display:none}
-.dash-random-chart .chart-wrap{margin-bottom:0;padding:0}
-.inst-card.dash-chart-card{padding:12px 16px}
-.inst-card.dash-chart-card .inst-card-title{margin-bottom:6px}
-.dash-chart-cta{display:inline-block;margin-top:12px}
-
 /* ── SKELETON ── */
 .dashboard-skeleton{display:grid;gap:12px;margin:12px 0}
 .skeleton-overlay{position:absolute;inset:0;background:var(--bg-primary);display:flex;flex-direction:column;align-items:center;padding:32px;gap:16px;z-index:5;transition:opacity .3s ease}

@@ -1,20 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { useLang } from '@/contexts/LangContext';
-import { getActiveCharts, getChartData } from '@/lib/charts';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { cachedFetch } from '@/lib/fetch-cache';
-
-const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
-  ssr: false,
-  loading: () => (
-    <div className="dash-random-chart" aria-busy="true" aria-hidden="true">
-      <div className="skel-bar" style={{ width: '100%', height: 200 }}></div>
-    </div>
-  ),
-});
 
 export default function Dashboard() {
   const { lang, t } = useLang();
@@ -26,10 +15,6 @@ export default function Dashboard() {
   ];
   const [newsItems, setNewsItems] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
-  const [randomChart, setRandomChart] = useState(null);
-  const [chartData, setChartData] = useState(null);
-
-  const activeCharts = useMemo(() => getActiveCharts(), []);
 
   const locale = lang === 'ru' ? 'ru-MD' : lang === 'en' ? 'en-GB' : 'ro-MD';
 
@@ -75,16 +60,6 @@ export default function Dashboard() {
     fetchNews();
     return () => controller.abort();
   }, [newsRange]);
-
-  // Pick a random chart on mount and load its data
-  useEffect(() => {
-    if (!activeCharts.length) return;
-    const pick = activeCharts[Math.floor(Math.random() * activeCharts.length)];
-    setRandomChart(pick);
-    getChartData(pick.id).then((data) => {
-      if (data) setChartData(data);
-    });
-  }, [activeCharts]);
 
   return (
     <div className="page-scroll">
@@ -137,19 +112,6 @@ export default function Dashboard() {
           ) : (
             <div className="news-loading">{t('newsEmpty')}</div>
           )}
-        </div>
-      )}
-
-      {/* ── Random chart spotlight ── */}
-      {randomChart && chartData && (
-        <div className="inst-card dash-chart-card">
-          <h2 className="inst-card-title">{t('discoverChart')}</h2>
-          <div className="dash-random-chart">
-            <ChartCanvas config={chartData.config} eras={chartData.eras} />
-          </div>
-          <Link href={`/chart/${randomChart.id}`} className="ctrl-btn dash-chart-cta" style={{ marginTop: '8px' }}>
-            {t('viewFullChart')} — {randomChart[lang] || randomChart.en}
-          </Link>
         </div>
       )}
     </div>
