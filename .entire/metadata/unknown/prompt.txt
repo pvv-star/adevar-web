@@ -22,3 +22,7 @@ Fix homepage layout issues in components/Dashboard.js and app/globals.css:
 4. **Default time filter**: Make sure newsRange defaults to '72h' not 'Azi' — the 72h pill should be active/selected on page load.
 
 Run npm run build after changes.
+
+---
+
+commit this

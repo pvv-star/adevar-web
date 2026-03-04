@@ -1,7 +1,7 @@
 # Session Context
 
 Session ID: unknown
-Commit Message: Fix homepage layout issues in components/Dashboard.js and app/globals.cs
+Commit Message: Commit this
 
 ## Prompts
 
@@ -32,31 +32,15 @@ Fix homepage layout issues in components/Dashboard.js and app/globals.css:
 
 Run npm run build after changes.
 
+### Prompt 3
+
+commit this
+
 ## Summary
 
-Summary of changes:
+Committed on `main` as **947e1eb**:
 
-### 1. **Less whitespace** (`app/globals.css`)
-- **`.page-scroll`**: padding `32px` → `20px 24px 16px` (smaller bottom).
-- **`.inst-card`**: padding `16px` → `14px 16px`, `margin-bottom` `16px` → `10px`.
-- **`.inst-card:last-child`**: `margin-bottom: 0` so the last card doesn’t add extra space.
-- **`.inst-card-title`**: `margin-bottom` `12px` → `8px`.
-- **Mobile** (existing media query): `.page-scroll` padding set to `14px 14px 10px` for a smaller bottom.
+**fix(dashboard): tighten homepage layout and chart section**
 
-### 2. **Chart block** (`app/globals.css` + `components/Dashboard.js`)
-- **Duplicate subtitle**: `.dash-random-chart .chart-header p { display: none }` so the indicator subtitle is hidden in the dashboard chart block (only the main title stays).
-- **Tighter chart block**:
-  - `.dash-random-chart .chart-container`: `padding: 0 0 8px`.
-  - `.dash-random-chart .chart-header`: `margin-bottom: 6px`, `h1` font-size `18px`.
-  - `.dash-random-chart .chart-wrap`: `margin-bottom: 0`.
-  - **`.inst-card.dash-chart-card`**: `padding: 12px 16px` and title `margin-bottom: 6px`.
-- **Link nearer to chart**: “Deschide graficul complet” and “tap full feed” links use `marginTop: 4` instead of `8` in `Dashboard.js`.
-- Chart card in `Dashboard.js` uses `className="inst-card dash-chart-card"` so the compact styles apply.
-
-### 3. **Default time filter**
-- `newsRange` was already initialized with `useState('72h')`, so the **72h** pill is selected on load (not Azi/24h). No code change.
-
-### 4. **Build**
-- `npm run build` completed successfully.
-
-The homepage flow is now: hero → news (5 items) → one chart (compact, no duplicate subtitle, link closer) → coming soon, with less vertical spacing and no extra bottom padding.
+- 2 files changed: `app/globals.css`, `components/Dashboard.js`
+- Summary: less padding/margins and bottom space, duplicate chart subtitle hidden, compact chart card and link spacing, 72h default unchanged
