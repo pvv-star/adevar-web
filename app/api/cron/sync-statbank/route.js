@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { getSupabaseServerClient } from '@/lib/supabase-server';
 import { logDataChange } from '@/lib/data-change-log';
 import { fetchTable, parseJsonStat2 } from '@/lib/statbank';
+import { sendTelegramUpdate } from '@/lib/telegram';
 
 export const maxDuration = 60;
 
@@ -25,6 +26,7 @@ export async function GET(request) {
   }
 
   const results = { ok: 0, failed: 0, skipped: 0, errors: [] };
+  const changes = [];
 
   for (const config of indicators) {
     try {
@@ -58,6 +60,19 @@ export async function GET(request) {
 
       if (indErr) throw new Error(indErr.message);
 
+      // Detect changes: fetch existing values for the latest year
+      const latestPoint = series[series.length - 1];
+      const { data: existing } = await supabase
+        .from('indicator_values')
+        .select('value')
+        .eq('indicator_id', indicator.id)
+        .eq('year', latestPoint.year)
+        .maybeSingle();
+
+      const oldValue = existing ? Number(existing.value) : null;
+      const newValue = Number(latestPoint.value);
+      const changed = oldValue === null || oldValue !== newValue;
+
       const rows = series.map((s) => ({
         indicator_id: indicator.id,
         year: s.year,
@@ -69,6 +84,16 @@ export async function GET(request) {
         .upsert(rows, { onConflict: 'indicator_id,year' });
 
       if (valErr) throw new Error(valErr.message);
+
+      if (changed) {
+        changes.push({
+          name: config.name_ro,
+          unit: config.unit || '',
+          year: latestPoint.year,
+          value: newValue,
+          oldValue,
+        });
+      }
 
       await logDataChange({
         tableName: 'indicator_values',
@@ -87,6 +112,13 @@ export async function GET(request) {
     }
   }
 
+  // Send Telegram notification if any indicators changed
+  let telegramSent = false;
+  if (changes.length > 0) {
+    const tgResult = await sendTelegramUpdate(changes);
+    telegramSent = tgResult !== null;
+  }
+
   const status = results.failed > 0 ? 207 : 200;
-  return NextResponse.json({ ok: true, ...results }, { status });
+  return NextResponse.json({ ok: true, ...results, telegramSent, changesDetected: changes.length }, { status });
 }
