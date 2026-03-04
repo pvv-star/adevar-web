@@ -1,0 +1,409 @@
+{
+  "config": {
+    "unit": "mln",
+    "yMax": 2000,
+    "gridSteps": 4,
+    "decimals": 0,
+    "timeRange": "2000 — 2024",
+    "data": [
+      {
+        "label": "2000",
+        "value": 110.1,
+        "value2": 62.5,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2001",
+        "value": 150.2,
+        "value2": 85.2,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2002",
+        "value": 200,
+        "value2": 113.5,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2003",
+        "value": 300.1,
+        "value2": 170.3,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2004",
+        "value": 434.8,
+        "value2": 246.8,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2005",
+        "value": 567.3,
+        "value2": 322,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2006",
+        "value": 729,
+        "value2": 413.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2007",
+        "value": 924.6,
+        "value2": 524.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2008",
+        "value": 1170.6,
+        "value2": 664.3,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2009",
+        "value": 838.5,
+        "value2": 475.8,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2010",
+        "value": 1086.8,
+        "value2": 616.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2011",
+        "value": 1124.1,
+        "value2": 637.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2012",
+        "value": 1231.6,
+        "value2": 698.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2013",
+        "value": 1358.8,
+        "value2": 771.1,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2014",
+        "value": 1287.1,
+        "value2": 730.4,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 954.9,
+        "value2": 541.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 909.7,
+        "value2": 516.2,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 1015.5,
+        "value2": 576.3,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 1139.5,
+        "value2": 646.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 1184.1,
+        "value2": 672,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 1163.5,
+        "value2": 660.3,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 1314,
+        "value2": 745.7,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 1263.4,
+        "value2": 717,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 1247.4,
+        "value2": 707.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 1189,
+        "value2": 674.8,
+        "era": "DEM",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 1189,
+      "lowest": 674.8,
+      "peak": "+980%",
+      "change": "+980%"
+    },
+    "yearlyTotals": [
+      {
+        "year": 2000,
+        "usd": 110.1,
+        "eur": 62.5,
+        "totalUsd": 177.6
+      },
+      {
+        "year": 2001,
+        "usd": 150.2,
+        "eur": 85.2,
+        "totalUsd": 242.2
+      },
+      {
+        "year": 2002,
+        "usd": 200,
+        "eur": 113.5,
+        "totalUsd": 322.6
+      },
+      {
+        "year": 2003,
+        "usd": 300.1,
+        "eur": 170.3,
+        "totalUsd": 484
+      },
+      {
+        "year": 2004,
+        "usd": 434.8,
+        "eur": 246.8,
+        "totalUsd": 701.3
+      },
+      {
+        "year": 2005,
+        "usd": 567.3,
+        "eur": 322,
+        "totalUsd": 915.1
+      },
+      {
+        "year": 2006,
+        "usd": 729,
+        "eur": 413.7,
+        "totalUsd": 1175.8
+      },
+      {
+        "year": 2007,
+        "usd": 924.6,
+        "eur": 524.7,
+        "totalUsd": 1491.3
+      },
+      {
+        "year": 2008,
+        "usd": 1170.6,
+        "eur": 664.3,
+        "totalUsd": 1888
+      },
+      {
+        "year": 2009,
+        "usd": 838.5,
+        "eur": 475.8,
+        "totalUsd": 1352.4
+      },
+      {
+        "year": 2010,
+        "usd": 1086.8,
+        "eur": 616.7,
+        "totalUsd": 1752.8
+      },
+      {
+        "year": 2011,
+        "usd": 1124.1,
+        "eur": 637.9,
+        "totalUsd": 1813
+      },
+      {
+        "year": 2012,
+        "usd": 1231.6,
+        "eur": 698.9,
+        "totalUsd": 1986.4
+      },
+      {
+        "year": 2013,
+        "usd": 1358.8,
+        "eur": 771.1,
+        "totalUsd": 2191.6
+      },
+      {
+        "year": 2014,
+        "usd": 1287.1,
+        "eur": 730.4,
+        "totalUsd": 2075.9
+      },
+      {
+        "year": 2015,
+        "usd": 954.9,
+        "eur": 541.9,
+        "totalUsd": 1540.2
+      },
+      {
+        "year": 2016,
+        "usd": 909.7,
+        "eur": 516.2,
+        "totalUsd": 1467.2
+      },
+      {
+        "year": 2017,
+        "usd": 1015.5,
+        "eur": 576.3,
+        "totalUsd": 1637.9
+      },
+      {
+        "year": 2018,
+        "usd": 1139.5,
+        "eur": 646.7,
+        "totalUsd": 1837.9
+      },
+      {
+        "year": 2019,
+        "usd": 1184.1,
+        "eur": 672,
+        "totalUsd": 1909.9
+      },
+      {
+        "year": 2020,
+        "usd": 1163.5,
+        "eur": 660.3,
+        "totalUsd": 1876.6
+      },
+      {
+        "year": 2021,
+        "usd": 1314,
+        "eur": 745.7,
+        "totalUsd": 2119.4
+      },
+      {
+        "year": 2022,
+        "usd": 1263.4,
+        "eur": 717,
+        "totalUsd": 2037.8
+      },
+      {
+        "year": 2023,
+        "usd": 1247.4,
+        "eur": 707.9,
+        "totalUsd": 2011.9
+      },
+      {
+        "year": 2024,
+        "usd": 1189,
+        "eur": 674.8,
+        "totalUsd": 1917.8
+      }
+    ],
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Remitențe în Moldova: USD + EUR",
+        "subtitle": "Fluxuri anuale prin bănci (2000–2024). 2025–2026: încă nepublicate oficial.",
+        "current": "USD (ultimul an)",
+        "lowest": "EUR (ultimul an)",
+        "peak": "Schimbare USD",
+        "change": "Schimbare EUR",
+        "events": "Sursa datelor",
+        "replay": "Reluare",
+        "series1": "USD",
+        "series2": "EUR",
+        "yearlyTotalsTitle": "Total anual (echivalent USD: USD + EUR→USD)",
+        "usdLabel": "USD",
+        "eurLabel": "EUR",
+        "totalUsdLabel": "Total USD",
+        "athTitle": "An record (all-time high)"
+      },
+      "en": {
+        "title": "Remittances to Moldova: USD + EUR",
+        "subtitle": "Annual bank inflows (2000–2024). 2025–2026: not officially published yet.",
+        "current": "USD (latest year)",
+        "lowest": "EUR (latest year)",
+        "peak": "USD change",
+        "change": "EUR change",
+        "events": "Data source",
+        "replay": "Replay",
+        "series1": "USD",
+        "series2": "EUR",
+        "yearlyTotalsTitle": "Yearly total (USD equivalent: USD + EUR→USD)",
+        "usdLabel": "USD",
+        "eurLabel": "EUR",
+        "totalUsdLabel": "Total USD",
+        "athTitle": "All-time high year"
+      },
+      "ru": {
+        "title": "Денежные переводы в Молдову: USD + EUR",
+        "subtitle": "Годовые банковские поступления (2000–2024). 2025–2026: официально не опубликованы.",
+        "current": "USD (последний год)",
+        "lowest": "EUR (последний год)",
+        "peak": "Изменение USD",
+        "change": "Изменение EUR",
+        "events": "Источник данных",
+        "replay": "Повтор",
+        "series1": "USD",
+        "series2": "EUR",
+        "yearlyTotalsTitle": "Годовой итог (экв. USD: USD + EUR→USD)",
+        "usdLabel": "USD",
+        "eurLabel": "EUR",
+        "totalUsdLabel": "Итого USD",
+        "athTitle": "Рекордный год (all-time high)"
+      }
+    },
+    "source": {
+      "name": "World Bank Open Data",
+      "url": "https://api.worldbank.org/v2/country/MDA/indicator/BX.TRF.PWKR.CD.DT?format=json&per_page=200",
+      "indicator": "BX.TRF.PWKR.CD.DT",
+      "note": "USD/EUR split is estimated for visualization; official source provides total USD only."
+    }
+  },
+  "eras": {
+    "DEM": {
+      "name": "Official data"
+    }
+  }
+}

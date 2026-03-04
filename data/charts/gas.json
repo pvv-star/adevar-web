@@ -1,0 +1,389 @@
+{
+  "config": {
+    "unit": "MDL/m³",
+    "yMax": 40,
+    "gridSteps": 4,
+    "decimals": 2,
+    "timeRange": "2014 — 2026",
+    "data": [
+      {
+        "label": "Q1 2014",
+        "value": 6.11,
+        "era": "PDM",
+        "pm": "Iurie Leancă"
+      },
+      {
+        "label": "Q3 2014",
+        "value": 6.11,
+        "era": "PDM",
+        "pm": "Iurie Leancă"
+      },
+      {
+        "label": "Q1 2015",
+        "value": 6.11,
+        "era": "PDM",
+        "pm": "Chiril Gaburici"
+      },
+      {
+        "label": "Q3 2015",
+        "value": 7.18,
+        "era": "PDM",
+        "pm": "Valeriu Streleț"
+      },
+      {
+        "label": "Q4 2015",
+        "value": 7.08,
+        "era": "PDM",
+        "pm": "Gheorghe Brega"
+      },
+      {
+        "label": "Q2 2016",
+        "value": 6.68,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q4 2016",
+        "value": 6.46,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q2 2017",
+        "value": 6.24,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q4 2017",
+        "value": 5.89,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q2 2018",
+        "value": 5.69,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q4 2018",
+        "value": 5.45,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q1 2019",
+        "value": 5.26,
+        "era": "PDM",
+        "pm": "Pavel Filip"
+      },
+      {
+        "label": "Q3 2019",
+        "value": 4.9,
+        "era": "ACUM",
+        "pm": "Maia Sandu"
+      },
+      {
+        "label": "Q4 2019",
+        "value": 4.57,
+        "era": "PSRM",
+        "pm": "Ion Chicu"
+      },
+      {
+        "label": "Q2 2020",
+        "value": 4.2,
+        "era": "PSRM",
+        "pm": "Ion Chicu"
+      },
+      {
+        "label": "Q4 2020",
+        "value": 4.2,
+        "era": "PSRM",
+        "pm": "Ion Chicu"
+      },
+      {
+        "label": "Q2 2021",
+        "value": 4.2,
+        "era": "PSRM",
+        "pm": "Aureliu Ciocoi"
+      },
+      {
+        "label": "Q3 2021",
+        "value": 4.2,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q4 2021",
+        "value": 9.36,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q1 2022",
+        "value": 14,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q2 2022",
+        "value": 18.62,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q3 2022",
+        "value": 22.35,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q4 2022",
+        "value": 29.27,
+        "era": "PAS",
+        "pm": "Natalia Gavrilița"
+      },
+      {
+        "label": "Q1 2023",
+        "value": 25.4,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q2 2023",
+        "value": 21.06,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q3 2023",
+        "value": 18.1,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q4 2023",
+        "value": 16.7,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q2 2024",
+        "value": 15.5,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q4 2024",
+        "value": 14.92,
+        "era": "PAS",
+        "pm": "Dorin Recean"
+      },
+      {
+        "label": "Q1 2026",
+        "value": 14.42,
+        "era": "PAS",
+        "pm": "Alexandru Munteanu"
+      }
+    ],
+    "stats": {
+      "current": 14.42,
+      "lowest": 4.2,
+      "peak": 29.27,
+      "change": "+136%"
+    },
+    "events": [
+      {
+        "idx": 0,
+        "en": "Iasi-Ungheni pipeline opens",
+        "ro": "2014: Se deschide gazoductul Iași-Ungheni",
+        "ru": "2014: Открытие газопровода Яссы-Унгены"
+      },
+      {
+        "idx": 2,
+        "en": "Tariff frozen since Sep 2011",
+        "ro": "2015: Tariful înghețat din sept 2011",
+        "ru": "2015: Тариф заморожен с сент. 2011"
+      },
+      {
+        "idx": 3,
+        "en": "ANRE raises tariff +17.5%",
+        "ro": "2015: ANRE majorează tariful +17.5%",
+        "ru": "2015: ANRE повышает тариф +17.5%"
+      },
+      {
+        "idx": 4,
+        "en": "Revised tariff Nov 2015",
+        "ro": "2015: Tarif revizuit nov 2015",
+        "ru": "2015: Пересмотренный тариф нояб. 2015"
+      },
+      {
+        "idx": 5,
+        "en": "$1B bank fraud scandal",
+        "ro": "2016: Frauda bancară de $1 miliard",
+        "ru": "2016: Банковское мошенничество на $1 млрд"
+      },
+      {
+        "idx": 6,
+        "en": "Gazprom cuts import price",
+        "ro": "2016: Gazprom reduce prețul de import",
+        "ru": "2016: Газпром снижает цену импорта"
+      },
+      {
+        "idx": 7,
+        "en": "New ANRE methodology",
+        "ro": "2017: Noua metodologie ANRE",
+        "ru": "2017: Новая методология ANRE"
+      },
+      {
+        "idx": 8,
+        "en": "Gas price keeps declining",
+        "ro": "2017: Prețul gazelor continuă să scadă",
+        "ru": "2017: Цена на газ продолжает падать"
+      },
+      {
+        "idx": 9,
+        "en": "IMF requires cost-based tariffs",
+        "ro": "2018: FMI cere tarife bazate pe cost",
+        "ru": "2018: МВФ требует тарифы на основе затрат"
+      },
+      {
+        "idx": 11,
+        "en": "Plahotniuc flees, PDM collapses",
+        "ro": "2019: Plahotniuc fuge, PDM se prăbușește",
+        "ru": "2019: Плахотнюк бежит, ДПМ рушится"
+      },
+      {
+        "idx": 12,
+        "en": "ACUM coalition formed",
+        "ro": "2019: Coaliția ACUM formată",
+        "ru": "2019: Коалиция ACUM создана"
+      },
+      {
+        "idx": 13,
+        "en": "PSRM takes power",
+        "ro": "2019: PSRM preia puterea",
+        "ru": "2019: ПСРМ приходит к власти"
+      },
+      {
+        "idx": 14,
+        "en": "COVID-19 lockdown",
+        "ro": "2020: Lockdown COVID-19",
+        "ru": "2020: Локдаун COVID-19"
+      },
+      {
+        "idx": 15,
+        "en": "Lowest price in decade",
+        "ro": "2020: Cel mai mic preț din deceniu",
+        "ru": "2020: Самая низкая цена за десятилетие"
+      },
+      {
+        "idx": 16,
+        "en": "Gazprom debt audit: $709M to $8.6M",
+        "ro": "2021: Auditul datoriei Gazprom: $709M la $8.6M",
+        "ru": "2021: Аудит долга Газпрому: $709M до $8.6M"
+      },
+      {
+        "idx": 17,
+        "en": "PAS wins supermajority",
+        "ro": "2021: PAS câștigă supermajoritate",
+        "ru": "2021: PAS получает суперболь­шинство"
+      },
+      {
+        "idx": 18,
+        "en": "Gazprom crisis — supply threats",
+        "ro": "2021: Criza Gazprom — amenințări de oprire",
+        "ru": "2021: Кризис Газпрома — угрозы поставок"
+      },
+      {
+        "idx": 19,
+        "en": "Energocom emergency purchases",
+        "ro": "2022: Achiziții de urgență Energocom",
+        "ru": "2022: Экстренные закупки Energocom"
+      },
+      {
+        "idx": 20,
+        "en": "Price doubles in 3 months",
+        "ro": "2022: Prețul se dublează în 3 luni",
+        "ru": "2022: Цена удваивается за 3 месяца"
+      },
+      {
+        "idx": 21,
+        "en": "Ukraine invasion — gas supply disrupted",
+        "ro": "2022: Invazia Ucrainei — aprovizionare perturbată",
+        "ru": "2022: Вторжение в Украину — перебои с газом"
+      },
+      {
+        "idx": 22,
+        "en": "All-time peak: 29.27 MDL",
+        "ro": "2022: Vârf istoric: 29.27 MDL",
+        "ru": "2022: Исторический максимум: 29.27 MDL"
+      },
+      {
+        "idx": 25,
+        "en": "Gradual market stabilization",
+        "ro": "2023: Stabilizare treptată a pieței",
+        "ru": "2023: Постепенная стабилизация рынка"
+      },
+      {
+        "idx": 28,
+        "en": "Energocom renegotiates contracts",
+        "ro": "2024: Energocom renegociază contracte",
+        "ru": "2024: Energocom пересматривает контракты"
+      },
+      {
+        "idx": 29,
+        "en": "Current tariff: 14.42 MDL",
+        "ro": "2026: Tariful actual: 14.42 MDL",
+        "ru": "2026: Текущий тариф: 14.42 MDL"
+      }
+    ],
+    "i18n": {
+      "ro": {
+        "title": "Prețul Gazelor Naturale în Moldova",
+        "subtitle": "Tariful pentru consumatori casnici, MDL/m³ (inclusiv TVA)",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Evenimente cheie",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Natural Gas Price in Moldova",
+        "subtitle": "Household consumer tariff, MDL/m³ (incl. VAT)",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Key Events",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Цена на природный газ в Молдове",
+        "subtitle": "Тариф для бытовых потребителей, MDL/м³ (включая НДС)",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Ключевые события",
+        "replay": "Воспроизвести"
+      }
+    }
+  },
+  "eras": {
+    "PDM": {
+      "name": "PDM"
+    },
+    "ACUM": {
+      "name": "ACUM"
+    },
+    "PSRM": {
+      "name": "PSRM"
+    },
+    "PAS": {
+      "name": "PAS"
+    }
+  }
+}

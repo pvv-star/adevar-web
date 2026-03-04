@@ -1,0 +1,269 @@
+{
+  "config": {
+    "unit": "%",
+    "yMax": 5000,
+    "gridSteps": 4,
+    "decimals": 1,
+    "timeRange": "1991 — 2025",
+    "data": [
+      {
+        "label": "1991",
+        "value": 294.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1992",
+        "value": 1561,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1993",
+        "value": 3850.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1994",
+        "value": 185.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1995",
+        "value": 111.8,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1996",
+        "value": 114.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1997",
+        "value": 105.5,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1998",
+        "value": 120.7,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1999",
+        "value": 135.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2000",
+        "value": 112.5,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2001",
+        "value": 107.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2002",
+        "value": 108.2,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2003",
+        "value": 111.5,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2004",
+        "value": 111.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2005",
+        "value": 114.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2006",
+        "value": 115.7,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2007",
+        "value": 111.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2008",
+        "value": 102.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2009",
+        "value": 102.5,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2010",
+        "value": 107.7,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2011",
+        "value": 105.2,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2012",
+        "value": 103.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2013",
+        "value": 104.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2014",
+        "value": 106.5,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 114.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 103.18,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 104.07,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 101.72,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 105.16,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 99.51,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 112.06,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 119.94,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 104.61,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 104.55,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2025",
+        "value": 102.27,
+        "era": "BNS",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 102.27,
+      "lowest": 99.51,
+      "peak": 3850.1,
+      "change": "-65.3%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "IPC — mărfuri nealimentare (dec. an prec. = 100)",
+        "subtitle": "IPC — mărfuri nealimentare (dec. an prec. = 100)",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "CPI — Non-food Goods (Dec prev year = 100)",
+        "subtitle": "CPI — Non-food Goods (Dec prev year = 100)",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "ИПЦ — непродовольственные товары (дек. пред. года = 100)",
+        "subtitle": "ИПЦ — непродовольственные товары (дек. пред. года = 100)",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "Biroul Național de Statistică (StatBank)",
+      "url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__05%20PRE__PRE010__serii%20anuale/PRE010200.px/"
+    }
+  },
+  "eras": {
+    "BNS": {
+      "name": "BNS StatBank"
+    }
+  }
+}

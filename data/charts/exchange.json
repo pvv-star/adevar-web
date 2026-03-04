@@ -1,0 +1,126 @@
+{
+  "config": {
+    "unit": "MDL/USD",
+    "yMax": 25,
+    "gridSteps": 5,
+    "decimals": 2,
+    "timeRange": "2014 — 2024",
+    "data": [
+      {
+        "label": "2014",
+        "value": 14.04,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 18.82,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 19.92,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 18.5,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 16.8,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 17.57,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 17.32,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 17.68,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 18.9,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 18.16,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 17.79,
+        "era": "DEM",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 17.79,
+      "lowest": 14.04,
+      "peak": 19.92,
+      "change": "+26.8%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Cursul Valutar Oficial",
+        "subtitle": "Valoarea Leului Moldovenesc (MDL) față de valute de referință",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Official Exchange Rate",
+        "subtitle": "Value of the Moldovan Leu (MDL) against reference currencies",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Официальный обменный курс",
+        "subtitle": "Стоимость молдавского лея (MDL) по отношению к базовым валютам",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "World Bank Open Data",
+      "url": "https://api.worldbank.org/v2/country/MDA/indicator/PA.NUS.FCRF?format=json&per_page=100",
+      "indicator": "PA.NUS.FCRF"
+    }
+  },
+  "eras": {
+    "DEM": {
+      "name": "Official data"
+    }
+  }
+}

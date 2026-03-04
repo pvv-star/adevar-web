@@ -1,0 +1,136 @@
+{
+  "config": {
+    "unit": "births",
+    "yMax": 25000,
+    "gridSteps": 4,
+    "decimals": 0,
+    "timeRange": "2015 — 2024",
+    "data": [
+      {
+        "label": "2015",
+        "value": 20975,
+        "value2": 19572,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 20414,
+        "value2": 19226,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 18722,
+        "value2": 17641,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 17790,
+        "value2": 16747,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 16637,
+        "value2": 15786,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 16167,
+        "value2": 14667,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 15113,
+        "value2": 14207,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 13950,
+        "value2": 13068,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 12294,
+        "value2": 11829,
+        "era": "DEM",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 12126,
+        "value2": 11522,
+        "era": "DEM",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 12126,
+      "lowest": 12126,
+      "peak": 20975,
+      "change": "-42%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Nașteri vii în Moldova: Fete vs Băieți",
+        "subtitle": "Total țară, ultimii 10 ani disponibili (BNS StatBank)",
+        "current": "Băieți (ultimul an)",
+        "lowest": "Fete (ultimul an)",
+        "peak": "Băieți (schimbare)",
+        "change": "Fete (schimbare)",
+        "events": "Sursa datelor",
+        "replay": "Reluare",
+        "boys": "Băieți",
+        "girls": "Fete"
+      },
+      "en": {
+        "title": "Live Births in Moldova: Girls vs Boys",
+        "subtitle": "Whole country, last 10 available years (NBS StatBank)",
+        "current": "Boys (latest)",
+        "lowest": "Girls (latest)",
+        "peak": "Boys (change)",
+        "change": "Girls (change)",
+        "events": "Data source",
+        "replay": "Replay",
+        "boys": "Boys",
+        "girls": "Girls"
+      },
+      "ru": {
+        "title": "Живорождения в Молдове: девочки и мальчики",
+        "subtitle": "Вся страна, последние 10 доступных лет (НБС StatBank)",
+        "current": "Мальчики (последний год)",
+        "lowest": "Девочки (последний год)",
+        "peak": "Мальчики (изменение)",
+        "change": "Девочки (изменение)",
+        "events": "Источник данных",
+        "replay": "Повтор",
+        "boys": "Мальчики",
+        "girls": "Девочки"
+      }
+    },
+    "source": {
+      "name": "National Bureau of Statistics of the Republic of Moldova (StatBank)",
+      "url": "https://statbank.statistica.md/PxWeb/api/v1/en/20%20Populatia%20si%20procesele%20demografice/POP030/POP030100.px",
+      "table": "POP030100.px"
+    }
+  },
+  "eras": {
+    "DEM": {
+      "name": "Official data"
+    }
+  }
+}

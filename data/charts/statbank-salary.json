@@ -1,0 +1,131 @@
+{
+  "config": {
+    "unit": "MDL",
+    "yMax": 20000,
+    "gridSteps": 4,
+    "decimals": 0,
+    "timeRange": "2013 — 2024",
+    "data": [
+      {
+        "label": "2013",
+        "value": 3674.2,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2014",
+        "value": 4089.7,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 4538.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 4997.8,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 5587.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 6268,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 7233.7,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 7943,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 8979.8,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 10447.3,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 12209.2,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 13990,
+        "era": "BNS",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 13990,
+      "lowest": 3674.2,
+      "peak": 13990,
+      "change": "+280.8%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Salariul mediu lunar brut",
+        "subtitle": "Salariul mediu lunar brut",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Average Monthly Gross Salary",
+        "subtitle": "Average Monthly Gross Salary",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Средняя месячная заработная плата (брутто)",
+        "subtitle": "Средняя месячная заработная плата (брутто)",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "Biroul Național de Statistică (StatBank)",
+      "url": "https://statbank.statistica.md/PxWeb/pxweb/ro/30%20Statistica%20sociala/30%20Statistica%20sociala__03%20FM__SAL010__serii%20anuale/SAL010100.px/"
+    }
+  },
+  "eras": {
+    "BNS": {
+      "name": "BNS StatBank"
+    }
+  }
+}

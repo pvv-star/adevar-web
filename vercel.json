@@ -1,0 +1,22 @@
+{
+  "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in entire/*) echo 'Skipping checkpoint branch'; exit 0;; *) exit 1;; esac",
+  "crons": [
+    { "path": "/api/cron/sync-statbank", "schedule": "0 3 * * *" },
+    { "path": "/api/cron/news-pipeline", "schedule": "*/5 * * * *" },
+    { "path": "/api/cron/daily-digest", "schedule": "0 7 * * *" }
+  ],
+  "headers": [
+    {
+      "source": "/((?!api/).*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
+        { "key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains; preload" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://*.supabase.co https://www.bnm.md https://api.open-meteo.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    }
+  ]
+}

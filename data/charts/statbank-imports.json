@@ -1,0 +1,227 @@
+{
+  "config": {
+    "unit": "mil. USD",
+    "yMax": 12000000,
+    "gridSteps": 4,
+    "decimals": 0,
+    "timeRange": "1997 — 2024",
+    "data": [
+      {
+        "label": "1997",
+        "value": 1171251.8,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1998",
+        "value": 1023575.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "1999",
+        "value": 586368,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2000",
+        "value": 776416,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2001",
+        "value": 892228.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2002",
+        "value": 1038000.2,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2003",
+        "value": 1402347.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2004",
+        "value": 1768533.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2005",
+        "value": 2292291.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2006",
+        "value": 2693183.7,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2007",
+        "value": 3689524.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2008",
+        "value": 4898762,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2009",
+        "value": 3278269.8,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2010",
+        "value": 3855288.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2011",
+        "value": 5191270.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2012",
+        "value": 5212928.3,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2013",
+        "value": 5492393.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2014",
+        "value": 5316958.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 3986820.3,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 4020356.96,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 4831335.29,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 5760057.05,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 5842484.34,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 5415988.3,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 7176761.19,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 9218978.77,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 8675450.34,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 9065184.72,
+        "era": "BNS",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 9065184.72,
+      "lowest": 586368,
+      "peak": 9218978.77,
+      "change": "+674.0%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Importuri totale",
+        "subtitle": "Importuri totale",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Total Imports",
+        "subtitle": "Total Imports",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Общий импорт",
+        "subtitle": "Общий импорт",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "Biroul Național de Statistică (StatBank)",
+      "url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__21%20EXT__EXT010__serii%20anuale/EXT010100.px/"
+    }
+  },
+  "eras": {
+    "BNS": {
+      "name": "BNS StatBank"
+    }
+  }
+}

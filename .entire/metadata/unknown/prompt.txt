@@ -1,0 +1,7 @@
+Fix two bugs on the homepage:
+
+1. **Hero section visual bug**: The hero redesign (time filter pills: Azi/Ieri/72h) has a rendering issue. Check components/Dashboard.js and app/globals.css — make sure the .hero-time-filters container uses display:flex, justify-content:center, gap:8px and the pills are visible with proper styling. The newsRange state should default to '72h'.
+
+2. **Sidebar ENERGIE bug**: The ENERGIE category in the sidebar starts EXPANDED on page load. It must start COLLAPSED like every other category. Find where the default open/expanded state is set and fix it.
+
+After fixing, run npm run build to confirm no errors.

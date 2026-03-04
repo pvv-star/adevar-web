@@ -1,0 +1,119 @@
+{
+  "config": {
+    "unit": "%",
+    "yMax": 150,
+    "gridSteps": 4,
+    "decimals": 1,
+    "timeRange": "2015 — 2024",
+    "data": [
+      {
+        "label": "2015",
+        "value": 99.3,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 104.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 104.2,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 104.1,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 103.6,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 91.7,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 113.9,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 95.4,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 101.2,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 100.3,
+        "era": "BNS",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 100.3,
+      "lowest": 91.7,
+      "peak": 113.9,
+      "change": "+1.0%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Creșterea PIB real (%)",
+        "subtitle": "Creșterea PIB real (%)",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Real GDP Growth (%)",
+        "subtitle": "Real GDP Growth (%)",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Рост реального ВВП (%)",
+        "subtitle": "Рост реального ВВП (%)",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "Biroul Național de Statistică (StatBank)",
+      "url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__13%20CNT__CNT208/CNT208100.px/"
+    }
+  },
+  "eras": {
+    "BNS": {
+      "name": "BNS StatBank"
+    }
+  }
+}

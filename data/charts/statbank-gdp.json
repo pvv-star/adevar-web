@@ -1,0 +1,125 @@
+{
+  "config": {
+    "unit": "mil. MDL",
+    "yMax": 400000000,
+    "gridSteps": 4,
+    "decimals": 0,
+    "timeRange": "2014 — 2024",
+    "data": [
+      {
+        "label": "2014",
+        "value": 131964258,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2015",
+        "value": 146740205,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2016",
+        "value": 159010419,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2017",
+        "value": 176007293,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2018",
+        "value": 189062627,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2019",
+        "value": 206256239,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2020",
+        "value": 199733684,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2021",
+        "value": 242078629,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2022",
+        "value": 274488063,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2023",
+        "value": 303554038,
+        "era": "BNS",
+        "pm": ""
+      },
+      {
+        "label": "2024",
+        "value": 323932494,
+        "era": "BNS",
+        "pm": ""
+      }
+    ],
+    "stats": {
+      "current": 323932494,
+      "lowest": 131964258,
+      "peak": 323932494,
+      "change": "+145.5%"
+    },
+    "events": [],
+    "i18n": {
+      "ro": {
+        "title": "Produsul Intern Brut (prețuri curente)",
+        "subtitle": "Produsul Intern Brut (prețuri curente)",
+        "current": "Actual",
+        "lowest": "Minim",
+        "peak": "Vârf",
+        "change": "Variație",
+        "events": "Sursa datelor",
+        "replay": "Reluare"
+      },
+      "en": {
+        "title": "Gross Domestic Product (current prices)",
+        "subtitle": "Gross Domestic Product (current prices)",
+        "current": "Current",
+        "lowest": "Lowest",
+        "peak": "Peak",
+        "change": "Change",
+        "events": "Data source",
+        "replay": "Replay"
+      },
+      "ru": {
+        "title": "Валовой внутренний продукт (текущие цены)",
+        "subtitle": "Валовой внутренний продукт (текущие цены)",
+        "current": "Текущий",
+        "lowest": "Минимум",
+        "peak": "Пик",
+        "change": "Изменение",
+        "events": "Источник данных",
+        "replay": "Повтор"
+      }
+    },
+    "source": {
+      "name": "Biroul Național de Statistică (StatBank)",
+      "url": "https://statbank.statistica.md/PxWeb/pxweb/ro/40%20Statistica%20economica/40%20Statistica%20economica__13%20CNT__CNT210__Resurse/CNT210066.px/"
+    }
+  },
+  "eras": {
+    "BNS": {
+      "name": "BNS StatBank"
+    }
+  }
+}

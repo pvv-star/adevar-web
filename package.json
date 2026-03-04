@@ -1,0 +1,44 @@
+{
+  "name": "adevar-next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "smoke:indicator": "node scripts/smoke-indicator-series.mjs",
+    "smoke:health": "node scripts/smoke-health.mjs",
+    "smoke:prod": "bash scripts/smoke-prod-all.sh",
+    "smoke:metadata": "node scripts/smoke-indicator-metadata.mjs",
+    "smoke:dashboard": "node scripts/smoke-dashboard-stats.mjs",
+    "smoke:ingest": "node scripts/smoke-ingest-contract.mjs",
+    "ingest:api": "node scripts/ingest-indicator-api.mjs",
+    "check:env": "bash scripts/validate-env.sh",
+    "check:migrations": "bash scripts/check-migrations.sh",
+    "check:docs": "bash scripts/check-docs.sh",
+    "check:data-quality": "node scripts/check-data-quality.mjs",
+    "check:perf-budget": "node scripts/check-performance-budget.mjs",
+    "smoke:mobile": "node scripts/smoke-mobile-routes.mjs",
+    "test:ingest-core": "node scripts/test-ingest-core.mjs",
+    "preflight": "bash scripts/boss-preflight.sh",
+    "deploy:prod:safe": "bash scripts/boss-deploy.sh",
+    "news:pipeline": "node scripts/news-pipeline.mjs",
+    "tokens:sync": "node scripts/sync-ui-tokens.mjs",
+    "sync:statbank": "node scripts/sync-statbank.mjs",
+    "generate:statbank-charts": "node scripts/generate-statbank-charts.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.43.0",
+    "gifenc": "^1.0.3",
+    "jspdf": "^4.2.0",
+    "lucide-react": "^0.576.0",
+    "next": "15.5.10",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-next": "15.5.10"
+  }
+}
