@@ -3,11 +3,12 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import crypto from 'node:crypto';
 import { getSupabaseServerClient } from '@/lib/supabase-server';
-import { extractSummary } from '@/lib/extract-summary';
 
 export const maxDuration = 60;
 
 const FETCH_TIMEOUT_MS = Number(process.env.NEWS_FETCH_TIMEOUT_MS || 10000);
+const MAX_SUMMARY_LEN = 200;
+const MIN_SUMMARY_LEN = 20;
 
 function hash(v) {
   return crypto.createHash('sha1').update(String(v || '')).digest('hex');
@@ -15,6 +16,42 @@ function hash(v) {
 
 function cleanText(v = '') {
   return String(v).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function decodeEntities(text) {
+  return String(text)
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, n) => String.fromCharCode(parseInt(n, 16)));
+}
+
+function trimToLastWord(str, maxLen) {
+  if (str.length <= maxLen) return str;
+  const slice = str.slice(0, maxLen);
+  const lastSpace = slice.lastIndexOf(' ');
+  return (lastSpace > 0 ? slice.slice(0, lastSpace) : slice).trim();
+}
+
+/** Clean RSS description for summary: strip HTML, junk, trim to 200 chars. Returns null if empty, equals title, or too short. */
+function cleanRssSummary(description, title) {
+  if (!description || typeof description !== 'string') return null;
+  let s = decodeEntities(description);
+  s = s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  s = s.replace(/\s*The post\s+.+?\s+appeared first on\s+.+$/i, ' ').trim();
+  s = s.replace(/\s*Articolul\s+.+?\s+apare prima dată în\s+.+$/i, ' ').trim();
+  s = s.replace(/\s*Citește mai departe\s*/gi, ' ').trim();
+  s = s.replace(/\s*Read more\s*/gi, ' ').trim();
+  s = s.replace(/\s*https?:\/\/[^\s]+\s*$/gi, ' ').trim();
+  s = s.replace(/\s+/g, ' ').trim();
+  if (!s || s.length < MIN_SUMMARY_LEN) return null;
+  const titleNorm = (title || '').trim().toLowerCase();
+  if (titleNorm && s.trim().toLowerCase() === titleNorm) return null;
+  s = trimToLastWord(s, MAX_SUMMARY_LEN);
+  return s || null;
 }
 
 function parseRss(xml = '') {
@@ -90,24 +127,12 @@ export async function GET(request) {
       const parsed = parseRss(xml).slice(0, 50);
       fetched += parsed.length;
 
-      const urlHashes = parsed.map((i) => hash(i.link.split('?')[0]));
-      const { data: existingRows } = await supabase.from('news_items').select('url_hash').in('url_hash', urlHashes);
-      const existingSet = new Set((existingRows || []).map((r) => r.url_hash));
-      const newItems = parsed.filter((_, idx) => !existingSet.has(urlHashes[idx]));
-      const summaryResults = await Promise.allSettled(newItems.map((i) => extractSummary(i.link, i.title)));
-      const summaryByLink = {};
-      newItems.forEach((item, idx) => {
-        const r = summaryResults[idx];
-        const value = r.status === 'fulfilled' && r.value ? r.value : null;
-        summaryByLink[item.link] = value || undefined;
-      });
-
       for (const item of parsed) {
         const canonicalUrl = item.link.split('?')[0];
         const urlHash = hash(canonicalUrl);
         const titleHash = hash(item.title.toLowerCase());
         const duplicateGroup = hash(item.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').split(' ').slice(0, 8).join(' '));
-        const summaryValue = summaryByLink[item.link] ?? item.description ?? null;
+        const summaryValue = cleanRssSummary(item.description, item.title);
 
         const payload = {
           source_slug: source.slug,

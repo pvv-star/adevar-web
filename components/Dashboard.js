@@ -7,11 +7,11 @@ import { cachedFetch } from '@/lib/fetch-cache';
 
 export default function Dashboard() {
   const { lang, t } = useLang();
-  const [newsRange, setNewsRange] = useState('72h');
+  const [newsRange, setNewsRange] = useState('12h');
   const ranges = [
     { key: '24h', label: t('filterToday') },
     { key: '48h', label: t('filterYesterday') },
-    { key: '72h', label: t('filter72h') },
+    { key: '12h', label: t('filter12h') },
   ];
   const [newsItems, setNewsItems] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
@@ -39,7 +39,7 @@ export default function Dashboard() {
     async function fetchNews() {
       try {
         const payload = await cachedFetch(`dash-news-${newsRange}`, async () => {
-          const res = await fetch(`/api/news/feed?range=${newsRange}&limit=5`, {
+          const res = await fetch(`/api/news/feed?range=${newsRange}&limit=50`, {
             signal: controller.signal,
             cache: 'no-store',
           });
@@ -92,7 +92,7 @@ export default function Dashboard() {
           <h2 className="inst-card-title">{t('newsCta')}</h2>
           {newsItems.length ? (
             <div className="news-feed-card">
-              {newsItems.slice(0, 5).map((it) => (
+              {newsItems.map((it) => (
                 <a key={it.id} href={it.url} target="_blank" rel="noreferrer" className="news-row" aria-label={`${it.title} (${t('opensNewTab')})`}>
                   <div className="news-row-top">
                     <span className="news-source">{it.source_slug}</span>
@@ -105,7 +105,7 @@ export default function Dashboard() {
                   <div className="news-time">{t('lastUpdate')}: {formatPublishedAt(it.published_at)}</div>
                 </a>
               ))}
-              <Link href="/news?range=72h" className="ctrl-btn" style={{ marginTop: 4, display: 'inline-block' }}>
+              <Link href="/news?range=12h" className="ctrl-btn" style={{ marginTop: 4, display: 'inline-block' }}>
                 {t('tapFullFeed')}
               </Link>
             </div>

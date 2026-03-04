@@ -36,11 +36,11 @@ export async function GET(request) {
 
   try {
     const { searchParams } = new URL(request.url);
-    const range = searchParams.get('range') || '72h';
-    const limit = Math.min(50, Math.max(5, Number(searchParams.get('limit') || 20)));
+    const range = searchParams.get('range') || '12h';
+    const limit = Math.min(50, Math.max(5, Number(searchParams.get('limit') || 50)));
     const cursor = searchParams.get('cursor');
 
-    const hours = range === '24h' ? 24 : range === '48h' ? 48 : 72;
+    const hours = range === '24h' ? 24 : range === '48h' ? 48 : range === '12h' ? 12 : 72;
     const from = new Date(Date.now() - hours * 3600 * 1000).toISOString();
 
     // Over-fetch to ensure we have enough unique stories after dedup.
