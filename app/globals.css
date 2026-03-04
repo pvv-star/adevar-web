@@ -130,7 +130,7 @@ a{color:inherit;text-decoration:none}
   background:var(--bg-primary);
 }
 .page-scroll{
-  flex:1;overflow-y:auto;padding:32px;
+  flex:1;overflow-y:auto;padding:20px 24px 16px;
   scrollbar-width:thin;scrollbar-color:var(--border) transparent;
 }
 .page-scroll::-webkit-scrollbar{width:4px}
@@ -476,12 +476,13 @@ a{color:inherit;text-decoration:none}
 
 .inst-card{
   background:var(--bg-secondary);border:1px solid var(--border);
-  border-radius:16px;padding:16px;
-  margin-bottom:16px;
+  border-radius:16px;padding:14px 16px;
+  margin-bottom:10px;
 }
+.inst-card:last-child{margin-bottom:0}
 .inst-card-title{
   font-size:14px;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.07em;color:var(--text-primary);margin-bottom:12px;
+  letter-spacing:0.07em;color:var(--text-primary);margin-bottom:8px;
 }
 
 /* ── DASHBOARD ── */
@@ -508,7 +509,14 @@ a{color:inherit;text-decoration:none}
 .dash-stat-change.up{color:var(--positive)}
 .dash-stat-change.down{color:var(--negative)}
 
-.dash-random-chart{position:relative;border-radius:12px;overflow:hidden;min-height:300px}
+.dash-random-chart{position:relative;border-radius:12px;overflow:hidden;min-height:280px}
+.dash-random-chart .chart-container{padding:0 0 8px}
+.dash-random-chart .chart-header{margin-bottom:6px}
+.dash-random-chart .chart-header h1{font-size:18px;margin-bottom:0}
+.dash-random-chart .chart-header p{display:none}
+.dash-random-chart .chart-wrap{margin-bottom:0}
+.inst-card.dash-chart-card{padding:12px 16px}
+.inst-card.dash-chart-card .inst-card-title{margin-bottom:6px}
 
 .soon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
 .soon-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:6px;opacity:0.8;text-decoration:none;transition:opacity var(--transition-fast),border-color var(--transition-fast)}
@@ -725,7 +733,7 @@ canvas{display:block;width:100%;cursor:crosshair}
   .sidebar-overlay.show{display:block}
   .bottom-nav{display:block}
   .app-body{padding-bottom:var(--bottom-nav-h)}
-  .page-scroll{padding:14px}
+  .page-scroll{padding:14px 14px 10px}
   .news-sticky-tools{position:sticky;top:var(--header-h)}
   .dash-grid{grid-template-columns:1fr;gap:10px}
   .soon-grid{grid-template-columns:1fr 1fr}

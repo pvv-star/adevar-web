@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /Users/vp/adevar-web/app -type f -name \"*.js\" | xargs ls -la)",
+      "WebFetch(domain:www.adevar.ai)",
+      "Bash(grep -n \"foreign key\\\\|REFERENCES\" /Users/vp/adevar-web/sql/migrations/*.sql 2>/dev/null | grep -i news)",
+      "Bash(du -sh /Users/vp/adevar-web/node_modules/* | sort -hr | head -15)",
+      "Bash(grep -n \"catch.*error\\\\|catch.*{}\" /Users/vp/adevar-web/app/api/**/*.js)",
+      "Bash(npm run build 2>&1 | tail -25)",
+      "Bash(npm run build 2>&1 | tail -20)",
+      "Bash(npx next build 2>&1 | tail -25)",
+      "Bash(npm install jspdf gifenc 2>&1 | tail -5)",
+      "Bash(npm run build 2>&1 | tail -40)",
+      "WebFetch(domain:statbank.statistica.md)",
+      "Bash(npx next build 2>&1 | tail -20)",
+      "Bash(node scripts/sync-statbank.mjs --dry-run 2>&1)",
+      "Bash(head -5 /Users/vp/adevar-web/app/chart/[id]/page.js && echo \"...\" && head -2 /Users/vp/adevar-web/app/news/page.js && echo \"...\" && head -2 /Users/vp/adevar-web/app/about/page.js)",
+      "Bash(find /Users/vp/adevar-web -name \".env*\" -type f 2>/dev/null | grep -v node_modules)",
+      "Bash(find /Users/vp/adevar-web -name \".env*\" -type f ! -path \"*/node_modules/*\" 2>/dev/null | head -20)",
+      "Bash(grep -r \"^[[:space:]]*//.*\" /Users/vp/adevar-web/components/ /Users/vp/adevar-web/lib/ 2>/dev/null | grep -v \"^.*://\\\\|^.*http\\\\|^.*@\\\\|^.*node_modules\" | wc -l)",
+      "Bash(ls -la /Users/vp/adevar-web/app/**/loading.js 2>/dev/null | grep -v node_modules)",
+      "Bash(grep -r \"from '@supabase\" /Users/vp/adevar-web --include=\"*.js\" --include=\"*.jsx\" ! -path \"*/node_modules/*\" ! -path \"*/.next/*\" | grep -v \"lib/supabase-server\\\\|scripts/\")",
+      "Bash(grep -r \"from '@supabase\" /Users/vp/adevar-web --include=\"*.js\" --include=\"*.jsx\" ! -path \"*/node_modules/*\" 2>/dev/null | grep -v \"lib/supabase-server\\\\|scripts/\")",
+      "Bash(find /Users/vp/adevar-web/app/chart -name \"*.js\" -type f ! -path \"*/node_modules/*\" | xargs ls -la)"
+    ]
+  }
+}

@@ -5,3 +5,20 @@ Fix two bugs on the homepage:
 2. **Sidebar ENERGIE bug**: The ENERGIE category in the sidebar starts EXPANDED on page load. It must start COLLAPSED like every other category. Find where the default open/expanded state is set and fix it.
 
 After fixing, run npm run build to confirm no errors.
+
+---
+
+Fix homepage layout issues in components/Dashboard.js and app/globals.css:
+
+1. **Remove extra whitespace**: The page has too much empty space between sections and at the bottom. Tighten padding/margins between the news section and the chart section. Remove any excessive bottom padding on the page.
+
+2. **Chart section cleanup**: 
+   - The indicator title appears twice (once as heading, once as subtitle) — remove the duplicate subtitle
+   - Make the chart section more compact — reduce vertical padding
+   - The "Deschide graficul complet" link should be closer to the chart
+
+3. **Overall page height**: The homepage should not feel excessively long. Keep it tight: hero → news feed (5 items max) → one chart → footer. No extra empty space at the bottom.
+
+4. **Default time filter**: Make sure newsRange defaults to '72h' not 'Azi' — the 72h pill should be active/selected on page load.
+
+Run npm run build after changes.
