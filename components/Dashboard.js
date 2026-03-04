@@ -1,25 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useLang } from '@/contexts/LangContext';
-import { getActiveCharts, getComingSoonCharts } from '@/lib/charts';
-import { useEffect, useState } from 'react';
-import IndicatorStatCard from './IndicatorStatCard';
-import { fetchLiveSnapshot } from '@/lib/live-snapshot-cache';
+import { getActiveCharts, getComingSoonCharts, getChartData } from '@/lib/charts';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { cachedFetch } from '@/lib/fetch-cache';
 
-const upArrow = (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-    <line x1="12" y1="19" x2="12" y2="5" />
-    <polyline points="5 12 12 5 19 12" />
-  </svg>
-);
-const downArrow = (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
-    <line x1="12" y1="5" x2="12" y2="19" />
-    <polyline points="19 12 12 19 5 12" />
-  </svg>
-);
+const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), { ssr: false });
 
 function DashboardSkeleton() {
   return (
@@ -41,81 +29,67 @@ export default function Dashboard() {
     news: t('newsCta'),
     sources: t('sourcesCta'),
   };
-  const [liveStats, setLiveStats] = useState({});
-  const [snapshot, setSnapshot] = useState(null);
-  const [liveNews, setLiveNews] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [statsError, setStatsError] = useState(false);
+  const [newsItems, setNewsItems] = useState([]);
+  const [newsLoading, setNewsLoading] = useState(true);
+  const [randomChart, setRandomChart] = useState(null);
+  const [chartData, setChartData] = useState(null);
+
+  const activeCharts = useMemo(() => getActiveCharts(), []);
+  const soonCharts = getComingSoonCharts();
+
+  const locale = lang === 'ru' ? 'ru-MD' : lang === 'en' ? 'en-GB' : 'ro-MD';
+
+  const formatPublishedAt = useCallback((value) => {
+    if (!value) return '—';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return '—';
+    return d.toLocaleString(locale, {
+      timeZone: 'Europe/Chisinau',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }, [locale]);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    async function fetchDashboardStats() {
+    async function fetchNews() {
       try {
-        const payload = await cachedFetch('dashboard-stats', async () => {
-          const res = await fetch('/api/dashboard/stats', {
+        const payload = await cachedFetch('dash-news-feed', async () => {
+          const res = await fetch('/api/news/feed?range=72h&limit=10', {
             signal: controller.signal,
             cache: 'no-store',
           });
           const data = await res.json();
-          if (!res.ok) {
-            throw new Error(data?.details || data?.error || 'Failed to load dashboard stats');
-          }
-          return data;
-        }, { ttl: 300_000, swr: 600_000 });
-
-        setLiveStats(payload?.stats || {});
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          if (process.env.NODE_ENV !== 'production') console.error(error);
-          setStatsError(true);
-        }
-      } finally {
-        // Do not block first paint on news/weather widgets.
-        setLoading(false);
-      }
-    }
-
-    async function fetchSnapshot() {
-      try {
-        const payload = await fetchLiveSnapshot(controller.signal);
-        if (payload) setSnapshot(payload);
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          if (process.env.NODE_ENV !== 'production') console.error(error);
-        }
-      }
-    }
-
-    async function fetchLiveNews() {
-      try {
-        const payload = await cachedFetch('live-news', async () => {
-          const res = await fetch('/api/widgets/live-news', {
-            signal: controller.signal,
-            cache: 'no-store',
-          });
-          const data = await res.json();
-          if (!res.ok || !data?.ok) throw new Error(data?.error || 'Failed live news');
+          if (!res.ok || !data?.ok) throw new Error(data?.error || 'feed failed');
           return data;
         }, { ttl: 60_000, swr: 120_000 });
-
-        setLiveNews(payload.items || []);
+        setNewsItems(payload.items || []);
       } catch (error) {
         if (error.name !== 'AbortError') {
           if (process.env.NODE_ENV !== 'production') console.error(error);
         }
+      } finally {
+        setNewsLoading(false);
       }
     }
 
-    fetchDashboardStats();
-    fetchSnapshot();
-    fetchLiveNews();
-
+    fetchNews();
     return () => controller.abort();
   }, []);
 
-  const activeCharts = getActiveCharts();
-  const soonCharts = getComingSoonCharts();
+  // Pick a random chart on mount and load its data
+  useEffect(() => {
+    if (!activeCharts.length) return;
+    const pick = activeCharts[Math.floor(Math.random() * activeCharts.length)];
+    setRandomChart(pick);
+    getChartData(pick.id).then((data) => {
+      if (data) setChartData(data);
+    });
+  }, [activeCharts]);
 
   return (
     <div className="page-scroll">
@@ -130,71 +104,46 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {loading ? <DashboardSkeleton /> : null}
+      {newsLoading ? <DashboardSkeleton /> : null}
 
-      {!loading && liveNews?.length ? (
-        <Link href="/news?range=72h" className="live-news-card" style={{ textDecoration: 'none' }}>
-          <div className="live-snapshot-title">{t('liveNewsPulse')}</div>
-          <div className="live-news-list">
-            {liveNews.slice(0, 4).map((n, idx) => (
-              <div key={`${n.url}-${idx}`} className="live-news-item">
-                <span className="live-news-source">{n.source_slug}</span>
-                <span className="live-news-title">{n.title}</span>
-              </div>
-            ))}
-          </div>
-          <div className="live-snapshot-meta">{t('tapFullFeed')}</div>
-        </Link>
-      ) : !loading && snapshot?.ok ? (
-        <div className="live-snapshot-card">
-          <div className="live-snapshot-title">{t('liveSnapshot')}</div>
-          <div className="live-snapshot-grid">
-            <div className="live-chip"><span>EUR/MDL</span><b>{snapshot.fx?.rates?.EUR ?? '—'}</b></div>
-            <div className="live-chip"><span>USD/MDL</span><b>{snapshot.fx?.rates?.USD ?? '—'}</b></div>
-            <div className="live-chip"><span>RON/MDL</span><b>{snapshot.fx?.rates?.RON ?? '—'}</b></div>
-            <div className="live-chip"><span>{snapshot.weather?.city || 'Chișinău'} °C</span><b>{snapshot.weather?.temperatureC ?? '—'}</b></div>
-          </div>
-          <div className="live-snapshot-meta">
-            Sources: <a href={snapshot.fx?.source?.url} target="_blank" rel="noreferrer">BNM</a> ·{' '}
-            <a href={snapshot.weather?.source?.url} target="_blank" rel="noreferrer">Open-Meteo</a>
-          </div>
-        </div>
-      ) : null}
-
-      <div className="inst-card">
-        <h2 className="inst-card-title">{t('availableCharts')}</h2>
-        <div className="dash-grid">
-          {loading ? (
-            activeCharts.map((c) => (
-              <div key={c.id} className="dash-stat-skeleton">
-                <div className="skel-bar skel-bar" />
-                <div className="skel-bar skel-bar-lg" />
-                <div className="skel-bar skel-bar-sm" />
-              </div>
-            ))
-          ) : statsError ? (
-            <div style={{ padding: '16px', color: 'var(--negative)', fontSize: '13px' }}>
-              {t('statsError')}
+      {/* ── News feed ── */}
+      {!newsLoading && (
+        <div className="inst-card">
+          <h2 className="inst-card-title">{t('newsCta')}</h2>
+          {newsItems.length ? (
+            <div className="news-feed-card">
+              {newsItems.map((it) => (
+                <a key={it.id} href={it.url} target="_blank" rel="noreferrer" className="news-row" aria-label={`${it.title} (${t('opensNewTab')})`}>
+                  <div className="news-row-top">
+                    <span className="news-source">{it.source_slug}</span>
+                    <span className="news-impact" title={t('impactScoreHelp')}>{Math.round(it.impact_score || 0)}/100</span>
+                  </div>
+                  <div className="news-title">{it.title} <span className="news-external-icon" aria-hidden="true">↗</span></div>
+                  <div className="news-time">{t('lastUpdate')}: {formatPublishedAt(it.published_at)}</div>
+                </a>
+              ))}
+              <Link href="/news?range=72h" className="ctrl-btn" style={{ marginTop: 8, display: 'inline-block' }}>
+                {t('tapFullFeed')}
+              </Link>
             </div>
           ) : (
-            activeCharts.map((c) => {
-              const stat = liveStats?.[c.id];
-              if (!stat) return null;
-              return (
-                <IndicatorStatCard
-                  key={c.id}
-                  href={`/chart/${c.id}`}
-                  label={c[lang] || c.en}
-                  stat={{ ...stat, date: stat.date?.[lang] || stat.date?.en || '' }}
-                  lastUpdateLabel={t('lastUpdate')}
-                  upArrow={upArrow}
-                  downArrow={downArrow}
-                />
-              );
-            })
+            <div className="news-loading">{t('newsEmpty')}</div>
           )}
         </div>
-      </div>
+      )}
+
+      {/* ── Random chart spotlight ── */}
+      {randomChart && chartData && (
+        <div className="inst-card">
+          <h2 className="inst-card-title">{t('discoverChart')}</h2>
+          <div className="dash-random-chart">
+            <ChartCanvas config={chartData.config} eras={chartData.eras} />
+          </div>
+          <Link href={`/chart/${randomChart.id}`} className="ctrl-btn" style={{ marginTop: 8, display: 'inline-block' }}>
+            {t('viewFullChart')} — {randomChart[lang] || randomChart.en}
+          </Link>
+        </div>
+      )}
 
       <div className="inst-card">
         <h2 className="inst-card-title">{t('comingSoon')}</h2>
