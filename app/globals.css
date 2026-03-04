@@ -130,7 +130,7 @@ a{color:inherit;text-decoration:none}
   background:var(--bg-primary);
 }
 .page-scroll{
-  flex:1;overflow-y:auto;padding:16px 20px 12px;
+  flex:1;overflow-y:auto;padding:16px 20px 8px;
   scrollbar-width:thin;scrollbar-color:var(--border) transparent;
 }
 .page-scroll::-webkit-scrollbar{width:4px}
@@ -477,7 +477,7 @@ a{color:inherit;text-decoration:none}
 .inst-card{
   background:var(--bg-secondary);border:1px solid var(--border);
   border-radius:14px;padding:12px 16px;max-width:100%;
-  margin-bottom:12px;
+  margin-bottom:16px;
 }
 .inst-card:last-child{margin-bottom:0}
 .inst-card-title{
@@ -509,7 +509,7 @@ a{color:inherit;text-decoration:none}
 .dash-stat-change.up{color:var(--positive)}
 .dash-stat-change.down{color:var(--negative)}
 
-.dash-random-chart{position:relative;border-radius:10px;overflow:hidden;min-height:200px;max-height:300px}
+.dash-random-chart{position:relative;border-radius:10px;overflow:hidden;min-height:200px;max-height:350px}
 .dash-random-chart .chart-container{padding:0;margin-bottom:0}
 .dash-random-chart .chart-header{margin-bottom:4px}
 .dash-random-chart .chart-header h1{font-size:16px;margin-bottom:0}
@@ -753,7 +753,7 @@ canvas{display:block;width:100%;cursor:crosshair}
   .sidebar-overlay.show{display:block}
   .bottom-nav{display:block}
   .app-body{padding-bottom:var(--bottom-nav-h)}
-  .page-scroll{padding:14px 14px 10px}
+  .page-scroll{padding:14px 14px 8px}
   .news-sticky-tools{position:sticky;top:var(--header-h)}
   .dash-grid{grid-template-columns:1fr;gap:10px}
   .soon-grid{grid-template-columns:1fr 1fr}
