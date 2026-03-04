@@ -7,20 +7,14 @@ import { getActiveCharts, getComingSoonCharts, getChartData } from '@/lib/charts
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { cachedFetch } from '@/lib/fetch-cache';
 
-const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), { ssr: false });
-
-function DashboardSkeleton() {
-  return (
-    <div className="dashboard-skeleton" aria-hidden="true">
-      <div className="skel-bar skel-hero"></div>
-      <div className="skel-row">
-        <div className="skel-bar skel-stat"></div>
-        <div className="skel-bar skel-stat"></div>
-      </div>
-      <div className="skel-bar skel-news"></div>
+const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="dash-random-chart" aria-busy="true" aria-hidden="true">
+      <div className="skel-bar" style={{ width: '100%', height: 200 }}></div>
     </div>
-  );
-}
+  ),
+});
 
 export default function Dashboard() {
   const { lang, t } = useLang();
@@ -59,7 +53,7 @@ export default function Dashboard() {
     async function fetchNews() {
       try {
         const payload = await cachedFetch('dash-news-feed', async () => {
-          const res = await fetch('/api/news/feed?range=72h&limit=10', {
+          const res = await fetch('/api/news/feed?range=72h&limit=5', {
             signal: controller.signal,
             cache: 'no-store',
           });
@@ -104,10 +98,17 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {newsLoading ? <DashboardSkeleton /> : null}
-
       {/* ── News feed ── */}
-      {!newsLoading && (
+      {newsLoading ? (
+        <div className="inst-card" aria-busy="true" aria-hidden="true">
+          <div className="skel-bar" style={{ width: '30%', height: 16, marginBottom: 16 }}></div>
+          <div className="skel-bar" style={{ width: '100%', height: 12, marginBottom: 8 }}></div>
+          <div className="skel-bar" style={{ width: '90%', height: 12, marginBottom: 8 }}></div>
+          <div className="skel-bar" style={{ width: '95%', height: 12, marginBottom: 8 }}></div>
+          <div className="skel-bar" style={{ width: '85%', height: 12, marginBottom: 8 }}></div>
+          <div className="skel-bar" style={{ width: '70%', height: 12 }}></div>
+        </div>
+      ) : (
         <div className="inst-card">
           <h2 className="inst-card-title">{t('newsCta')}</h2>
           {newsItems.length ? (

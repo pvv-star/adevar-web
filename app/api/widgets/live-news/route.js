@@ -17,7 +17,7 @@ export async function GET(request) {
       .gte('published_at', from)
       .order('impact_score', { ascending: false })
       .order('published_at', { ascending: false })
-      .limit(8);
+      .limit(5);
 
     let { data, error } = await runQuery(getSupabaseReadClient());
     // Fallback to service-role client when anon/RLS returns errors OR empty sets unexpectedly.
