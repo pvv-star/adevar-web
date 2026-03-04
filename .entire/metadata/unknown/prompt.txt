@@ -66,3 +66,7 @@ Run npm run build after all changes.
 ---
 
 commit all
+
+---
+
+git push origin main
