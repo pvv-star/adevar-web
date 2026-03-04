@@ -62,3 +62,7 @@ Add related news to individual chart pages. When a user opens a chart like /char
 5. **News are already saved** in Supabase news_items table with a tags text[] column. The news pipeline already classifies articles using TAG_KEYWORDS. No changes needed to the pipeline.
 
 Run npm run build after all changes.
+
+---
+
+commit all
