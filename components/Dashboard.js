@@ -18,11 +18,12 @@ const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
 
 export default function Dashboard() {
   const { lang, t } = useLang();
-  const heroCta = {
-    primary: t('exploreCta'),
-    news: t('newsCta'),
-    sources: t('sourcesCta'),
-  };
+  const [newsRange, setNewsRange] = useState('72h');
+  const ranges = [
+    { key: '24h', label: t('filterToday') },
+    { key: '48h', label: t('filterYesterday') },
+    { key: '72h', label: t('filter72h') },
+  ];
   const [newsItems, setNewsItems] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
   const [randomChart, setRandomChart] = useState(null);
@@ -49,11 +50,12 @@ export default function Dashboard() {
 
   useEffect(() => {
     const controller = new AbortController();
+    setNewsLoading(true);
 
     async function fetchNews() {
       try {
-        const payload = await cachedFetch('dash-news-feed', async () => {
-          const res = await fetch('/api/news/feed?range=72h&limit=5', {
+        const payload = await cachedFetch(`dash-news-${newsRange}`, async () => {
+          const res = await fetch(`/api/news/feed?range=${newsRange}&limit=5`, {
             signal: controller.signal,
             cache: 'no-store',
           });
@@ -73,7 +75,7 @@ export default function Dashboard() {
 
     fetchNews();
     return () => controller.abort();
-  }, []);
+  }, [newsRange]);
 
   // Pick a random chart on mount and load its data
   useEffect(() => {
@@ -88,13 +90,16 @@ export default function Dashboard() {
   return (
     <div className="page-scroll">
       <section className="mobile-hero">
-        <p className="mobile-hero-trust">{t('heroTrust')}</p>
         <h1 className="view-heading mobile-hero-title">{t('dashTitle')}</h1>
         <p className="view-subheading mobile-hero-sub">{t('dashSub')}</p>
-        <div className="mobile-hero-cta-row">
-          <Link href="/chart/inflation" className="hero-cta-primary">{heroCta.primary}</Link>
-          <Link href="/news?range=72h" className="hero-cta-link">{heroCta.news}</Link>
-          <Link href="/about" className="hero-cta-link">{heroCta.sources}</Link>
+        <div className="hero-time-filters">
+          {ranges.map(r => (
+            <button key={r.key}
+              className={`hero-time-btn${newsRange === r.key ? ' active' : ''}`}
+              onClick={() => setNewsRange(r.key)}>
+              {r.label}
+            </button>
+          ))}
         </div>
       </section>
 

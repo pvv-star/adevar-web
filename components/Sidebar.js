@@ -34,12 +34,16 @@ export default function Sidebar({ isCompact, isOpen, onClose, onExpand }) {
   const [openCats, setOpenCats] = useState({});
 
   useEffect(() => {
+    const isChartPage = pathname?.startsWith('/chart/');
+    if (!isChartPage) {
+      setOpenCats({});
+      return;
+    }
     const match = pathname?.match(/^\/chart\/([^/]+)/);
     const activeId = match?.[1] || null;
     const activeChart = activeId ? CHARTS.find((c) => c.id === activeId) : null;
-    const activeCat = activeChart?.category || 'energy';
-
-    setOpenCats({ [activeCat]: true });
+    const activeCat = activeChart?.category || null;
+    setOpenCats(activeCat ? { [activeCat]: true } : {});
   }, [pathname]);
 
   function toggleCategory(catId) {
