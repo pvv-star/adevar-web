@@ -557,6 +557,23 @@ a{color:inherit;text-decoration:none}
 .chart-source-row{font-size:14px;color:var(--text-tertiary);margin-bottom:10px}
 .chart-open-full{min-height:44px}
 
+/* Chart page layout: 70/30 split desktop, stack mobile */
+.chart-page-with-news{position:relative;flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.chart-page-main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.chart-related-news{flex-shrink:0;padding:16px;border-top:1px solid var(--border);background:var(--bg-secondary)}
+.chart-related-news-title{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-primary);margin-bottom:12px}
+.chart-related-news-list{list-style:none;padding:0;margin:0}
+.chart-related-news-item{margin-bottom:12px}
+.chart-related-news-item:last-child{margin-bottom:0}
+.chart-related-news-link{display:block;padding:10px 0;border-top:1px solid var(--border);text-decoration:none;color:inherit;transition:border-color var(--transition-fast)}
+.chart-related-news-item:first-child .chart-related-news-link{border-top:none;padding-top:0}
+.chart-related-news-source{font-size:12px;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-secondary);display:block;margin-bottom:4px}
+.chart-related-news-title-text{font-size:14px;font-weight:600;color:var(--text-primary);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.chart-related-news-link:hover .chart-related-news-title-text{color:var(--accent)}
+.chart-related-news-meta{font-size:12px;color:var(--text-tertiary);margin-top:4px;display:flex;align-items:center;gap:8px}
+.chart-related-news-score{font-variant-numeric:tabular-nums}
+.chart-related-news-skel .skel-bar{border-radius:8px}
+
 .period-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:8px;position:sticky;top:calc(var(--header-h) + 2px);z-index:11;background:linear-gradient(to bottom,var(--bg-primary),transparent)}
 .period-chip{min-height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--border);background:var(--bg-secondary);font-size:13px;font-weight:700;white-space:nowrap}
 .period-chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -752,6 +769,10 @@ canvas{display:block;width:100%;cursor:crosshair}
   .bottom-nav{display:none!important}
   .more-sheet,
   .more-sheet-backdrop{display:none!important}
+
+  .chart-page-with-news{flex-direction:row}
+  .chart-page-main{flex:1;min-width:0;width:70%}
+  .chart-related-news{width:30%;min-width:260px;max-width:360px;border-top:none;border-left:1px solid var(--border);overflow-y:auto}
 
   /* Align category chip with desktop content column */
   .category-chip{
