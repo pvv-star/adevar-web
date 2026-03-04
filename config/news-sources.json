@@ -1,13 +1,13 @@
 [
   {"slug":"protv-md","name":"ProTV Moldova","siteUrl":"https://protv.md","rssUrl":"https://protv.md/rss.xml","language":"ro","priority":"high","enabled":true},
-  {"slug":"tvr-moldova","name":"TVR Moldova","siteUrl":"https://tvrmoldova.md","rssUrl":"https://tvrmoldova.md/rss","language":"ro","priority":"high","enabled":true},
+  {"slug":"tvr-moldova","name":"TVR Moldova","siteUrl":"https://tvrmoldova.md","rssUrl":"https://tvrmoldova.md/rss/all","language":"ro","priority":"high","enabled":true},
   {"slug":"realitatea-md","name":"Realitatea.md","siteUrl":"https://realitatea.md","rssUrl":"https://realitatea.md/feed/","language":"ro","priority":"high","enabled":true},
   {"slug":"newsmaker-md","name":"NewsMaker","siteUrl":"https://newsmaker.md","rssUrl":"https://newsmaker.md/feed/","language":"ro","priority":"high","enabled":true},
   {"slug":"telegraph-md","name":"Telegraph Moldova","siteUrl":"https://telegraph.md","rssUrl":"https://telegraph.md/feed/","language":"ro","priority":"medium","enabled":true},
   {"slug":"tv8-md","name":"TV8","siteUrl":"https://tv8.md","rssUrl":"https://tv8.md/feed/","language":"ro","priority":"high","enabled":true},
-  {"slug":"unimedia-md","name":"Unimedia","siteUrl":"https://unimedia.info","rssUrl":"https://unimedia.info/feed/","language":"ro","priority":"medium","enabled":true},
+  {"slug":"unimedia-md","name":"Unimedia","siteUrl":"https://unimedia.info","rssUrl":"https://unimedia.info/feed/","language":"ro","priority":"medium","enabled":false},
   {"slug":"moldpres-md","name":"Moldpres","siteUrl":"https://www.moldpres.md","rssUrl":"https://www.moldpres.md/rss","language":"ro","priority":"high","enabled":true},
-  {"slug":"moldova1-md","name":"Moldova 1","siteUrl":"https://moldova1.md","rssUrl":"https://moldova1.md/feed/","language":"ro","priority":"medium","enabled":true},
-  {"slug":"europalibera-md","name":"Europa Liberă Moldova","siteUrl":"https://moldova.europalibera.org","rssUrl":"https://moldova.europalibera.org/api/zrqiteuuoi","language":"ro","priority":"high","enabled":true},
+  {"slug":"moldova1-md","name":"Moldova 1","siteUrl":"https://moldova1.md","rssUrl":"https://moldova1.md/feed/","language":"ro","priority":"medium","enabled":false},
+  {"slug":"europalibera-md","name":"Europa Liberă Moldova","siteUrl":"https://moldova.europalibera.org","rssUrl":"https://moldova.europalibera.org/api/zkmotl-vomx-tpej-pr","language":"ro","priority":"high","enabled":true},
   {"slug":"logos-pres","name":"Logos Press","siteUrl":"https://logos-pres.md","rssUrl":"https://logos-pres.md/feed/","language":"en","priority":"medium","enabled":true}
 ]
