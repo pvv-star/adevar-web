@@ -71,7 +71,9 @@ export default function ChartRelatedNews({ chartSlug }) {
             <a href={it.link} target="_blank" rel="noreferrer" className="chart-related-news-link">
               <span className="chart-related-news-source">{it.source_name}</span>
               <span className="chart-related-news-title-text">{it.title}</span>
-              {it.summary && <span className="chart-related-news-summary">{it.summary}</span>}
+              {it.summary && it.summary.trim().toLowerCase() !== (it.title || '').trim().toLowerCase() && !it.summary.trim().toLowerCase().startsWith((it.title || '').trim().toLowerCase()) && (
+                <span className="chart-related-news-summary">{it.summary}</span>
+              )}
               <span className="chart-related-news-meta">
                 {formatTimeAgo(it.published_at, lang)}
                 {it.impact_score != null && (

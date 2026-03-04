@@ -1,7 +1,6 @@
 'use client';
 import { useRef } from 'react';
 import dynamic from 'next/dynamic';
-import ComingSoon from '@/components/ComingSoon';
 import ShareButtons from '@/components/ShareButtons';
 import ChartRelatedNews from '@/components/ChartRelatedNews';
 import { useLang } from '@/contexts/LangContext';
@@ -29,8 +28,14 @@ export default function ChartPageClient({ chart, chartData }) {
   const chartRef = useRef(null);
   const { lang } = useLang();
 
-  if (!chartData || chart.soon) {
-    return <ComingSoon chart={chart} />;
+  if (!chartData) {
+    return (
+      <div className="chart-section">
+        <div className="chart-container">
+          <p style={{ color: 'var(--text-secondary)', marginTop: 16 }}>{t('statsError')}</p>
+        </div>
+      </div>
+    );
   }
 
   const title = chart[lang] || chart.ro;

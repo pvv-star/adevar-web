@@ -94,7 +94,7 @@ export async function GET(request) {
       const { data: existingRows } = await supabase.from('news_items').select('url_hash').in('url_hash', urlHashes);
       const existingSet = new Set((existingRows || []).map((r) => r.url_hash));
       const newItems = parsed.filter((_, idx) => !existingSet.has(urlHashes[idx]));
-      const summaryResults = await Promise.allSettled(newItems.map((i) => extractSummary(i.link)));
+      const summaryResults = await Promise.allSettled(newItems.map((i) => extractSummary(i.link, i.title)));
       const summaryByLink = {};
       newItems.forEach((item, idx) => {
         const r = summaryResults[idx];

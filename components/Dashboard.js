@@ -124,7 +124,9 @@ export default function Dashboard() {
                     <span className="news-impact" title={t('impactScoreHelp')}>{Math.round(it.impact_score || 0)}/100</span>
                   </div>
                   <div className="news-title">{it.title} <span className="news-external-icon" aria-hidden="true">↗</span></div>
-                  {it.summary && <div className="news-summary">{it.summary}</div>}
+                  {it.summary && it.summary.trim().toLowerCase() !== (it.title || '').trim().toLowerCase() && !it.summary.trim().toLowerCase().startsWith((it.title || '').trim().toLowerCase()) && (
+                    <div className="news-summary">{it.summary}</div>
+                  )}
                   <div className="news-time">{t('lastUpdate')}: {formatPublishedAt(it.published_at)}</div>
                 </a>
               ))}
@@ -142,10 +144,10 @@ export default function Dashboard() {
       {randomChart && chartData && (
         <div className="inst-card dash-chart-card">
           <h2 className="inst-card-title">{t('discoverChart')}</h2>
-          <div className="dash-random-chart">
+          <div className="dash-random-chart" style={{ maxHeight: '300px', overflow: 'hidden' }}>
             <ChartCanvas config={chartData.config} eras={chartData.eras} />
           </div>
-          <Link href={`/chart/${randomChart.id}`} className="ctrl-btn dash-chart-cta">
+          <Link href={`/chart/${randomChart.id}`} className="ctrl-btn dash-chart-cta" style={{ marginTop: '8px' }}>
             {t('viewFullChart')} — {randomChart[lang] || randomChart.en}
           </Link>
         </div>

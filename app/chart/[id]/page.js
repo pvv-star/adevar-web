@@ -119,8 +119,7 @@ export default async function ChartPage({ params }) {
   const chart = getChartById(id);
   if (!chart) notFound();
 
-  // For coming-soon charts, pass null data
-  const chartData = chart.soon ? null : await getChartData(id);
+  const chartData = await getChartData(id);
 
   const datasetJsonLd = chartData ? buildDatasetJsonLd(chart, chartData) : null;
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(chart);
