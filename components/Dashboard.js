@@ -144,7 +144,7 @@ export default function Dashboard() {
       {randomChart && chartData && (
         <div className="inst-card dash-chart-card">
           <h2 className="inst-card-title">{t('discoverChart')}</h2>
-          <div className="dash-random-chart" style={{ maxHeight: '300px', overflow: 'hidden' }}>
+          <div className="dash-random-chart">
             <ChartCanvas config={chartData.config} eras={chartData.eras} />
           </div>
           <Link href={`/chart/${randomChart.id}`} className="ctrl-btn dash-chart-cta" style={{ marginTop: '8px' }}>
