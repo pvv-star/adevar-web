@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import { usePathname } from 'next/navigation';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { LangProvider } from '@/contexts/LangContext';
 import Header from '@/components/Header';
@@ -23,9 +22,6 @@ function useIsDesktop() {
 }
 
 export default function ClientLayout({ children }) {
-  const pathname = usePathname();
-  const isPrimeRoute = pathname === '/prime' || pathname?.startsWith('/prime/');
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navMode, setNavMode] = useState('expanded');
   const [mounted, setMounted] = useState(false);
@@ -62,18 +58,6 @@ export default function ClientLayout({ children }) {
       setSidebarOpen(false);
     }
   }, [isDesktop, navMode, sidebarOpen]);
-
-  if (isPrimeRoute) {
-    return (
-      <ThemeProvider>
-        <LangProvider>
-          <main id="main-content" className="main-content">
-            {children}
-          </main>
-        </LangProvider>
-      </ThemeProvider>
-    );
-  }
 
   return (
     <ThemeProvider>

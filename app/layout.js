@@ -30,6 +30,10 @@ export const metadata = {
       { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
   },
+  robots: { index: true, follow: true },
+  verification: {
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+  },
   manifest: '/manifest.json',
   alternates: {
     languages: {
@@ -38,6 +42,17 @@ export const metadata = {
       ru: 'https://www.adevar.ai?lang=ru',
     },
   },
+};
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'adevar.ai',
+  url: 'https://www.adevar.ai',
+  email: 'contact@adevar.ai',
+  logo: 'https://www.adevar.ai/favicon.svg',
+  description: 'Independent monitoring platform for economic and energy indicators of the Republic of Moldova.',
+  sameAs: [],
 };
 
 const jsonLd = {
@@ -65,6 +80,10 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
         <script
           dangerouslySetInnerHTML={{

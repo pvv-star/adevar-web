@@ -27,6 +27,7 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
+    robots: { index: true, follow: true },
     alternates: {
       canonical: chartUrl,
       languages: {
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       url: chartUrl,
-      type: 'article',
+      type: 'website',
       images: [{ url: ogImage, width: 1200, height: 630, alt: chart.ro }],
     },
     twitter: {
@@ -87,7 +88,30 @@ function buildDatasetJsonLd(chart, chartData) {
     };
   }
 
+  // Extract dateModified from the last data point label or fall back to build date
+  const datasets = chartData?.datasets || chartData?.data?.datasets;
+  const lastLabel = chartData?.labels?.at?.(-1) || chartData?.data?.labels?.at?.(-1);
+  if (lastLabel) {
+    // Labels may be "2024", "2024-06", "Jun 2024", etc. — use as-is for dateModified
+    const parsed = new Date(lastLabel);
+    if (!isNaN(parsed)) {
+      jsonLd.dateModified = parsed.toISOString().split('T')[0];
+    }
+  }
+
   return jsonLd;
+}
+
+function buildBreadcrumbJsonLd(chart) {
+  const chartUrl = `${BASE}/chart/${chart.id}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: BASE },
+      { '@type': 'ListItem', position: 2, name: chart.en || chart.ro, item: chartUrl },
+    ],
+  };
 }
 
 export default async function ChartPage({ params }) {
@@ -99,6 +123,7 @@ export default async function ChartPage({ params }) {
   const chartData = chart.soon ? null : await getChartData(id);
 
   const datasetJsonLd = chartData ? buildDatasetJsonLd(chart, chartData) : null;
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd(chart);
 
   return (
     <>
@@ -108,6 +133,10 @@ export default async function ChartPage({ params }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetJsonLd) }}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <ChartPageClient
         chart={chart}
         chartData={chartData}
