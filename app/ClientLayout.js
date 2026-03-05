@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { LangProvider } from '@/contexts/LangContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import BottomNav from '@/components/BottomNav';
@@ -61,6 +62,7 @@ export default function ClientLayout({ children }) {
   }, [isDesktop, navMode, sidebarOpen]);
 
   return (
+    <AuthProvider>
     <ThemeProvider>
       <LangProvider>
         <div className="app-layout">
@@ -97,5 +99,6 @@ export default function ClientLayout({ children }) {
         </div>
       </LangProvider>
     </ThemeProvider>
+    </AuthProvider>
   );
 }

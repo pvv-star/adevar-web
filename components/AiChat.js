@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { MessageCircle, X, Send, Bot } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, Crown, Mic, Square, Volume2, Loader2 } from 'lucide-react';
 import { useLang } from '@/contexts/LangContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 const STORAGE_KEY = 'adevar-chat-history';
 const MAX_STORED = 50;
@@ -17,6 +18,13 @@ const UI_TEXT = {
     sendLabel: 'Trimite mesajul',
     errorMsg: 'A apărut o eroare. Încearcă din nou.',
     rateLimited: 'Prea multe cereri. Așteaptă un moment.',
+    dailyLimit: 'Ai atins limita zilnică de 10 întrebări.',
+    upgradeBtn: 'Treci la Premium',
+    remaining: 'întrebări rămase',
+    micStart: 'Apasă pentru a vorbi',
+    micStop: 'Oprește înregistrarea',
+    transcribing: 'Se transcrie...',
+    playAudio: 'Ascultă răspunsul',
   },
   en: {
     title: 'AI Assistant',
@@ -28,6 +36,13 @@ const UI_TEXT = {
     sendLabel: 'Send message',
     errorMsg: 'An error occurred. Try again.',
     rateLimited: 'Too many requests. Please wait a moment.',
+    dailyLimit: 'You\'ve reached the daily limit of 10 questions.',
+    upgradeBtn: 'Upgrade to Premium',
+    remaining: 'questions remaining',
+    micStart: 'Press to speak',
+    micStop: 'Stop recording',
+    transcribing: 'Transcribing...',
+    playAudio: 'Listen to response',
   },
   ru: {
     title: 'AI Ассистент',
@@ -39,6 +54,13 @@ const UI_TEXT = {
     sendLabel: 'Отправить сообщение',
     errorMsg: 'Произошла ошибка. Попробуйте снова.',
     rateLimited: 'Слишком много запросов. Подождите немного.',
+    dailyLimit: 'Вы достигли дневного лимита в 10 вопросов.',
+    upgradeBtn: 'Перейти на Премиум',
+    remaining: 'вопросов осталось',
+    micStart: 'Нажмите, чтобы говорить',
+    micStop: 'Остановить запись',
+    transcribing: 'Транскрибирование...',
+    playAudio: 'Прослушать ответ',
   },
 };
 
@@ -55,15 +77,26 @@ function simpleMarkdown(text) {
 
 export default function AiChat() {
   const { lang } = useLang();
+  const { getAccessToken, profile } = useAuth();
   const t = UI_TEXT[lang] || UI_TEXT.ro;
 
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [questionsRemaining, setQuestionsRemaining] = useState(null);
+  const [dailyLimitHit, setDailyLimitHit] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const [ttsLoadingIdx, setTtsLoadingIdx] = useState(null);
+  const [playingIdx, setPlayingIdx] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const panelRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const audioRef = useRef(null);
+  const isPremium = profile?.tier === 'premium';
 
   // Load from localStorage
   useEffect(() => {
@@ -118,16 +151,31 @@ export default function AiChat() {
     setMessages(prev => [...prev, assistantMsg]);
 
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      const token = await getAccessToken?.();
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ messages: newMessages, lang }),
       });
 
+      // Track remaining questions from header
+      const remaining = res.headers.get('X-Questions-Remaining');
+      if (remaining !== null) setQuestionsRemaining(parseInt(remaining, 10));
+
       if (res.status === 429) {
+        // Check if it's a daily limit or rate limit
+        const body = await res.json().catch(() => ({}));
+        const isDailyLimit = body.error === 'daily_limit_reached';
+        if (isDailyLimit) setDailyLimitHit(true);
         setMessages(prev => {
           const updated = [...prev];
-          updated[updated.length - 1] = { role: 'assistant', content: t.rateLimited };
+          updated[updated.length - 1] = {
+            role: 'assistant',
+            content: isDailyLimit ? t.dailyLimit : t.rateLimited,
+          };
           return updated;
         });
         setIsLoading(false);
@@ -191,7 +239,106 @@ export default function AiChat() {
     }
 
     setIsLoading(false);
-  }, [input, isLoading, messages, lang, t]);
+  }, [input, isLoading, messages, lang, t, getAccessToken]);
+
+  // Voice input: start/stop recording
+  const toggleRecording = useCallback(async () => {
+    if (isRecording) {
+      // Stop recording
+      mediaRecorderRef.current?.stop();
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+
+      mediaRecorder.onstop = async () => {
+        // Stop all tracks
+        stream.getTracks().forEach(track => track.stop());
+        setIsRecording(false);
+        setIsTranscribing(true);
+
+        const blob = new Blob(audioChunksRef.current, { type: mediaRecorder.mimeType });
+        const formData = new FormData();
+        formData.append('audio', blob, 'recording.webm');
+        formData.append('lang', lang);
+
+        try {
+          const token = await getAccessToken?.();
+          const res = await fetch('/api/voice/stt', {
+            method: 'POST',
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+            body: formData,
+          });
+          const data = await res.json();
+          if (data.ok && data.text) {
+            setInput(data.text);
+            inputRef.current?.focus();
+          }
+        } catch {
+          // silent fail
+        }
+        setIsTranscribing(false);
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+    } catch {
+      // Mic permission denied or not available
+    }
+  }, [isRecording, lang, getAccessToken]);
+
+  // Voice output: play TTS for a message
+  const playTts = useCallback(async (msgContent, msgIdx) => {
+    // Stop any currently playing audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+      if (playingIdx === msgIdx) {
+        setPlayingIdx(null);
+        return; // Toggle off
+      }
+    }
+
+    setTtsLoadingIdx(msgIdx);
+    try {
+      const token = await getAccessToken?.();
+      const res = await fetch('/api/voice/tts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ text: msgContent, lang }),
+      });
+
+      if (!res.ok) throw new Error('TTS failed');
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audioRef.current = audio;
+
+      audio.onended = () => {
+        setPlayingIdx(null);
+        audioRef.current = null;
+        URL.revokeObjectURL(url);
+      };
+
+      setTtsLoadingIdx(null);
+      setPlayingIdx(msgIdx);
+      audio.play();
+    } catch {
+      setTtsLoadingIdx(null);
+    }
+  }, [lang, getAccessToken, playingIdx]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -338,6 +485,31 @@ export default function AiChat() {
                 >
                   {msg.role === 'user' ? msg.content : undefined}
                 </div>
+                {/* TTS speaker icon for assistant messages (premium only) */}
+                {isPremium && msg.role === 'assistant' && msg.content && !isLoading && (
+                  <button
+                    onClick={() => playTts(msg.content, i)}
+                    aria-label={t.playAudio}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: playingIdx === i ? '#14B8A6' : '#666',
+                      cursor: 'pointer',
+                      padding: '4px 0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      marginTop: '4px',
+                      fontSize: '0.65rem',
+                    }}
+                  >
+                    {ttsLoadingIdx === i ? (
+                      <Loader2 size={12} className="ai-chat-spin" />
+                    ) : (
+                      <Volume2 size={12} />
+                    )}
+                  </button>
+                )}
               </div>
             ))}
 
@@ -362,6 +534,43 @@ export default function AiChat() {
 
             <div ref={messagesEndRef} />
           </div>
+
+          {/* Remaining questions / upgrade CTA */}
+          {!isPremium && (questionsRemaining !== null || dailyLimitHit) && (
+            <div style={{
+              padding: '6px 16px',
+              background: '#0f0f23',
+              borderTop: '1px solid #2d2d44',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+              <span style={{ color: dailyLimitHit ? '#f87171' : '#a0a0b8', fontSize: '0.7rem' }}>
+                {dailyLimitHit
+                  ? t.dailyLimit
+                  : `${questionsRemaining} ${t.remaining}`}
+              </span>
+              <button
+                onClick={() => window.location.href = '/profil'}
+                style={{
+                  background: 'linear-gradient(135deg, #14B8A6, #0D9488)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '4px 10px',
+                  fontSize: '0.65rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                <Crown size={10} />
+                {t.upgradeBtn}
+              </button>
+            </div>
+          )}
 
           {/* Input */}
           <div style={{
@@ -396,6 +605,31 @@ export default function AiChat() {
               onFocus={(e) => (e.target.style.borderColor = '#14B8A6')}
               onBlur={(e) => (e.target.style.borderColor = 'transparent')}
             />
+            {/* Mic button (premium only) */}
+            {isPremium && (
+              <button
+                onClick={toggleRecording}
+                disabled={isLoading || isTranscribing}
+                aria-label={isRecording ? t.micStop : t.micStart}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '12px',
+                  background: isRecording ? '#ef4444' : isTranscribing ? '#2d2d44' : '#2d2d44',
+                  color: isRecording ? '#fff' : isTranscribing ? '#a0a0b8' : '#a0a0b8',
+                  border: 'none',
+                  cursor: isTranscribing ? 'default' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  transition: 'background 0.2s',
+                  animation: isRecording ? 'aiChatRecPulse 1.5s ease-in-out infinite' : 'none',
+                }}
+              >
+                {isTranscribing ? <Loader2 size={18} className="ai-chat-spin" /> : isRecording ? <Square size={16} /> : <Mic size={18} />}
+              </button>
+            )}
             <button
               onClick={sendMessage}
               disabled={isLoading || !input.trim()}
@@ -430,6 +664,17 @@ export default function AiChat() {
         .ai-chat-dot {
           animation: aiChatPulse 1.2s ease-in-out infinite;
           font-size: 0.6rem;
+        }
+        @keyframes aiChatRecPulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+          50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+        }
+        .ai-chat-spin {
+          animation: aiChatSpin 1s linear infinite;
+        }
+        @keyframes aiChatSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </>
