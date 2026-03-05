@@ -1,4 +1,5 @@
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
+import { streamWithFallback } from '@/lib/chat-providers';
 
 function getSystemPrompt(lang) {
   if (lang === 'en') {
@@ -81,44 +82,33 @@ export async function POST(request) {
       });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error('[api] chat: GEMINI_API_KEY not set');
-      return new Response(JSON.stringify({ ok: false, error: 'service_unavailable' }), {
-        status: 503, headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    const { GoogleGenerativeAI } = await import('@google/generative-ai');
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-
     const systemPrompt = getSystemPrompt(lang);
 
     // Trim to last 10 messages
     const trimmedMessages = messages.slice(-10);
 
-    // Convert to Gemini format
-    const history = trimmedMessages.slice(0, -1).map(m => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
-
-    const lastMessage = trimmedMessages[trimmedMessages.length - 1];
-
-    const chat = model.startChat({
-      history,
-      systemInstruction: { parts: [{ text: systemPrompt }] },
-    });
-
-    const result = await chat.sendMessageStream(lastMessage.content);
+    // Stream with automatic fallback: Gemini → Groq → Cloudflare
+    let result;
+    try {
+      result = await streamWithFallback(trimmedMessages, systemPrompt);
+    } catch (err) {
+      if (err.message.startsWith('no_providers_configured')) {
+        console.error('[api] chat: no AI providers configured');
+        return new Response(JSON.stringify({ ok: false, error: 'service_unavailable' }), {
+          status: 503, headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      console.error('[api] chat: all providers failed:', err?.message || err);
+      return new Response(JSON.stringify({ ok: false, error: 'all_providers_failed' }), {
+        status: 503, headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const chunk of result.stream) {
-            const text = chunk.text();
+          for await (const text of result.stream) {
             if (text) {
               controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
             }
@@ -126,7 +116,7 @@ export async function POST(request) {
           controller.enqueue(encoder.encode('data: [DONE]\n\n'));
           controller.close();
         } catch (err) {
-          console.error('[api] chat stream error:', err?.message || err);
+          console.error(`[api] chat stream error (${result.provider}):`, err?.message || err);
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: 'stream_failed' })}\n\n`));
           controller.close();
         }
