@@ -47,7 +47,7 @@ export default function Sidebar({ isCompact, isOpen, onClose, onExpand }) {
   }, [pathname]);
 
   function toggleCategory(catId) {
-    setOpenCats({ [catId]: true });
+    setOpenCats(prev => ({ ...prev, [catId]: !prev[catId] }));
   }
 
   function categoryIcon(catId) {

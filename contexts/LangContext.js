@@ -21,7 +21,7 @@ export function LangProvider({ children }) {
       return;
     }
     const saved = storageGet('adevar-lang');
-    if (saved && I18N[saved]) setLangState(saved);
+    if (saved && I18N[saved]) setLang(saved);
   }, []);
 
   function setLang(l) {
