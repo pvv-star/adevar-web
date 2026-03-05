@@ -16,17 +16,17 @@ export async function POST(request) {
     const body = await request.json();
     const dryRun = Boolean(body?.dryRun);
 
+    const auth = validateIngestAuth(request, { dryRun });
+    if (!auth.ok) {
+      return NextResponse.json({ ok: false, error: auth.error }, { status: auth.status });
+    }
+
     const validation = validateIngestionPayload(body);
     if (!validation.ok) {
       return NextResponse.json(
         { ok: false, error: 'validation_failed', details: validation.errors },
         { status: 400 }
       );
-    }
-
-    const auth = validateIngestAuth(request, { dryRun });
-    if (!auth.ok) {
-      return NextResponse.json({ ok: false, error: auth.error }, { status: auth.status });
     }
 
     const { slug, year, value, reason, changedBy } = validation.normalized;
