@@ -26,7 +26,7 @@ const ChartCanvas = dynamic(() => import('@/components/ChartCanvas'), {
 
 export default function ChartPageClient({ chart, chartData }) {
   const chartRef = useRef(null);
-  const { lang } = useLang();
+  const { lang, t } = useLang();
 
   if (!chartData) {
     return (
