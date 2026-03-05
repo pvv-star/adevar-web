@@ -1,5 +1,6 @@
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
-import { streamWithFallback } from '@/lib/chat-providers';
+import { streamWithFallback, streamPremium } from '@/lib/chat-providers';
+import { getUser, checkAndIncrementUsage, FREE_DAILY_LIMIT } from '@/lib/auth-helpers';
 
 function getSystemPrompt(lang) {
   if (lang === 'en') {
@@ -83,22 +84,60 @@ export async function POST(request) {
     }
 
     const systemPrompt = getSystemPrompt(lang);
-
-    // Trim to last 10 messages
     const trimmedMessages = messages.slice(-10);
 
-    // Stream with automatic fallback: Gemini → Groq → Cloudflare
+    // Check auth — returns null if not authenticated
+    const auth = await getUser(request);
+    const isPremium = auth?.profile?.tier === 'premium';
+
+    // Usage tracking for free-tier users
+    let questionsRemaining = null;
+
+    if (auth && !isPremium) {
+      // Authenticated free user: track in profiles table
+      const usage = await checkAndIncrementUsage(auth.user.id, auth.profile);
+      if (usage.limitReached) {
+        return new Response(JSON.stringify({
+          ok: false, error: 'daily_limit_reached', limit: FREE_DAILY_LIMIT,
+        }), {
+          status: 429, headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      questionsRemaining = FREE_DAILY_LIMIT - usage.questionsToday;
+    } else if (!auth) {
+      // Anonymous user: IP-based daily limit
+      const dailyRl = await applyRateLimit(`chat-daily:${clientIp(request)}`, {
+        limit: FREE_DAILY_LIMIT,
+        windowMs: 24 * 60 * 60 * 1000,
+      });
+      if (!dailyRl.allowed) {
+        return new Response(JSON.stringify({
+          ok: false, error: 'daily_limit_reached', limit: FREE_DAILY_LIMIT,
+        }), {
+          status: 429, headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      questionsRemaining = dailyRl.remaining;
+    }
+    // Premium users: no limit, questionsRemaining stays null
+
+    // Route to provider based on tier
     let result;
     try {
-      result = await streamWithFallback(trimmedMessages, systemPrompt);
+      if (isPremium) {
+        result = await streamPremium(trimmedMessages, systemPrompt);
+      } else {
+        result = await streamWithFallback(trimmedMessages, systemPrompt);
+      }
     } catch (err) {
-      if (err.message.startsWith('no_providers_configured')) {
-        console.error('[api] chat: no AI providers configured');
+      const msg = err.message || '';
+      if (msg.startsWith('no_providers_configured') || msg.startsWith('claude_not_configured')) {
+        console.error('[api] chat: provider not configured:', msg);
         return new Response(JSON.stringify({ ok: false, error: 'service_unavailable' }), {
           status: 503, headers: { 'Content-Type': 'application/json' }
         });
       }
-      console.error('[api] chat: all providers failed:', err?.message || err);
+      console.error('[api] chat: provider failed:', msg);
       return new Response(JSON.stringify({ ok: false, error: 'all_providers_failed' }), {
         status: 503, headers: { 'Content-Type': 'application/json' }
       });
@@ -123,13 +162,17 @@ export async function POST(request) {
       },
     });
 
-    return new Response(stream, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-      },
-    });
+    const headers = {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'X-Provider': result.provider,
+    };
+    if (questionsRemaining !== null) {
+      headers['X-Questions-Remaining'] = String(questionsRemaining);
+    }
+
+    return new Response(stream, { headers });
   } catch (err) {
     console.error('[api] chat failed:', err?.message || err);
     return new Response(JSON.stringify({ ok: false, error: 'internal_error' }), {
