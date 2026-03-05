@@ -58,7 +58,6 @@ const MORE_LINKS = [
   { href: '/chart/gas', labelKey: 'bnTabEnergy' },
   { href: '/chart/inflation', labelKey: 'bnTabEconomy' },
   { href: '/chart/births-sex', labelKey: 'bnTabDemography' },
-  { href: '/chart/internet', labelKey: 'bnTabInfrastructure' },
   { href: '/about', labelKey: 'bnTabPlatform' },
 ];
 
