@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "smoke:indicator": "node scripts/smoke-indicator-series.mjs",
     "smoke:health": "node scripts/smoke-health.mjs",
     "smoke:prod": "bash scripts/smoke-prod-all.sh",
@@ -41,7 +41,8 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "@eslint/eslintrc": "^3.3.4",
+    "eslint": "^9.39.3",
     "eslint-config-next": "15.5.10"
   }
 }
