@@ -64,7 +64,7 @@ async function getWeather() {
 }
 
 export async function GET(request) {
-  const rl = applyRateLimit(`live-snapshot:${clientIp(request)}`, { limit: 90, windowMs: 60_000 });
+  const rl = await applyRateLimit(`live-snapshot:${clientIp(request)}`, { limit: 90, windowMs: 60_000 });
   if (!rl.allowed) {
     return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   }

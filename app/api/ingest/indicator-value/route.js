@@ -7,7 +7,7 @@ import { checkIngestRateLimit } from '@/lib/ingest-rate-limit';
 import { clientIp } from '@/lib/server-rate-limit';
 
 export async function POST(request) {
-  const rl = checkIngestRateLimit(`ingest:${clientIp(request)}`, { max: 30, windowMs: 60_000 });
+  const rl = await checkIngestRateLimit(`ingest:${clientIp(request)}`, { max: 30, windowMs: 60_000 });
   if (!rl.allowed) {
     return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   }

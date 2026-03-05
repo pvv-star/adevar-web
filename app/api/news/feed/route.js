@@ -29,7 +29,7 @@ function deduplicateByGroup(rows) {
 }
 
 export async function GET(request) {
-  const rl = applyRateLimit(`news-feed:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
+  const rl = await applyRateLimit(`news-feed:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
   if (!rl.allowed) {
     return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   }

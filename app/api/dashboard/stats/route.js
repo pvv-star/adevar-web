@@ -3,7 +3,7 @@ import { getDashboardStats } from '@/services/dashboard-stats';
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
 export async function GET(request) {
-  const rl = applyRateLimit(`dash:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
+  const rl = await applyRateLimit(`dash:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
   if (!rl.allowed) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

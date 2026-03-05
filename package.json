@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.36.3",
     "gifenc": "^1.0.3",
     "jspdf": "^4.2.0",
     "lucide-react": "^0.576.0",
