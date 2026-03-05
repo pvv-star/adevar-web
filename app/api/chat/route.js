@@ -1,4 +1,6 @@
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
+import { streamWithFallback, streamPremium } from '@/lib/chat-providers';
+import { getUser, checkAndIncrementUsage, FREE_DAILY_LIMIT } from '@/lib/auth-helpers';
 
 function getSystemPrompt(lang) {
   if (lang === 'en') {
@@ -81,44 +83,71 @@ export async function POST(request) {
       });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error('[api] chat: GEMINI_API_KEY not set');
-      return new Response(JSON.stringify({ ok: false, error: 'service_unavailable' }), {
+    const systemPrompt = getSystemPrompt(lang);
+    const trimmedMessages = messages.slice(-10);
+
+    // Check auth — returns null if not authenticated
+    const auth = await getUser(request);
+    const isPremium = auth?.profile?.tier === 'premium';
+
+    // Usage tracking for free-tier users
+    let questionsRemaining = null;
+
+    if (auth && !isPremium) {
+      // Authenticated free user: track in profiles table
+      const usage = await checkAndIncrementUsage(auth.user.id, auth.profile);
+      if (usage.limitReached) {
+        return new Response(JSON.stringify({
+          ok: false, error: 'daily_limit_reached', limit: FREE_DAILY_LIMIT,
+        }), {
+          status: 429, headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      questionsRemaining = FREE_DAILY_LIMIT - usage.questionsToday;
+    } else if (!auth) {
+      // Anonymous user: IP-based daily limit
+      const dailyRl = await applyRateLimit(`chat-daily:${clientIp(request)}`, {
+        limit: FREE_DAILY_LIMIT,
+        windowMs: 24 * 60 * 60 * 1000,
+      });
+      if (!dailyRl.allowed) {
+        return new Response(JSON.stringify({
+          ok: false, error: 'daily_limit_reached', limit: FREE_DAILY_LIMIT,
+        }), {
+          status: 429, headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      questionsRemaining = dailyRl.remaining;
+    }
+    // Premium users: no limit, questionsRemaining stays null
+
+    // Route to provider based on tier
+    let result;
+    try {
+      if (isPremium) {
+        result = await streamPremium(trimmedMessages, systemPrompt);
+      } else {
+        result = await streamWithFallback(trimmedMessages, systemPrompt);
+      }
+    } catch (err) {
+      const msg = err.message || '';
+      if (msg.startsWith('no_providers_configured') || msg.startsWith('claude_not_configured')) {
+        console.error('[api] chat: provider not configured:', msg);
+        return new Response(JSON.stringify({ ok: false, error: 'service_unavailable' }), {
+          status: 503, headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      console.error('[api] chat: provider failed:', msg);
+      return new Response(JSON.stringify({ ok: false, error: 'all_providers_failed' }), {
         status: 503, headers: { 'Content-Type': 'application/json' }
       });
     }
-
-    const { GoogleGenerativeAI } = await import('@google/generative-ai');
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-
-    const systemPrompt = getSystemPrompt(lang);
-
-    // Trim to last 10 messages
-    const trimmedMessages = messages.slice(-10);
-
-    // Convert to Gemini format
-    const history = trimmedMessages.slice(0, -1).map(m => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
-
-    const lastMessage = trimmedMessages[trimmedMessages.length - 1];
-
-    const chat = model.startChat({
-      history,
-      systemInstruction: { parts: [{ text: systemPrompt }] },
-    });
-
-    const result = await chat.sendMessageStream(lastMessage.content);
 
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const chunk of result.stream) {
-            const text = chunk.text();
+          for await (const text of result.stream) {
             if (text) {
               controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
             }
@@ -126,20 +155,24 @@ export async function POST(request) {
           controller.enqueue(encoder.encode('data: [DONE]\n\n'));
           controller.close();
         } catch (err) {
-          console.error('[api] chat stream error:', err?.message || err);
+          console.error(`[api] chat stream error (${result.provider}):`, err?.message || err);
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: 'stream_failed' })}\n\n`));
           controller.close();
         }
       },
     });
 
-    return new Response(stream, {
-      headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-      },
-    });
+    const headers = {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'X-Provider': result.provider,
+    };
+    if (questionsRemaining !== null) {
+      headers['X-Questions-Remaining'] = String(questionsRemaining);
+    }
+
+    return new Response(stream, { headers });
   } catch (err) {
     console.error('[api] chat failed:', err?.message || err);
     return new Response(JSON.stringify({ ok: false, error: 'internal_error' }), {
