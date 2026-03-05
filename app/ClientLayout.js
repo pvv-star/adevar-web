@@ -5,6 +5,7 @@ import { LangProvider } from '@/contexts/LangContext';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import BottomNav from '@/components/BottomNav';
+import AiChat from '@/components/AiChat';
 import { getInitialNavMode, persistNavMode } from '@/lib/theme';
 
 function useIsDesktop() {
@@ -92,6 +93,7 @@ export default function ClientLayout({ children }) {
             </main>
           </div>
           <BottomNav />
+          <AiChat />
         </div>
       </LangProvider>
     </ThemeProvider>
