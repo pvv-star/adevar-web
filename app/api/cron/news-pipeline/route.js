@@ -7,6 +7,20 @@ import { getSupabaseServerClient } from '@/lib/supabase-server';
 export const maxDuration = 60;
 
 const FETCH_TIMEOUT_MS = Number(process.env.NEWS_FETCH_TIMEOUT_MS || 10000);
+
+function isAllowedUrl(urlStr) {
+  try {
+    const url = new URL(urlStr);
+    if (url.protocol !== 'https:') return false;
+    const hostname = url.hostname.toLowerCase();
+    // Block private/internal IPs and metadata endpoints
+    if (/^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|0\.|169\.254\.|localhost|metadata\.google)/i.test(hostname)) return false;
+    if (hostname.endsWith('.internal') || hostname.endsWith('.local')) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
 const MAX_SUMMARY_LEN = 200;
 const MIN_SUMMARY_LEN = 20;
 
@@ -122,6 +136,7 @@ async function acquireMutex(supabase) {
 async function fetchSource(source, supabase) {
   const result = { fetched: 0, inserted: 0, errors: 0, failed: false };
   if (!source.rssUrl) return result;
+  if (!isAllowedUrl(source.rssUrl)) throw new Error(`Blocked URL: ${source.rssUrl}`);
 
   const res = await fetch(source.rssUrl, {
     headers: { 'user-agent': 'adevar-news-bot/1.0' },
