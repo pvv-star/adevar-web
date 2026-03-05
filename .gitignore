@@ -36,6 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 # AI tool configs
+.claude/
 .entire/
 .gemini/
 .opencode/
