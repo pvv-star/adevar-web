@@ -7,7 +7,7 @@ import { checkIngestRateLimit } from '@/lib/ingest-rate-limit';
 import { clientIp } from '@/lib/server-rate-limit';
 
 export async function POST(request) {
-  const rl = checkIngestRateLimit(`ingest:${clientIp(request)}`, { max: 30, windowMs: 60_000 });
+  const rl = await checkIngestRateLimit(`ingest:${clientIp(request)}`, { max: 30, windowMs: 60_000 });
   if (!rl.allowed) {
     return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   }
@@ -16,17 +16,17 @@ export async function POST(request) {
     const body = await request.json();
     const dryRun = Boolean(body?.dryRun);
 
+    const auth = validateIngestAuth(request, { dryRun });
+    if (!auth.ok) {
+      return NextResponse.json({ ok: false, error: auth.error }, { status: auth.status });
+    }
+
     const validation = validateIngestionPayload(body);
     if (!validation.ok) {
       return NextResponse.json(
         { ok: false, error: 'validation_failed', details: validation.errors },
         { status: 400 }
       );
-    }
-
-    const auth = validateIngestAuth(request, { dryRun });
-    if (!auth.ok) {
-      return NextResponse.json({ ok: false, error: auth.error }, { status: auth.status });
     }
 
     const { slug, year, value, reason, changedBy } = validation.normalized;

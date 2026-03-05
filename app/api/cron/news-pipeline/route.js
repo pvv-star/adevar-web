@@ -7,6 +7,20 @@ import { getSupabaseServerClient } from '@/lib/supabase-server';
 export const maxDuration = 60;
 
 const FETCH_TIMEOUT_MS = Number(process.env.NEWS_FETCH_TIMEOUT_MS || 10000);
+
+function isAllowedUrl(urlStr) {
+  try {
+    const url = new URL(urlStr);
+    if (url.protocol !== 'https:') return false;
+    const hostname = url.hostname.toLowerCase();
+    // Block private/internal IPs and metadata endpoints
+    if (/^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|0\.|169\.254\.|localhost|metadata\.google)/i.test(hostname)) return false;
+    if (hostname.endsWith('.internal') || hostname.endsWith('.local')) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
 const MAX_SUMMARY_LEN = 200;
 const MIN_SUMMARY_LEN = 20;
 
@@ -91,6 +105,82 @@ function scoreImpact(title = '', summary = '', priority = 'medium') {
   return Math.min(100, score);
 }
 
+async function acquireMutex(supabase) {
+  const LOCK_KEY = 'news-pipeline';
+  const LOCK_TTL_MS = 90_000;
+  const now = new Date().toISOString();
+  const expiresAt = new Date(Date.now() + LOCK_TTL_MS).toISOString();
+
+  // Try to insert a lock row; if it already exists, check expiry
+  const { data: existing } = await supabase
+    .from('news_runs')
+    .select('id, started_at')
+    .eq('status', 'running')
+    .order('started_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (existing) {
+    const startedAt = new Date(existing.started_at).getTime();
+    if (Date.now() - startedAt < LOCK_TTL_MS) {
+      return null; // Another run is still active
+    }
+    // Stale lock — mark it as timed out
+    await supabase.from('news_runs').update({ status: 'timeout', finished_at: now }).eq('id', existing.id);
+  }
+
+  const { data } = await supabase.from('news_runs').insert([{ status: 'running' }]).select('id').single();
+  return data?.id || null;
+}
+
+async function fetchSource(source, supabase) {
+  const result = { fetched: 0, inserted: 0, errors: 0, failed: false };
+  if (!source.rssUrl) return result;
+  if (!isAllowedUrl(source.rssUrl)) throw new Error(`Blocked URL: ${source.rssUrl}`);
+
+  const res = await fetch(source.rssUrl, {
+    headers: { 'user-agent': 'adevar-news-bot/1.0' },
+    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const xml = await res.text();
+  const parsed = parseRss(xml).slice(0, 50);
+  result.fetched = parsed.length;
+
+  for (const item of parsed) {
+    const canonicalUrl = item.link.split('?')[0];
+    const urlHash = hash(canonicalUrl);
+    const titleHash = hash(item.title.toLowerCase());
+    const duplicateGroup = hash(item.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').split(' ').slice(0, 8).join(' '));
+    const summaryValue = cleanRssSummary(item.description, item.title);
+
+    const payload = {
+      source_slug: source.slug,
+      title: item.title,
+      summary: summaryValue,
+      url: item.link,
+      canonical_url: canonicalUrl,
+      url_hash: urlHash,
+      title_hash: titleHash,
+      published_at: item.pubDate,
+      language: source.language,
+      impact_score: scoreImpact(item.title, item.description, source.priority),
+      tags: classifyTags(item.title, item.description),
+      duplicate_group: duplicateGroup,
+      seen_sources: [source.slug],
+    };
+
+    const up = await supabase.from('news_items').upsert([payload], { onConflict: 'url_hash' }).select('id').single();
+    if (up.error) {
+      result.errors += 1;
+      continue;
+    }
+    result.inserted += 1;
+  }
+
+  return result;
+}
+
 export async function GET(request) {
   const authHeader = request.headers.get('authorization');
   const expected = process.env.CRON_SECRET;
@@ -109,58 +199,28 @@ export async function GET(request) {
     return NextResponse.json({ error: 'config_not_found' }, { status: 500 });
   }
 
-  const runInsert = await supabase.from('news_runs').insert([{ status: 'running' }]).select('id').single();
-  const runId = runInsert.data?.id;
+  const runId = await acquireMutex(supabase);
+  if (!runId) {
+    return NextResponse.json({ ok: true, skipped: true, reason: 'another_run_active' });
+  }
 
   let fetched = 0, inserted = 0, duplicates = 0, errors = 0;
   const sourcesFailed = [];
 
-  for (const source of sources) {
-    try {
-      if (!source.rssUrl) continue;
-      const res = await fetch(source.rssUrl, {
-        headers: { 'user-agent': 'adevar-news-bot/1.0' },
-        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const xml = await res.text();
-      const parsed = parseRss(xml).slice(0, 50);
-      fetched += parsed.length;
+  const results = await Promise.allSettled(
+    sources.map((source) => fetchSource(source, supabase))
+  );
 
-      for (const item of parsed) {
-        const canonicalUrl = item.link.split('?')[0];
-        const urlHash = hash(canonicalUrl);
-        const titleHash = hash(item.title.toLowerCase());
-        const duplicateGroup = hash(item.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').split(' ').slice(0, 8).join(' '));
-        const summaryValue = cleanRssSummary(item.description, item.title);
-
-        const payload = {
-          source_slug: source.slug,
-          title: item.title,
-          summary: summaryValue,
-          url: item.link,
-          canonical_url: canonicalUrl,
-          url_hash: urlHash,
-          title_hash: titleHash,
-          published_at: item.pubDate,
-          language: source.language,
-          impact_score: scoreImpact(item.title, item.description, source.priority),
-          tags: classifyTags(item.title, item.description),
-          duplicate_group: duplicateGroup,
-          seen_sources: [source.slug],
-        };
-
-        const up = await supabase.from('news_items').upsert([payload], { onConflict: 'url_hash' }).select('id').single();
-        if (up.error) {
-          errors += 1;
-          continue;
-        }
-        inserted += 1;
-      }
-    } catch (error) {
+  for (let i = 0; i < results.length; i++) {
+    const r = results[i];
+    if (r.status === 'fulfilled') {
+      fetched += r.value.fetched;
+      inserted += r.value.inserted;
+      errors += r.value.errors;
+    } else {
       errors += 1;
-      sourcesFailed.push(source.slug);
-      await supabase.from('news_errors').insert([{ source_slug: source.slug, stage: 'fetch', error: error.message }]);
+      sourcesFailed.push(sources[i].slug);
+      await supabase.from('news_errors').insert([{ source_slug: sources[i].slug, stage: 'fetch', error: r.reason?.message || 'unknown' }]);
     }
   }
 

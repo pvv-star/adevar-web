@@ -3,7 +3,7 @@ import { getIndicatorSeriesBySlug } from '@/services/indicators';
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
 export async function GET(request, { params }) {
-  const rl = applyRateLimit(`indicator-series:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
+  const rl = await applyRateLimit(`indicator-series:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
   if (!rl.allowed) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
