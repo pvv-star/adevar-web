@@ -27,7 +27,9 @@
     "tokens:sync": "node scripts/sync-ui-tokens.mjs",
     "sync:statbank": "node scripts/sync-statbank.mjs",
     "generate:statbank-charts": "node scripts/generate-statbank-charts.mjs",
-    "check:manifest": "node scripts/validate-manifest.mjs"
+    "check:manifest": "node scripts/validate-manifest.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0",
@@ -43,6 +45,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.4",
     "eslint": "^9.39.3",
-    "eslint-config-next": "15.5.10"
+    "eslint-config-next": "15.5.10",
+    "vitest": "^4.0.18"
   }
 }
