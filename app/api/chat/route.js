@@ -1,4 +1,5 @@
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
+import { readChatBody, validateChatBody } from '@/lib/chat-validation';
 
 function getSystemPrompt(lang) {
   if (lang === 'en') {
@@ -65,21 +66,20 @@ Ești un produs al adevar.ai, construit în Moldova pentru cetățenii Moldovei.
 }
 
 export async function POST(request) {
-  const rl = await applyRateLimit(`chat:${clientIp(request)}`, { limit: 30, windowMs: 60_000 });
-  if (!rl.allowed) {
-    return new Response(JSON.stringify({ ok: false, error: 'rate_limited' }), {
-      status: 429, headers: { 'Content-Type': 'application/json' }
-    });
-  }
-
   try {
-    const { messages, lang = 'ro' } = await request.json();
-
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return new Response(JSON.stringify({ ok: false, error: 'messages_required' }), {
-        status: 400, headers: { 'Content-Type': 'application/json' }
+    const rl = await applyRateLimit(`chat:${clientIp(request)}`, {
+      limit: 30, windowMs: 60_000, requireDistributed: process.env.NODE_ENV === 'production',
+    });
+    if (!rl.allowed) {
+      return Response.json({ ok: false, error: 'rate_limited' }, {
+        status: 429, headers: { 'Retry-After': String(Math.max(1, Math.ceil((rl.resetAt - Date.now()) / 1000))) },
       });
     }
+    const parsed = await readChatBody(request);
+    if (parsed.error) return Response.json({ ok: false, error: parsed.error }, { status: parsed.status });
+    const validated = validateChatBody(parsed.body);
+    if (validated.error) return Response.json({ ok: false, error: validated.error }, { status: 400 });
+    const { messages, lang } = validated;
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -89,36 +89,32 @@ export async function POST(request) {
       });
     }
 
-    const { GoogleGenerativeAI } = await import('@google/generative-ai');
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-
-    const systemPrompt = getSystemPrompt(lang);
-
-    // Trim to last 10 messages
-    const trimmedMessages = messages.slice(-10);
-
-    // Convert to Gemini format
-    const history = trimmedMessages.slice(0, -1).map(m => ({
+    const { GoogleGenAI } = await import('@google/genai');
+    const ai = new GoogleGenAI({ apiKey });
+    const abortController = new AbortController();
+    const contents = messages.map(m => ({
       role: m.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: m.content }],
     }));
-
-    const lastMessage = trimmedMessages[trimmedMessages.length - 1];
-
-    const chat = model.startChat({
-      history,
-      systemInstruction: { parts: [{ text: systemPrompt }] },
+    const result = await ai.models.generateContentStream({
+      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+      contents,
+      config: {
+        systemInstruction: getSystemPrompt(lang),
+        maxOutputTokens: 2048,
+        httpOptions: { timeout: 25_000 },
+        abortSignal: AbortSignal.any([request.signal, abortController.signal]),
+      },
     });
 
-    const result = await chat.sendMessageStream(lastMessage.content);
-
     const encoder = new TextEncoder();
+    let cancelled = false;
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          for await (const chunk of result.stream) {
-            const text = chunk.text();
+          for await (const chunk of result) {
+            if (cancelled) return;
+            const text = chunk.text;
             if (text) {
               controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
             }
@@ -126,10 +122,15 @@ export async function POST(request) {
           controller.enqueue(encoder.encode('data: [DONE]\n\n'));
           controller.close();
         } catch (err) {
+          if (cancelled) return;
           console.error('[api] chat stream error:', err?.message || err);
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: 'stream_failed' })}\n\n`));
           controller.close();
         }
+      },
+      cancel() {
+        cancelled = true;
+        abortController.abort();
       },
     });
 
@@ -143,7 +144,7 @@ export async function POST(request) {
   } catch (err) {
     console.error('[api] chat failed:', err?.message || err);
     return new Response(JSON.stringify({ ok: false, error: 'internal_error' }), {
-      status: 500, headers: { 'Content-Type': 'application/json' }
+      status: 503, headers: { 'Content-Type': 'application/json' }
     });
   }
 }

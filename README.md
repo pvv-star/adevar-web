@@ -1,6 +1,6 @@
 # adevar-web
 
-Institutional data intelligence web app for Moldova, built with **Next.js 14 + Supabase**.
+Institutional data intelligence web app for Moldova, built with **Next.js 16 + Supabase**.
 
 ## What exists today
 
@@ -20,7 +20,7 @@ Institutional data intelligence web app for Moldova, built with **Next.js 14 + S
 ## Local setup
 
 ```bash
-npm install
+npm ci
 cp .env.example .env.local # if available, otherwise create .env.local manually
 npm run dev
 ```

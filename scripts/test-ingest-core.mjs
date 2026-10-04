@@ -49,7 +49,8 @@ if (prevToken === undefined) delete process.env.INGEST_API_TOKEN; else process.e
 const key = 'test-ip';
 let blocked = false;
 for (let i = 0; i < 35; i++) {
-  const r = checkIngestRateLimit(key, { max: 30, windowMs: 60_000 });
+  const r = await checkIngestRateLimit(key, { max: 30, windowMs: 60_000 });
+  assert(r.allowed === (i < 30), 'rate limiter must allow exactly 30 requests');
   if (!r.allowed) {
     blocked = true;
     break;

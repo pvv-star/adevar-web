@@ -71,7 +71,9 @@ export default function AiChat() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) setMessages(parsed);
+        if (Array.isArray(parsed)) setMessages(parsed.filter(m =>
+          m && ['user', 'assistant'].includes(m.role) && typeof m.content === 'string' && m.content.trim()
+        ).slice(-MAX_STORED));
       }
     } catch {}
   }, []);
@@ -121,7 +123,9 @@ export default function AiChat() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages, lang }),
+        body: JSON.stringify({ messages: newMessages.slice(-10).map(m => ({
+          role: m.role, content: m.content.slice(0, 4000),
+        })), lang }),
       });
 
       if (res.status === 429) {
@@ -394,6 +398,7 @@ export default function AiChat() {
                 transition: 'border-color 0.2s',
               }}
               onFocus={(e) => (e.target.style.borderColor = '#14B8A6')}
+              maxLength={4000}
               onBlur={(e) => (e.target.style.borderColor = 'transparent')}
             />
             <button

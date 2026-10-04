@@ -21,13 +21,14 @@ export async function GET() {
       { status: 200, headers: { 'Cache-Control': 'no-store' } }
     );
   } catch (error) {
+    console.error('[api] health failed:', error?.message || error);
     return NextResponse.json(
       {
         ok: false,
         service: 'adevar-api',
         timestamp: now,
         checks: { db: 'fail' },
-        error: error?.message || 'health-check-failed',
+        error: 'health-check-failed',
       },
       { status: 500, headers: { 'Cache-Control': 'no-store' } }
     );

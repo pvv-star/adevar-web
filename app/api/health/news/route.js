@@ -8,7 +8,7 @@ export async function GET() {
     const runQuery = (client) => client
       .from('news_runs')
       .select('finished_at,fetched_count,inserted_count')
-      .eq('status', 'ok')
+      .in('status', ['ok', 'partial'])
       .order('finished_at', { ascending: false })
       .limit(1)
       .single();
@@ -38,7 +38,7 @@ export async function GET() {
       last_run_at: null,
       minutes_ago: null,
       item_count: 0,
-      error: err?.message || 'unknown',
+      error: 'health-check-failed',
     }, { status: 500 });
   }
 }

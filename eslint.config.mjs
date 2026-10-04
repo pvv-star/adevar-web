@@ -1,14 +1,13 @@
-import { FlatCompat } from '@eslint/eslintrc';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const compat = new FlatCompat({ baseDirectory: __dirname });
+import nextVitals from 'eslint-config-next/core-web-vitals';
 
 const config = [
-  ...compat.extends('next/core-web-vitals'),
+  ...nextVitals,
   {
     ignores: ['.next/', 'node_modules/', 'out/', 'build/', 'figma-export/'],
+  },
+  {
+    // Keep legacy hydration/fetch effects visible while migrating to React 19.
+    rules: { 'react-hooks/set-state-in-effect': 'warn' },
   },
 ];
 

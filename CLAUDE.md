@@ -10,7 +10,7 @@ Economic data dashboard for the Republic of Moldova. Independent monitoring of m
 
 ## Architecture
 
-- **Framework**: Next.js 15 (App Router, JavaScript — no TypeScript)
+- **Framework**: Next.js 16 (App Router, JavaScript — no TypeScript)
 - **Database**: Supabase (PostgreSQL)
 - **Charts**: Custom canvas rendering engine (`lib/engine.js`)
 - **Styling**: Single `app/globals.css`, CSS custom properties for theming

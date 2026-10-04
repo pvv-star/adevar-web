@@ -77,7 +77,7 @@ export default function NewsPageClient() {
 
   // Initial load — stable ref avoids dependency loop
   const loadMoreRef = useRef(loadMore);
-  loadMoreRef.current = loadMore;
+  useEffect(() => { loadMoreRef.current = loadMore; }, [loadMore]);
   useEffect(() => {
     loadMoreRef.current(true);
   }, []);

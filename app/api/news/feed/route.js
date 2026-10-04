@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSupabaseReadClient, getSupabaseServerClient } from '@/lib/supabase-server';
 import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
 import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
+import { boundedInteger } from '@/lib/query-params';
 
 function deduplicateByGroup(rows) {
   const groups = new Map();
@@ -37,8 +38,11 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const range = searchParams.get('range') || '12h';
-    const limit = Math.min(50, Math.max(5, Number(searchParams.get('limit') || 50)));
+    const limit = boundedInteger(searchParams.get('limit'), { fallback: 50, min: 5, max: 50 });
     const cursor = searchParams.get('cursor');
+    if (cursor && !Number.isFinite(Date.parse(cursor))) {
+      return NextResponse.json({ ok: false, error: 'invalid_cursor' }, { status: 400 });
+    }
 
     const hours = range === '24h' ? 24 : range === '48h' ? 48 : range === '12h' ? 12 : 72;
     const from = new Date(Date.now() - hours * 3600 * 1000).toISOString();

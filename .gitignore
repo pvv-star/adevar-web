@@ -43,3 +43,9 @@ next-env.d.ts
 
 # local backups
 .env*.save
+
+# Local audit evidence (includes machine paths in lint diagnostics)
+/audit-*.json
+/lint-audit.json
+/outdated-baseline.json
+/next-versions.json

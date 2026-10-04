@@ -1,14 +1,18 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseReadClient, getSupabaseServerClient } from '@/lib/supabase-server';
 import { DATA_GOVERNANCE, notAvailableResponse } from '@/lib/data-governance';
+import { boundedInteger } from '@/lib/query-params';
+import { applyRateLimit, clientIp } from '@/lib/server-rate-limit';
 
 const VALID_TAGS = ['energie', 'economie', 'social'];
 
 export async function GET(request) {
   try {
+    const rl = await applyRateLimit(`news-by-tag:${clientIp(request)}`, { limit: 120, windowMs: 60_000 });
+    if (!rl.allowed) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
     const { searchParams } = new URL(request.url);
     const tag = searchParams.get('tag');
-    const limit = Math.min(20, Math.max(1, Number(searchParams.get('limit') || 5)));
+    const limit = boundedInteger(searchParams.get('limit'), { fallback: 5, min: 1, max: 20 });
 
     if (!tag || !VALID_TAGS.includes(tag)) {
       return NextResponse.json({ ok: false, error: 'invalid_tag', items: [] }, { status: 400 });
@@ -23,7 +27,7 @@ export async function GET(request) {
         .limit(limit);
 
     let { data, error } = await runQuery(getSupabaseReadClient());
-    if (error || !Array.isArray(data)) {
+    if (error || !Array.isArray(data) || data.length === 0) {
       ({ data, error } = await runQuery(getSupabaseServerClient()));
     }
     if (error) throw error;
